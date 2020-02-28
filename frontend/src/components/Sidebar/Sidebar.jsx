@@ -1,20 +1,13 @@
 /*!
 
-=========================================================
-* Light Bootstrap Dashboard React - v1.3.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ =========================================================
+ * Enterprise Web Software Development
+ * Based on Light Bootstrap Dashboard React - v1.3.0
+ * Based on Light Bootstrap Dashboard - v1.3.0
+ =========================================================
 
 */
+
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 
@@ -68,7 +61,7 @@ class Sidebar extends Component {
             href="https://www.creative-tim.com?ref=lbd-sidebar"
             className="simple-text logo-normal"
           >
-            Creative Tim
+            Enterprise
           </a>
         </div>
         <div className="sidebar-wrapper">
@@ -86,6 +79,7 @@ class Sidebar extends Component {
                     key={key}
                   >
                     <NavLink
+                      style={{"display": "flex"}}
                       to={prop.layout + prop.path}
                       className="nav-link"
                       activeClassName="active"
