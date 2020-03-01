@@ -6,28 +6,31 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Date;
 
 @Entity
-@Table(name = "role")
+@Table(name = "allocation")
 @Getter
 @Setter
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Role implements Serializable {
+public class Allocation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id", nullable = false, columnDefinition = "BIGINT")
     private  long id;
 
-    @Column(name = "role_name")
-    private String roleName;
+    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "start_time")
+    private Date startTime;
 
-    @Column(name = "role_desc")
-    private String roleDescription;
+    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "end_time")
+    private Date endTime;
 
-    @OneToMany(mappedBy = "role")
-    private Set<User> users = new HashSet<>(0);
-
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "student_id", referencedColumnName = "id")
+    private Student student;
 }

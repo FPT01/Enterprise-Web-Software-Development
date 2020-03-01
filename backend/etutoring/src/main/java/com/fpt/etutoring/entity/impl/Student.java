@@ -1,24 +1,28 @@
 package com.fpt.etutoring.entity.impl;
 
-import com.fpt.etutoring.entity.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "student")
 @Getter
 @Setter
-public class Student extends BaseEntity {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Student implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id", nullable = false, columnDefinition = "BIGINT")
+    private  long id;
+
+    @Column(name = "role_description")
+    private String roleDescription;
 
     @OneToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "allocate_id", referencedColumnName = "id")
-    private Allocate allocate;
-
-    @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE)
-    private Set<Meeting> meetings = new HashSet<>(0);
-
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 }

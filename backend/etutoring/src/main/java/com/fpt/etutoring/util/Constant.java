@@ -11,4 +11,5 @@ public class Constant {
     public static final String PATH_RECORD = "/record";
     public static final String PATH_MEETING = "/meeting";
     public static final String PATH_ALLOCATE = "/allocate";
+    public static final String PATH = "/";
 }

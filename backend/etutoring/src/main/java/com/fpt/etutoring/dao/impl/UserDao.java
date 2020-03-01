@@ -1,12 +1,12 @@
 package com.fpt.etutoring.dao.impl;
 
-import org.springframework.context.annotation.Primary;
 
-import com.fpt.etutoring.dao.BaseDao;
 import com.fpt.etutoring.entity.impl.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-@Primary
-public interface UserDao extends BaseDao<User> {
+@Repository
+public interface UserDao extends JpaRepository<User, Long> {
     public User findUsersByUsernameAndEnabled(String username, short enable);
 
     public User getUserByUsername(String username);

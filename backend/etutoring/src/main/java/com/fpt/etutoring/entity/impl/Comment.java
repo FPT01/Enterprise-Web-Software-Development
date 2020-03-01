@@ -1,33 +1,35 @@
 package com.fpt.etutoring.entity.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
-@Table(name = "role")
+@Table(name = "comment")
 @Getter
 @Setter
+@EqualsAndHashCode
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Role implements Serializable {
+public class Comment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id", nullable = false, columnDefinition = "BIGINT")
-    private  long id;
+    private long id;
 
-    @Column(name = "role_name")
-    private String roleName;
+    @Column(name = "content")
+    private String content;
 
-    @Column(name = "role_desc")
-    private String roleDescription;
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
 
-    @OneToMany(mappedBy = "role")
-    private Set<User> users = new HashSet<>(0);
+    @ManyToOne
+    @JoinColumn(name = "document_id")
+    private Document document;
 
 }

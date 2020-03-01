@@ -5,11 +5,16 @@ import com.fpt.etutoring.dto.BaseDTO;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class StudentDTO extends BaseDTO {
+public class MessageDTO extends BaseDTO {
     private Long id;
-    private String roleDescription;
-    private UserDTO user;
+    private String content;
+    private Date time;
+    private Short status;
+    private UserDTO sender;
+    private UserDTO receiver;
 }

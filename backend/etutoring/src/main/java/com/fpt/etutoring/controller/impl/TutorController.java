@@ -1,12 +1,36 @@
 package com.fpt.etutoring.controller.impl;
 
 import com.fpt.etutoring.controller.BaseController;
-import com.fpt.etutoring.entity.impl.Tutor;
+import com.fpt.etutoring.dto.impl.TutorDTO;
 import com.fpt.etutoring.util.Constant;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(Constant.PATH_TUTOR)
-public class TutorController extends BaseController<Tutor> {
+@CrossOrigin
+public class TutorController implements BaseController<TutorDTO, Long> {
+
+    @Override
+    public List<TutorDTO> list() {
+        return null;
+    }
+
+    @Override
+    public TutorDTO createOrUpdate(TutorDTO json) {
+        return null;
+    }
+
+    @Override
+    public void delete(Long id) {
+
+    }
+
+    @Override
+    public TutorDTO findById(Long id) {
+        return null;
+    }
 }

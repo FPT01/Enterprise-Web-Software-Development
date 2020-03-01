@@ -31,7 +31,7 @@ public class ResponseDTO<T> extends HttpEntity<T> {
 
     public interface Builder {
         <T> ResponseDTO<T> convertTo(Object entity, Class<T> aClass);
-        <T> T getDTOObject (Object entity, Class<T> aClass);
+        <T> T getObject (Object entity, Class<T> aClass);
     }
 
     private static class BodyBuilder  implements Builder{
@@ -48,7 +48,7 @@ public class ResponseDTO<T> extends HttpEntity<T> {
             return new ResponseDTO<>(modelMapper.map(entity, aClass), this.status);
         }
 
-        public <T> T getDTOObject(Object entity, Class<T> aClass) {
+        public <T> T getObject(Object entity, Class<T> aClass) {
             return modelMapper.map(entity, aClass);
         }
 

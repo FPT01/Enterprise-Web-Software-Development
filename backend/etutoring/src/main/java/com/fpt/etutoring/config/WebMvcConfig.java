@@ -13,4 +13,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new DTOMethodProcessor());
     }
+
+    /*@Bean(name="customDataSource")
+    @ConfigurationProperties("spring.datasource")
+    public DataSource customDataSource() {
+        return DataSourceBuilder.create().build();
+    }*/
+
 }
