@@ -4,9 +4,7 @@ import com.fpt.etutoring.controller.BaseController;
 import com.fpt.etutoring.dto.ResponseDTO;
 import com.fpt.etutoring.dto.impl.TutorDTO;
 import com.fpt.etutoring.entity.impl.Tutor;
-import com.fpt.etutoring.entity.impl.User;
 import com.fpt.etutoring.service.TutorService;
-import com.fpt.etutoring.service.UserService;
 import com.fpt.etutoring.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -22,8 +20,6 @@ public class TutorController implements BaseController<TutorDTO, Long> {
 
     @Autowired
     private TutorService tutorService;
-    @Autowired
-    private UserService userService;
 
     @Override
     @GetMapping(Constant.PATH)
@@ -50,12 +46,7 @@ public class TutorController implements BaseController<TutorDTO, Long> {
     @Override
     @DeleteMapping(value = Constant.PATH_DELETE, consumes = "application/json", produces = "application/json")
     public void delete(@PathVariable Long id) {
-        Tutor tutor = tutorService.findById(id);
-        User user = tutor.getUser();
-        if (user != null) {
-           user.setEnabled(Short.valueOf(String.valueOf("0")));
-           userService.createOrUpdate(user);
-        }
+        tutorService.delete(id);
     }
 
     @Override

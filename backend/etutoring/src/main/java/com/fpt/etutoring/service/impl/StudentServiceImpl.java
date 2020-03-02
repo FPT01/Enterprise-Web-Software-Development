@@ -1,10 +1,10 @@
 package com.fpt.etutoring.service.impl;
 
-import com.fpt.etutoring.dao.impl.TutorDao;
+import com.fpt.etutoring.dao.impl.StudentDao;
 import com.fpt.etutoring.dao.impl.UserDao;
-import com.fpt.etutoring.entity.impl.Tutor;
+import com.fpt.etutoring.entity.impl.Student;
 import com.fpt.etutoring.entity.impl.User;
-import com.fpt.etutoring.service.TutorService;
+import com.fpt.etutoring.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,25 +12,25 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TutorServiceImpl implements TutorService {
+public class StudentServiceImpl implements StudentService {
     @Autowired
-    private TutorDao tutorDao;
+    private StudentDao studentDao;
     @Autowired
     private UserDao userDao;
 
     @Override
-    public List<Tutor> list() {
-        return tutorDao.findAll();
+    public List<Student> list() {
+        return studentDao.findAll();
     }
 
     @Override
-    public Tutor createOrUpdate(Tutor json) {
-        return tutorDao.save(json);
+    public Student createOrUpdate(Student json) {
+        return studentDao.save(json);
     }
 
     @Override
     public void delete(Long id) {
-       Optional<Tutor> optional = tutorDao.findById(id);
+       Optional<Student> optional = studentDao.findById(id);
        if (optional.isPresent()) {
            User user = optional.get().getUser();
            if (user != null) {
@@ -41,7 +41,7 @@ public class TutorServiceImpl implements TutorService {
     }
 
     @Override
-    public Tutor findById(Long id) {
-        return tutorDao.findById(id).get();
+    public Student findById(Long id) {
+        return studentDao.findById(id).get();
     }
 }
