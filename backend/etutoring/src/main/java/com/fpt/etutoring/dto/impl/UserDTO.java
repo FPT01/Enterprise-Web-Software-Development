@@ -1,9 +1,11 @@
 package com.fpt.etutoring.dto.impl;
 
 import com.fpt.etutoring.dto.BaseDTO;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class UserDTO extends BaseDTO {
     private String password;
     private String username;
