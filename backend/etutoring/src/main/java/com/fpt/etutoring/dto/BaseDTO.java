@@ -1,12 +1,10 @@
 package com.fpt.etutoring.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.io.Serializable;
  @DTO
- @Getter
- @Setter
+ @Data
 public abstract class BaseDTO implements Serializable {
   protected Long id;
 }
