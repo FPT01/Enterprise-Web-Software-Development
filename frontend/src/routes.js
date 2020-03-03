@@ -17,6 +17,9 @@ import Maps from "views/Maps.jsx";
 import Notifications from "views/Notifications.jsx";
 import Upgrade from "views/Upgrade.jsx";
 import ChangePassword from "views/ChangePassword.jsx";
+import UserRole from "views/UserRole.jsx";
+import TutorList from "views/tutor/List.jsx";
+import StudentList from "views/student/List.jsx";
 
 const dashboardRoutes = [
   {
@@ -38,6 +41,13 @@ const dashboardRoutes = [
     name: "Change Password",
     icon: "pe-7s-user",
     component: ChangePassword,
+    layout: "/admin"
+  },
+  {
+    path: "/userrole",
+    name: "Users Role",
+    icon: "pe-7s-note2",
+    component: UserRole,
     layout: "/admin"
   },
   {
@@ -82,7 +92,21 @@ const dashboardRoutes = [
     icon: "pe-7s-rocket",
     component: Upgrade,
     layout: "/admin"
-  }
+  },
+  {
+    path: "/list",
+    name: "Tutor List",
+    icon: "pe-7s-note2",
+    component: TutorList,
+    layout: "/tutor"
+  },
+  {
+    path: "/list",
+    name: "Student List",
+    icon: "pe-7s-note2",
+    component: StudentList,
+    layout: "/student"
+  },
 ];
 
 export default dashboardRoutes;

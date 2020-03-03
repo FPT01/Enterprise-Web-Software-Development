@@ -19,6 +19,8 @@ import "./assets/css/demo.css";
 import "./assets/css/pe-icon-7-stroke.css";
 
 import AdminLayout from "layouts/Admin.jsx";
+import TutorLayout from "layouts/Tutor.jsx";
+import StudentLayout from "layouts/Student.jsx";
 import Login from "layouts/Login.jsx";
 
 ReactDOM.render(
@@ -26,6 +28,8 @@ ReactDOM.render(
     <Switch>
       <Route path="/login" render={props => <Login {...props} />} />
       <Route path="/admin" render={props => <AdminLayout {...props} />} />
+      <Route path="/tutor" render={props => <TutorLayout {...props} />} />
+      <Route path="/student" render={props => <StudentLayout {...props} />} />
       <Redirect from="/" to="/admin/dashboard" />
     </Switch>
   </BrowserRouter>,
