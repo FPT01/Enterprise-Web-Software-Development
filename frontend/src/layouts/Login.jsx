@@ -9,7 +9,6 @@
 */
 
 import React, { Component } from "react";
-import ChartistGraph from "react-chartist";
 import { Grid, Row, Col } from "react-bootstrap";
 import ReCAPTCHA from "react-google-recaptcha";
 
@@ -18,24 +17,101 @@ const recaptchaRef = React.createRef();
 class Login extends React.Component {
   constructor() {
     super();
-    this.changeEmail = ev => this.props.onChangeEmail(ev.target.value);
-    this.changePassword = ev => this.props.onChangePassword(ev.target.value);
-    this.changeRecaptcha = ev => this.props.onChangeRecaptcha(ev.target.value);
-    this.submitForm = (email, password) => ev => {
+
+    this.state = {
+      username: '',
+      password: '',
+    };
+
+    this.updateState = field => ev => {
+      const state = this.state;
+      const newState = Object.assign({}, state, { [field]: ev.target.value });
+      this.setState(newState);
+    };
+
+    this.submitForm = (username, password) => ev => {
       ev.preventDefault();
-      const recaptcha = recaptchaRef.current.getValue();
-      this.props.onSubmit(email, password, recaptcha);
-      recaptchaRef.current.reset();
+      // const recaptcha = recaptchaRef.current.getValue();
+      this.onSubmit(username, password);
+      // recaptchaRef.current.reset();
     };
   }
+
+  updateInputValue(evt) {
+    this.setState({
+      inputValue: evt.target.value
+    });
+  }
+
+  onSubmit = (username, password) => {
+    return  this.fetch(`../../../json/login.json`, {
+              method: "POST",
+              body: JSON.stringify({user:{username, password}})
+            })
+            .then(res => {
+              this.setToken(res.token); // Setting the token in localStorage
+              return Promise.resolve(res);
+            });
+
+  }
+
+  fetch = (url, options) => {
+    // performs api calls sending the required authentication headers
+    const headers = {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    };
+    // Setting Authorization header
+    // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx
+    if (this.loggedIn()) {
+      headers["Authorization"] = "Bearer " + this.getToken();
+    }
+
+    return fetch(url, {
+      headers,
+      ...options
+    })
+    .then(this._checkStatus)
+  };
+
+  loggedIn = () => {
+    // Checks if there is a saved token and it's still valid
+    const token = this.getToken(); // Getting token from localstorage
+    return !!token && !this.isTokenExpired(token); // handwaiving here
+  };
+
+  getToken = () => {
+    // Retrieves the user token from localStorage
+    return localStorage.getItem("id_token");
+  };
+
+  setToken = (userRole, username, idToken) => {
+    // Saves user token to localStorage
+    var account = {};
+    account.role = userRole;
+    account.email = username;
+    account.token = idToken;
+    localStorage.setItem('account', JSON.stringify(account));
+  };
+
+  _checkStatus = response => {
+    // raises an error in case response status is not a success
+    if (response.status >= 200 && response.status < 300) {
+      // Success status lies between 200 to 300
+      return response;
+    }else {
+      var error = new Error(response.statusText);
+      // error.response = response;
+      // throw error;
+      console.log(error);
+    }
+  };
 
   componentWillUnmount() {
     this.props.onUnload();
   }
 
   render() {
-    const email = this.props.email;
-    const password = this.props.password;
     return (
       <div id="page">
         <div className="wrapper fadeInDown">
@@ -47,16 +123,15 @@ class Login extends React.Component {
                     <h2 className="active">Đăng Nhập</h2>
                   </div>
                 </div> 
-                <form onSubmit={this.submitForm(email, password)}>
+                <form onSubmit={this.submitForm(this.state.username, this.state.password)}>
                   <fieldset>
                     <fieldset className="form-group">
-                      <label htmlFor="email">Email<span>*</span></label>
+                      <label htmlFor="username">Email<span>*</span></label>
                       <input
                         className="form-control form-control-lg"
-                        type="email"
-                        placeholder="Email"
-                        value={email}
-                        onChange={this.changeEmail} />
+                        type="text"
+                        placeholder="Username"
+                        value={this.state.username} onChange={this.updateState('username')}/>
                     </fieldset>
 
                     <fieldset className="form-group">
@@ -65,12 +140,8 @@ class Login extends React.Component {
                         className="form-control form-control-lg"
                         type="password"
                         placeholder="Mật khẩu"
-                        value={password}
-                        onChange={this.changePassword} />
+                        value={this.state.password} onChange={this.updateState('password')}/>
                     </fieldset>
-                    <div className="recaptcha-block">
-                      <ReCAPTCHA ref={recaptchaRef} sitekey="6LcUurAUAAAAAAd9IDibqeoHlYS3MlMxG3cj0o_i" onChange={this.changeRecaptcha} />
-                    </div>
                     <button
                       className="btn btn-primary login-btn"
                       type="submit" >
