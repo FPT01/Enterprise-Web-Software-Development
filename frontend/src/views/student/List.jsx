@@ -10,9 +10,7 @@
 
 import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
-
 import Card from "components/Card/Card.jsx";
-import { thArray, tdArray } from "variables/Variables.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 
 class UserRole extends Component {
@@ -21,6 +19,10 @@ class UserRole extends Component {
     this.state = { 
       studentList: []
     }
+  }
+  
+  handleRouteChange = (event) => {
+    
   }
 
   componentDidMount(){
@@ -43,69 +45,70 @@ class UserRole extends Component {
                            "fullname":"test user"
                         }
                      }
-                  ] 
+                  ];
       this.setState({ studentList: results });
-      console.log(this.state.studentList);
     });
   }
 
   render() {
     const studentList = this.state.studentList;
-    return (
-      <div className="content">
-        <Grid fluid>
-          <Row>
-            <Col md={12}>
-              <Card
-                title="Student List"
-                category="Here is a list of student"
-                ctTableFullWidth
-                ctTableResponsive
-                content={
-                  <Table striped hover>
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Fullname</th>
-                        <th>Username</th>
-                        <th>Password</th>
-                        <th>Role</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {studentList.map((item, key) => {
-                        return(
-                          <tr>
-                            <td className="id">{key}</td>
-                            <td className="fullname">{item.user.fullname}</td>
-                            <td className="username">{item.user.username}</td>
-                            <td className="password">{item.user.password}</td>
-                            <td className="password">{item.user.role}</td>
-                            <td>
-                              <span>
-                                <Button simple>
-                                  <i className="fa fa-edit" />
-                                </Button>
-                              </span>
-                              <span>
-                                <Button simple>
-                                  <i className="fa fa-trash" />
-                                </Button>
-                              </span>
-                            </td>
-                          </tr>
-                        )
-                      })}
-                    </tbody>
-                  </Table>
-                }
-              />
-            </Col>
-          </Row>
-        </Grid>
-      </div>
-    );
+    if(studentList){
+      return (
+        <div className="content">
+          <Grid fluid>
+            <Row>
+              <Col md={12}>
+                <Card
+                  title="Student List"
+                  category="Here is a list of student"
+                  ctTableFullWidth
+                  ctTableResponsive
+                  content={
+                    <Table striped hover>
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Fullname</th>
+                          <th>Username</th>
+                          <th>Password</th>
+                          <th>Role</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {studentList.map((item, key) => {
+                          return(
+                            <tr>
+                              <td className="id">{key}</td>
+                              <td className="fullname">{item.user.fullname}</td>
+                              <td className="username">{item.user.username}</td>
+                              <td className="password">{item.user.password}</td>
+                              <td className="password">{item.user.role}</td>
+                              <td>
+                                <span>
+                                  <Button onClick={this.handleRouteChange()}>
+                                    <i className="fa fa-edit" />
+                                  </Button>
+                                </span>
+                                <span>
+                                  <Button simple>
+                                    <i className="fa fa-trash" />
+                                  </Button>
+                                </span>
+                              </td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    </Table>
+                  }
+                />
+              </Col>
+            </Row>
+          </Grid>
+        </div>
+      );
+    }
   }
 }
 

@@ -8,8 +8,7 @@
 
 */
 
-import React, { Component } from "react";
-import { Grid, Row, Col } from "react-bootstrap";
+import React from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 
 const recaptchaRef = React.createRef();

@@ -1,9 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   Grid,
   Row,
   Col,
-  FormGroup,
   ControlLabel,
   FormControl
 } from "react-bootstrap";
