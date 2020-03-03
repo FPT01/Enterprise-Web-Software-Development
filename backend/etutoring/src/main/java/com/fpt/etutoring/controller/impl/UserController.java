@@ -36,19 +36,6 @@ public class UserController implements BaseController<UserDTO, Long> {
         return "";
     }
 
-//    @GetMapping("/getAll")
-//    public List<UserDTO> getAll() {
-//        List<User> users = userService.list();
-//        List<UserDTO> dtos = new ArrayList<>();
-//        if (!CollectionUtils.isEmpty(users)) {
-//            users.forEach(u -> {
-//                UserDTO dto = ResponseDTO.accepted().getDTOObject(u, UserDTO.class);
-//                dtos.add(dto);
-//            });
-//        }
-//        return dtos;
-//    }
-
     @Override
     @GetMapping(Constant.PATH)
     public List<UserDTO> list() {
@@ -64,19 +51,26 @@ public class UserController implements BaseController<UserDTO, Long> {
     }
 
     @Override
-    public UserDTO createOrUpdate(UserDTO json) {
+    @PostMapping(value = Constant.PATH_SAVE, consumes = "application/json", produces = "application/json")
+    public UserDTO createOrUpdate(@RequestBody UserDTO json) {
         User from = ResponseDTO.accepted().getObject(json, User.class);
         User u = userService.createOrUpdate(from);
         return ResponseDTO.accepted().getObject(u, UserDTO.class);
     }
 
     @Override
-    public void delete(Long id) {
-        userService.delete(id);
+    @DeleteMapping(value = Constant.PATH_DELETE, consumes = "application/json", produces = "application/json")
+    public void delete(@PathVariable Long id) {
+        User user = userService.findById(id);
+        if (user != null) {
+            user.setEnabled(Short.valueOf("0"));
+            userService.createOrUpdate(user);
+        }
     }
 
     @Override
-    public UserDTO findById(Long id) {
+    @GetMapping(value = Constant.PATH_FIND_BY_ID, consumes = "application/json", produces = "application/json")
+    public UserDTO findById(@PathVariable Long id) {
         User u = userService.findById(id);
         return ResponseDTO.accepted().getObject(u, UserDTO.class);
     }

@@ -1,13 +1,13 @@
 package com.fpt.etutoring.dto.impl;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fpt.etutoring.dto.BaseDTO;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
-@Data
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
+@Setter
 public class AllocationDTO extends BaseDTO {
     private  Long id;
     private Date startTime;

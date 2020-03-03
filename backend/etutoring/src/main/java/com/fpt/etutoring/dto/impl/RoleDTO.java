@@ -1,13 +1,15 @@
 package com.fpt.etutoring.dto.impl;
 
-import lombok.Data;
+import com.fpt.etutoring.dto.BaseDTO;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
-public class RoleDTO {
-    private Long id;
+@Getter
+@Setter
+public class RoleDTO extends BaseDTO {
     private String roleName;
     private String roleDescription;
     private Set<UserDTO> users = new HashSet<>(0);
