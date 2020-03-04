@@ -13,35 +13,57 @@ import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 
-class TableList extends Component {
+class UserRole extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      person: []
+      userRole: []
     }
   }
 
   componentDidMount(){
-    fetch('https://randomuser.me/api/?results=100')
-    .then(response =>  response.json())
-    .then(resData => {
-       //console.log(JSON.stringify(resData))
-       //do your logic here       
-       //let person = resData.results
-       this.setState({ person: resData.results }); //this is an asynchronous function
+    fetch(`../../json/Role/role.json`, {
+      method: "GET",
     })
+    .then(response =>  {
+      console.log(response);
+    })
+    .then(resData => {
+      var results = [
+                     {
+                        "id":1,
+                        "roleName":"ADMIN",
+                        "roleDescription":"Role Admin",
+                        "users":[]
+                     },
+                     {
+                        "id":2,
+                        "roleName":"USER",
+                        "roleDescription":"Role User",
+                        "users":[]
+                     },
+                     {
+                        "id":4,
+                        "roleName":"UPDATE_ROLE",
+                        "roleDescription":"Update role",
+                        "users":[]
+                     }
+                  ]
+      this.setState({ userRole: results });
+      console.log(this.state.userRole);
+    });
   }
 
   render() {
-    const listPerson = this.state.person;
+    const listUserRole = this.state.userRole;
     return (
       <div className="content">
         <Grid fluid>
           <Row>
             <Col md={12}>
               <Card
-                title="Striped Table with Hover"
-                category="Here is a subtitle for this table"
+                title="User Role List"
+                category="Here is a list of user role"
                 ctTableFullWidth
                 ctTableResponsive
                 content={
@@ -49,26 +71,20 @@ class TableList extends Component {
                     <thead>
                       <tr>
                         <th>ID</th>
-                        <th>NAME</th>
-                        <th>DOB</th>
-                        <th>Address</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Picture</th>
+                        <th>Role's Name</th>
+                        <th>Role's Description</th>
+                        <th>Users</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {listPerson.map((item, key) => {
+                      {listUserRole.map((item, key) => {
                         return(
                           <tr>
                             <td className="id">{key}</td>
-                            <td className="name">{item.name.title} {item.name.first} {item.name.last}</td>
-                            <td className="dob">{item.dob.date}</td>
-                            <td className="address">{item.location.street.number} {item.location.street.name}</td>
-                            <td className="email">{item.email}</td>
-                            <td className="phone">{item.phone}</td>
-                            <td className="picture">{item.picture.thumbnail}</td>
+                            <td className="role-name">{item.roleName}</td>
+                            <td className="role-desc">{item.roleDescription}</td>
+                            <td className="user-infor">{item.users}</td>
                             <td>
                               <span>
                                 <Button simple>
@@ -96,4 +112,4 @@ class TableList extends Component {
   }
 }
 
-export default TableList;
+export default UserRole;

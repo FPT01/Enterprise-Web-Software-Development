@@ -13,35 +13,61 @@ import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 
-class TableList extends Component {
+class UserRole extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      person: []
+      tutorList: []
     }
   }
 
   componentDidMount(){
-    fetch('https://randomuser.me/api/?results=100')
-    .then(response =>  response.json())
-    .then(resData => {
-       //console.log(JSON.stringify(resData))
-       //do your logic here       
-       //let person = resData.results
-       this.setState({ person: resData.results }); //this is an asynchronous function
+    fetch(`../../json/Tutor/list.json`, {
+      method: "GET",
     })
+    .then(response =>  {
+      console.log(response);
+    })
+    .then(resData => {
+      var results = [
+                     {
+                        "id":1,
+                        "roleDescription":"turtor 1",
+                        "user":{
+                           "id":1,
+                           "password":"123",
+                           "username":"phonglh",
+                           "enabled":1,
+                           "fullname":"phong lh"
+                        }
+                     },
+                     {
+                        "id":2,
+                        "roleDescription":"tutor 2",
+                        "user":{
+                           "id":2,
+                           "password":"111",
+                           "username":"test",
+                           "enabled":1,
+                           "fullname":"test user"
+                        }
+                     }
+                  ]
+      this.setState({ tutorList: results });
+      console.log(this.state.tutorList);
+    });
   }
 
   render() {
-    const listPerson = this.state.person;
+    const tutorList = this.state.tutorList;
     return (
       <div className="content">
         <Grid fluid>
           <Row>
             <Col md={12}>
               <Card
-                title="Striped Table with Hover"
-                category="Here is a subtitle for this table"
+                title="Tutor List"
+                category="Here is a list of tutor"
                 ctTableFullWidth
                 ctTableResponsive
                 content={
@@ -49,26 +75,22 @@ class TableList extends Component {
                     <thead>
                       <tr>
                         <th>ID</th>
-                        <th>NAME</th>
-                        <th>DOB</th>
-                        <th>Address</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Picture</th>
+                        <th>Fullname</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Role</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {listPerson.map((item, key) => {
+                      {tutorList.map((item, key) => {
                         return(
                           <tr>
                             <td className="id">{key}</td>
-                            <td className="name">{item.name.title} {item.name.first} {item.name.last}</td>
-                            <td className="dob">{item.dob.date}</td>
-                            <td className="address">{item.location.street.number} {item.location.street.name}</td>
-                            <td className="email">{item.email}</td>
-                            <td className="phone">{item.phone}</td>
-                            <td className="picture">{item.picture.thumbnail}</td>
+                            <td className="fullname">{item.user.fullname}</td>
+                            <td className="username">{item.user.username}</td>
+                            <td className="password">{item.user.password}</td>
+                            <td className="password">{item.user.role}</td>
                             <td>
                               <span>
                                 <Button simple>
@@ -96,4 +118,4 @@ class TableList extends Component {
   }
 }
 
-export default TableList;
+export default UserRole;
