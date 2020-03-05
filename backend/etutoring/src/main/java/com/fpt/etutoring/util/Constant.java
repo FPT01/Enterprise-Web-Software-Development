@@ -15,4 +15,5 @@ public class Constant {
     public static final String PATH_SAVE = "/save";
     public static final String PATH_DELETE = "/delete" + PATH + PATH_VARIABLE_ID;
     public static final String PATH_FIND_BY_ID = "/findById" + PATH + PATH_VARIABLE_ID;
+    public static final String PATH_MESSAGE = "/message";
 }
