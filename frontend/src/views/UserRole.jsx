@@ -22,35 +22,12 @@ class UserRole extends Component {
   }
 
   componentDidMount(){
-    fetch(`../../json/Role/role.json`, {
+    fetch(`http://localhost:8080/api/role/`, {
       method: "GET",
     })
-    .then(response =>  {
-      console.log(response);
-    })
-    .then(resData => {
-      var results = [
-                     {
-                        "id":1,
-                        "roleName":"ADMIN",
-                        "roleDescription":"Role Admin",
-                        "users":[]
-                     },
-                     {
-                        "id":2,
-                        "roleName":"USER",
-                        "roleDescription":"Role User",
-                        "users":[]
-                     },
-                     {
-                        "id":4,
-                        "roleName":"UPDATE_ROLE",
-                        "roleDescription":"Update role",
-                        "users":[]
-                     }
-                  ]
-      this.setState({ userRole: results });
-      console.log(this.state.userRole);
+    .then(response =>  response.json() )
+    .then(data => {
+      this.setState({ userRole: data });
     });
   }
 
@@ -80,8 +57,8 @@ class UserRole extends Component {
                     <tbody>
                       {listUserRole.map((item, key) => {
                         return(
-                          <tr>
-                            <td className="id">{key}</td>
+                          <tr key={key}>
+                            <td className="id">{item.id}</td>
                             <td className="role-name">{item.roleName}</td>
                             <td className="role-desc">{item.roleDescription}</td>
                             <td className="user-infor">{item.users}</td>
