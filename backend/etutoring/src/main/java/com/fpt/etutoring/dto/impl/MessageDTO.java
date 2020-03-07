@@ -13,7 +13,6 @@ public class MessageDTO extends BaseDTO {
     private String content;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
     private Date time;
-    private Short status;
-    private UserDTO sender;
-    private UserDTO receiver;
+    private RoomDTO room;
+    private UserDTO user;
 }

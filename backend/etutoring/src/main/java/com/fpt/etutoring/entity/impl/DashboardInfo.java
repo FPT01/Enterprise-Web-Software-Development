@@ -1,31 +1,36 @@
 package com.fpt.etutoring.entity.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
-@Table(name = "comment")
+@Table(name = "dashboard_info")
 @Getter
 @Setter
-@EqualsAndHashCode
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Comment implements Serializable {
+public class DashboardInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id", nullable = false, columnDefinition = "BIGINT")
-    private long id;
+    private  long id;
 
-    @Column(name = "content")
-    private String content;
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private User owner;
+    @Column(name="name")
+    private String name;
 
+    @Column(name="gender")
+    private Short gender;
+
+    @Column(name="avatar")
+    private String avatar;
+
+    @Column(name="email")
+    private String email;
 }

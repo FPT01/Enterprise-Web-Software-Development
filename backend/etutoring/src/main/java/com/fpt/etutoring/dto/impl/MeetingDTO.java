@@ -10,9 +10,9 @@ import java.util.*;
 @Getter
 @Setter
 public class MeetingDTO extends BaseDTO {
-    private  Long id;
     private String title;
     private String description;
+    private String type;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
     private Date creationTime;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")

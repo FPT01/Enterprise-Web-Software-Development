@@ -17,4 +17,5 @@ public class Constant {
     public static final String PATH_FIND_BY_ID = "/findById" + PATH + PATH_VARIABLE_ID;
     public static final String PATH_MESSAGE = "/message";
     public static final String PATH_DOCUMENT = "/document";
+    public static final String PATH_COMMENT = "/comment";
 }

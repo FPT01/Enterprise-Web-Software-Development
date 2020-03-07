@@ -1,6 +1,5 @@
 package com.fpt.etutoring.entity.impl;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -31,6 +30,9 @@ public class Meeting implements Serializable {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "type")
+    private String type;
+
     @Basic
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_time")
@@ -41,13 +43,6 @@ public class Meeting implements Serializable {
     @Column(name = "modified_time")
     private Date modifiedTime;
 
-    @ManyToMany
-    @JoinTable(name = "meeting_guest",
-    joinColumns = @JoinColumn(name = "meeting_id"),
-    inverseJoinColumns = @JoinColumn(name = "user_id"))
-    @JsonIgnore
-    private Set<User> users = new HashSet<>(0);
-
     @PrePersist
     private void prePersist() {
         creationTime = new Date();
@@ -57,4 +52,7 @@ public class Meeting implements Serializable {
     private void preUpdate() {
         modifiedTime = new Date();
     }
+
+    @OneToMany(mappedBy = "meeting")
+    private Set<Student> students = new HashSet<>(0);
 }

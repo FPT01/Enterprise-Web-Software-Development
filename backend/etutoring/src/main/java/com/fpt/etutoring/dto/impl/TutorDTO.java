@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TutorDTO extends BaseDTO {
-    private String roleDescription;
     private UserDTO user;
+    private AllocationDTO allocation;
+    private MeetingDTO meeting;
 }
