@@ -48,4 +48,13 @@ public class Meeting implements Serializable {
     @JsonIgnore
     private Set<User> users = new HashSet<>(0);
 
+    @PrePersist
+    private void prePersist() {
+        creationTime = new Date();
+    }
+
+    @PreUpdate
+    private void preUpdate() {
+        modifiedTime = new Date();
+    }
 }
