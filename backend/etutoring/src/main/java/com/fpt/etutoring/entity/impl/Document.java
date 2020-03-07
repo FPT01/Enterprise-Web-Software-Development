@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "message")
+@Table(name = "document")
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -47,4 +47,14 @@ public class Document implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "modified_time")
     private Date modifiedTime;
+
+    @PrePersist
+    private void prePersist() {
+        creationTime = new Date();
+    }
+
+    @PreUpdate
+    private void preUpdate() {
+        modifiedTime = new Date();
+    }
 }
