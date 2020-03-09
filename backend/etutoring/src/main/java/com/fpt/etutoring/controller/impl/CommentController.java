@@ -36,18 +36,22 @@ public class CommentController implements BaseController<CommentDTO, Long> {
 
     @Override
     @PostMapping(value = Constant.PATH_SAVE, consumes = "application/json", produces = "application/json")
-    public CommentDTO createOrUpdate(CommentDTO json) {
-       // Comment from =
-        return null;
+    public CommentDTO createOrUpdate(@RequestBody CommentDTO json) {
+        Comment from = ResponseDTO.accepted().getObject(json, Comment.class);
+        Comment comment = commentService.createOrUpdate(from);
+        return ResponseDTO.accepted().getObject(comment, CommentDTO.class);
     }
 
     @Override
-    public void delete(Long id) {
-
+    @DeleteMapping(value = Constant.PATH_DELETE, consumes = "application/json", produces = "application/json")
+    public void delete(@PathVariable Long id) {
+        commentService.delete(id);
     }
 
     @Override
-    public CommentDTO findById(Long id) {
-        return null;
+    @GetMapping(value = Constant.PATH_FIND_BY_ID, consumes = "application/json", produces = "application/json")
+    public CommentDTO findById(@PathVariable Long id) {
+        Comment comment = commentService.findById(id);
+        return ResponseDTO.accepted().getObject(comment, CommentDTO.class);
     }
 }
