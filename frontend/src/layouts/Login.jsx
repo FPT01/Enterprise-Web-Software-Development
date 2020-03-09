@@ -43,14 +43,23 @@ class Login extends React.Component {
   }
 
   onSubmit = (username, password) => {
-    return  this.fetch(`../../../json/login.json`, {
-              method: "POST",
-              body: JSON.stringify({user:{username, password}})
-            })
-            .then(res => {
-              this.setToken(res.token); // Setting the token in localStorage
-              return Promise.resolve(res);
-            });
+    return this.fetch(`http://localhost:8080/api/user/login`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username: username, password: password })
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        let account = {};
+        account.username = data.username;
+        account.role = data.roleDTO.roleName;
+        window.localStorage.setItem('account', JSON.stringify(account));
+
+        if( data.roleDTO.roleName == "admin")
+          window.location.href = "/admin";
+      });
 
   }
 
@@ -70,7 +79,7 @@ class Login extends React.Component {
       headers,
       ...options
     })
-    .then(this._checkStatus)
+      .then(this._checkStatus)
   };
 
   loggedIn = () => {
@@ -98,7 +107,7 @@ class Login extends React.Component {
     if (response.status >= 200 && response.status < 300) {
       // Success status lies between 200 to 300
       return response;
-    }else {
+    } else {
       var error = new Error(response.statusText);
       // error.response = response;
       // throw error;
@@ -116,12 +125,12 @@ class Login extends React.Component {
         <div className="wrapper fadeInDown">
           <div className="login-page">
             <div className="container page">
-              <div className="inner-form"> 
-                <div className="heading-title text-xs-center"> 
+              <div className="inner-form">
+                <div className="heading-title text-xs-center">
                   <div className="heading-title">
                     <h2 className="active">Đăng Nhập</h2>
                   </div>
-                </div> 
+                </div>
                 <form onSubmit={this.submitForm(this.state.username, this.state.password)}>
                   <fieldset>
                     <fieldset className="form-group">
@@ -130,7 +139,7 @@ class Login extends React.Component {
                         className="form-control form-control-lg"
                         type="text"
                         placeholder="Username"
-                        value={this.state.username} onChange={this.updateState('username')}/>
+                        value={this.state.username} onChange={this.updateState('username')} />
                     </fieldset>
 
                     <fieldset className="form-group">
@@ -139,7 +148,7 @@ class Login extends React.Component {
                         className="form-control form-control-lg"
                         type="password"
                         placeholder="Mật khẩu"
-                        value={this.state.password} onChange={this.updateState('password')}/>
+                        value={this.state.password} onChange={this.updateState('password')} />
                     </fieldset>
                     <button
                       className="btn btn-primary login-btn"
@@ -151,7 +160,7 @@ class Login extends React.Component {
                 </form>
               </div>
             </div>
-          </div> 
+          </div>
         </div>
       </div>
     );

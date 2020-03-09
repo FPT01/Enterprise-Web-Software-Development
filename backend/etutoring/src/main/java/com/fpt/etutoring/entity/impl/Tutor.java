@@ -22,11 +22,16 @@ public class Tutor implements Serializable {
     @Column(name = "id", nullable = false, columnDefinition = "BIGINT")
     private  long id;
 
-    @Column(name = "role_description")
-    private String roleDescription;
-
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "allocation_id", referencedColumnName = "id")
+    private Allocation allocation;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "meeting_id", referencedColumnName = "id")
+    private Meeting meeting;
 
 }

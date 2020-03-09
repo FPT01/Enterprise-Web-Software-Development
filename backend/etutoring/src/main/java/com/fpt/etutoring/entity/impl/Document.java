@@ -26,9 +26,6 @@ public class Document implements Serializable {
     @JoinColumn(name = "owner_id")
     private User owner;
 
-    @Column(name = "type")
-    private String type;
-
     @Column(name = "title")
     private String title;
 
@@ -57,4 +54,8 @@ public class Document implements Serializable {
     private void preUpdate() {
         modifiedTime = new Date();
     }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "comment_id", referencedColumnName = "id")
+    private Comment comment;
 }

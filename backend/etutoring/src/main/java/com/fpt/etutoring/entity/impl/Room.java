@@ -9,34 +9,18 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "user")
+@Table(name = "room")
 @Getter
 @Setter
 @EqualsAndHashCode
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class User implements Serializable {
-
+public class Room  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id", nullable = false, columnDefinition = "BIGINT")
-    private long id;
+    private  long id;
 
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "username")
-    private String username;
-
-    @Column(name = "fullname")
-    private String fullname;
-
-    @Column(name = "enabled")
-    private Short enabled;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
-    private Role role;
-
-
+    @Column(name = "name")
+    private String name;
 }

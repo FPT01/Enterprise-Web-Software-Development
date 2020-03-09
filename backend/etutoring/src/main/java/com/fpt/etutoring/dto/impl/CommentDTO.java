@@ -7,8 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CommentDTO extends BaseDTO {
-    private Long id;
     private String content;
     private UserDTO owner;
-    private DocumentDTO document;
 }

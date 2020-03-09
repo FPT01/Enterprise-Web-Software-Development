@@ -7,6 +7,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "allocation")
@@ -30,7 +32,7 @@ public class Allocation implements Serializable {
     @Column(name = "end_time")
     private Date endTime;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "student_id", referencedColumnName = "id")
-    private Student student;
+    @OneToMany(mappedBy = "allocation")
+    private Set<Student> students = new HashSet<>(0);
+
 }
