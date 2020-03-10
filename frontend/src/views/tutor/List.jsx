@@ -21,40 +21,22 @@ class UserRole extends Component {
     }
   }
 
+  fnDeleteTutor = (key) => {
+    fetch(`http://localhost:8080/api/tutor/delete/${key}`, {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+
   componentDidMount(){
-    fetch(`../../json/Tutor/list.json`, {
+    fetch(`http://localhost:8080/api/tutor/`, {
       method: "GET",
     })
-    .then(response =>  {
-      console.log(response);
-    })
-    .then(resData => {
-      var results = [
-                     {
-                        "id":1,
-                        "roleDescription":"turtor 1",
-                        "user":{
-                           "id":1,
-                           "password":"123",
-                           "username":"phonglh",
-                           "enabled":1,
-                           "fullname":"phong lh"
-                        }
-                     },
-                     {
-                        "id":2,
-                        "roleDescription":"tutor 2",
-                        "user":{
-                           "id":2,
-                           "password":"111",
-                           "username":"test",
-                           "enabled":1,
-                           "fullname":"test user"
-                        }
-                     }
-                  ]
-      this.setState({ tutorList: results });
-      console.log(this.state.tutorList);
+    .then(response =>  response.json() )
+    .then(data => {
+      this.setState({ tutorList: data });
     });
   }
 
@@ -74,7 +56,7 @@ class UserRole extends Component {
                   <Table striped hover>
                     <thead>
                       <tr>
-                        <th>ID</th>
+                        <th>No</th>
                         <th>Fullname</th>
                         <th>Username</th>
                         <th>Password</th>
@@ -86,7 +68,7 @@ class UserRole extends Component {
                       {tutorList.map((item, key) => {
                         return(
                           <tr>
-                            <td className="id">{key}</td>
+                            <td className="id">{key + 1}</td>
                             <td className="fullname">{item.user.fullname}</td>
                             <td className="username">{item.user.username}</td>
                             <td className="password">{item.user.password}</td>
@@ -98,7 +80,7 @@ class UserRole extends Component {
                                 </Button>
                               </span>
                               <span>
-                                <Button simple>
+                                <Button onClick={() => this.fnDeleteTutor(item.id)}>
                                   <i className="fa fa-trash" />
                                 </Button>
                               </span>

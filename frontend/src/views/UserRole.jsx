@@ -50,7 +50,6 @@ class UserRole extends Component {
                         <th>ID</th>
                         <th>Role's Name</th>
                         <th>Role's Description</th>
-                        <th>Users</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
@@ -61,7 +60,6 @@ class UserRole extends Component {
                             <td className="id">{item.id}</td>
                             <td className="role-name">{item.roleName}</td>
                             <td className="role-desc">{item.roleDescription}</td>
-                            <td className="user-infor">{item.users}</td>
                             <td>
                               <span>
                                 <Button simple>
