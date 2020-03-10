@@ -11,6 +11,7 @@ import com.fpt.etutoring.entity.impl.User;
 import com.fpt.etutoring.service.UserService;
 import com.fpt.etutoring.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
@@ -43,7 +44,9 @@ public class UserController implements BaseController<UserDTO, Long> {
             userDTO.setPassword(null);
             return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Custom-Header", "username or password is invalid ");
+        return new ResponseEntity<>(null, headers, HttpStatus.BAD_REQUEST);
     }
 
     @Override
