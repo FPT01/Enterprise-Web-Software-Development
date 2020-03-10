@@ -4,11 +4,15 @@ package com.fpt.etutoring.controller.impl;
 import com.fpt.etutoring.controller.BaseController;
 import com.fpt.etutoring.dto.RequestDTO;
 import com.fpt.etutoring.dto.ResponseDTO;
+import com.fpt.etutoring.dto.impl.RoleDTO;
 import com.fpt.etutoring.dto.impl.UserDTO;
+import com.fpt.etutoring.entity.impl.Role;
 import com.fpt.etutoring.entity.impl.User;
 import com.fpt.etutoring.service.UserService;
 import com.fpt.etutoring.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,13 +31,19 @@ public class UserController implements BaseController<UserDTO, Long> {
 
 
     @PostMapping(Constant.PATH_LOGIN)
-    public String login(@RequestDTO(UserDTO.class) User user) {
+    public ResponseEntity<UserDTO> login(@RequestDTO(UserDTO.class) User user) {
 //        return securityService.autoLogin(user.getUsername(), user.getPassword());
         User u = userService.getUserByUsernameAndPassword(user.getUsername(), user.getPassword());
-        if (u != null)
-            return u.getRole().getRoleName();
-
-        return "";
+        if (u != null) {
+            Role role = u.getRole();
+            RoleDTO roleDTO = ResponseDTO.accepted().getObject(role, RoleDTO.class);
+            roleDTO.setUsers(null);
+            UserDTO userDTO = ResponseDTO.accepted().getObject(u, UserDTO.class);
+            userDTO.setRoleDTO(roleDTO);
+            userDTO.setPassword(null);
+            return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @Override

@@ -11,4 +11,5 @@ public class UserDTO extends BaseDTO {
     private String username;
     private Short enabled;
     private String fullname;
+    private RoleDTO roleDTO;
 }
