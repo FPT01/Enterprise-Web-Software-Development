@@ -11,7 +11,6 @@ import java.util.Set;
 @Getter
 @Setter
 public class AllocationDTO extends BaseDTO {
-    private  Long id;
     private Date startTime;
     private Date endTime;
     private Set<StudentDTO> students = new HashSet<>(0);
