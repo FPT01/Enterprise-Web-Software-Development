@@ -36,17 +36,22 @@ public class UserController implements BaseController<UserDTO, Long> {
 //        return securityService.autoLogin(user.getUsername(), user.getPassword());
         User u = userService.getUserByUsernameAndPassword(user.getUsername(), user.getPassword());
         if (u != null) {
-            Role role = u.getRole();
-            RoleDTO roleDTO = ResponseDTO.accepted().getObject(role, RoleDTO.class);
-            roleDTO.setUsers(null);
-            UserDTO userDTO = ResponseDTO.accepted().getObject(u, UserDTO.class);
-            userDTO.setRoleDTO(roleDTO);
+            UserDTO userDTO = getUserWithRole(u);
             userDTO.setPassword(null);
             return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
         }
         HttpHeaders headers = new HttpHeaders();
         headers.add("Custom-Header", "username or password is invalid ");
         return new ResponseEntity<>(null, headers, HttpStatus.BAD_REQUEST);
+    }
+
+    private UserDTO getUserWithRole(User u) {
+        Role role = u.getRole();
+        RoleDTO roleDTO = ResponseDTO.accepted().getObject(role, RoleDTO.class);
+        roleDTO.setUsers(null);
+        UserDTO userDTO = ResponseDTO.accepted().getObject(u, UserDTO.class);
+        userDTO.setRoleDTO(roleDTO);
+        return userDTO;
     }
 
     @Override
@@ -56,7 +61,7 @@ public class UserController implements BaseController<UserDTO, Long> {
         List<UserDTO> dtos = new ArrayList<>();
         if (!CollectionUtils.isEmpty(users)) {
             users.forEach(u -> {
-                UserDTO dto = ResponseDTO.accepted().getObject(u, UserDTO.class);
+                UserDTO dto = getUserWithRole(u);
                 dtos.add(dto);
             });
         }
@@ -68,7 +73,7 @@ public class UserController implements BaseController<UserDTO, Long> {
     public UserDTO createOrUpdate(@RequestBody UserDTO json) {
         User from = ResponseDTO.accepted().getObject(json, User.class);
         User u = userService.createOrUpdate(from);
-        return ResponseDTO.accepted().getObject(u, UserDTO.class);
+        return getUserWithRole(u);
     }
 
     @Override
@@ -85,6 +90,6 @@ public class UserController implements BaseController<UserDTO, Long> {
     @GetMapping(value = Constant.PATH_FIND_BY_ID, consumes = "application/json", produces = "application/json")
     public UserDTO findById(@PathVariable Long id) {
         User u = userService.findById(id);
-        return ResponseDTO.accepted().getObject(u, UserDTO.class);
+        return getUserWithRole(u);
     }
 }
