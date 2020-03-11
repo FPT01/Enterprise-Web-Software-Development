@@ -18,4 +18,5 @@ public class Constant {
     public static final String PATH_COMMENT = "/comment";
     public static final String PATH_DASHBOARD_INFO = "/dashboardinfo";
     public static final String PATH_NOTIFICATION = "/notification";
+    public static final String PATH_ROOM = "/room";
 }
