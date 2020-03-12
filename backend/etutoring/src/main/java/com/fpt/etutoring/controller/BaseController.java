@@ -1,10 +1,14 @@
 package com.fpt.etutoring.controller;
 
+import com.fpt.etutoring.error.ApiMessage;
+import org.springframework.http.ResponseEntity;
+
 import java.util.List;
 
 public interface BaseController<T, V> {
     List<T> list();
-    T createOrUpdate(T json);
-    void delete(V id);
-    T findById(V id);
+    ResponseEntity<?> createOrUpdate(T json);
+    ResponseEntity<?> delete(V id);
+    ResponseEntity<?> findById(V id);
+    ResponseEntity<?> buildResponseEntity(ApiMessage apiMessage);
 }

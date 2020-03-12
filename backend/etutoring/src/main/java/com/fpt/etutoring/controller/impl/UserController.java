@@ -8,10 +8,10 @@ import com.fpt.etutoring.dto.impl.RoleDTO;
 import com.fpt.etutoring.dto.impl.UserDTO;
 import com.fpt.etutoring.entity.impl.Role;
 import com.fpt.etutoring.entity.impl.User;
+import com.fpt.etutoring.error.ApiMessage;
 import com.fpt.etutoring.service.UserService;
 import com.fpt.etutoring.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
@@ -32,17 +32,15 @@ public class UserController implements BaseController<UserDTO, Long> {
 
 
     @PostMapping(Constant.PATH_LOGIN)
-    public ResponseEntity<UserDTO> login(@RequestDTO(UserDTO.class) User user) {
+    public ResponseEntity<?> login(@RequestDTO(UserDTO.class) User user) {
 //        return securityService.autoLogin(user.getUsername(), user.getPassword());
         User u = userService.getUserByUsernameAndPassword(user.getUsername(), user.getPassword());
         if (u != null) {
             UserDTO userDTO = getUserWithRole(u);
             userDTO.setPassword(null);
-            return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
+            return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Custom-Header", "username or password is invalid ");
-        return new ResponseEntity<>(null, headers, HttpStatus.BAD_REQUEST);
+        return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_LOGIN));
     }
 
     private UserDTO getUserWithRole(User u) {
@@ -70,26 +68,45 @@ public class UserController implements BaseController<UserDTO, Long> {
 
     @Override
     @PostMapping(value = Constant.PATH_SAVE, consumes = "application/json", produces = "application/json")
-    public UserDTO createOrUpdate(@RequestBody UserDTO json) {
-        User from = ResponseDTO.accepted().getObject(json, User.class);
-        User u = userService.createOrUpdate(from);
-        return getUserWithRole(u);
-    }
-
-    @Override
-    @DeleteMapping(value = Constant.PATH_DELETE, consumes = "application/json", produces = "application/json")
-    public void delete(@PathVariable Long id) {
-        User user = userService.findById(id);
-        if (user != null) {
-            user.setEnabled(Short.valueOf("0"));
-            userService.createOrUpdate(user);
+    public ResponseEntity<?> createOrUpdate(@RequestBody UserDTO json) {
+        try {
+            User from = ResponseDTO.accepted().getObject(json, User.class);
+            userService.createOrUpdate(from);
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
+        } catch (Exception ex) {
+            if (json.getId() == null)
+                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_INSERT));
+            else
+                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_UPDATE));
         }
     }
 
     @Override
+    @DeleteMapping(value = Constant.PATH_DELETE, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        try {
+            User user = userService.findById(id);
+            if (user != null) {
+                user.setEnabled(Short.valueOf("0"));
+                userService.createOrUpdate(user);
+            }
+        } catch (Exception ex) {
+            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, ex));
+        }
+        return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
+    }
+
+    @Override
     @GetMapping(value = Constant.PATH_FIND_BY_ID, consumes = "application/json", produces = "application/json")
-    public UserDTO findById(@PathVariable Long id) {
+    public ResponseEntity<?> findById(@PathVariable Long id) {
         User u = userService.findById(id);
-        return getUserWithRole(u);
+        if (u == null)
+            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
+        return ResponseEntity.status(HttpStatus.OK).body(getUserWithRole(u));
+    }
+
+    @Override
+    public ResponseEntity<?> buildResponseEntity(ApiMessage apiMessage) {
+        return new ResponseEntity<>(apiMessage, apiMessage.getStatus());
     }
 }

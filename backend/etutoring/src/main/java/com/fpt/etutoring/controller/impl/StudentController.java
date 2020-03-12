@@ -4,9 +4,12 @@ import com.fpt.etutoring.controller.BaseController;
 import com.fpt.etutoring.dto.ResponseDTO;
 import com.fpt.etutoring.dto.impl.StudentDTO;
 import com.fpt.etutoring.entity.impl.Student;
+import com.fpt.etutoring.error.ApiMessage;
 import com.fpt.etutoring.service.StudentService;
 import com.fpt.etutoring.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,22 +40,41 @@ public class StudentController implements BaseController<StudentDTO, Long> {
 
     @Override
     @PostMapping(value = Constant.PATH_SAVE, consumes = "application/json", produces = "application/json")
-    public StudentDTO createOrUpdate(@RequestBody StudentDTO json) {
-        Student from = ResponseDTO.accepted().getObject(json, Student.class);
-        Student student = studentService.createOrUpdate(from);
-        return ResponseDTO.accepted().getObject(student, StudentDTO.class);
+    public ResponseEntity<?> createOrUpdate(@RequestBody StudentDTO json) {
+        try {
+            Student from = ResponseDTO.accepted().getObject(json, Student.class);
+            studentService.createOrUpdate(from);
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
+        } catch (Exception ex) {
+            if (json.getId() == null)
+                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_INSERT));
+            else
+                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_UPDATE));
+        }
     }
 
     @Override
     @DeleteMapping(value = Constant.PATH_DELETE, consumes = "application/json", produces = "application/json")
-    public void delete(@PathVariable Long id) {
-        studentService.delete(id);
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        try {
+            studentService.delete(id);
+        } catch (Exception ex) {
+            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, ex));
+        }
+        return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
     }
 
     @Override
     @GetMapping(value = Constant.PATH_FIND_BY_ID, consumes = "application/json", produces = "application/json")
-    public StudentDTO findById(@PathVariable Long id) {
+    public ResponseEntity<?> findById(@PathVariable Long id) {
         Student student = studentService.findById(id);
-        return ResponseDTO.accepted().getObject(student, StudentDTO.class);
+        if (student == null)
+            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.accepted().getObject(student, StudentDTO.class));
+    }
+
+    @Override
+    public ResponseEntity<?> buildResponseEntity(ApiMessage apiMessage) {
+        return new ResponseEntity<>(apiMessage, apiMessage.getStatus());
     }
 }
