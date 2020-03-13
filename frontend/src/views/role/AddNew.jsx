@@ -52,9 +52,15 @@ class AddNewRole extends React.Component {
       },
       body: JSON.stringify({ roleName: roleName, roleDescription: roleDescription })
     })
-      .then((response) => {
-        console.log("response.json()", response.json());
-      })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Success:', data);
+      if(data.status === "OK"){
+        window.location.href = "/admin/role";
+      }else {
+        console.log("error"); 
+      }
+    })
   }
 
   render() {

@@ -38,6 +38,15 @@ class UserRole extends Component {
         'Content-Type': 'application/json'
       }
     })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Success:', data);
+      if(data.status === "OK"){
+        window.location.reload();
+      }else {
+        console.log("error");
+      }
+    })
   }
 
   render() {
@@ -77,9 +86,9 @@ class UserRole extends Component {
                               <td className="role-desc">{item.roleDescription}</td>
                               <td>
                                 <span>
-                                  <Button>
+                                  <a href={"/admin/editrole?id=" + item.id}>
                                     <i className="fa fa-edit" />
-                                  </Button>
+                                  </a>
                                 </span>
                                 <span>
                                   <Button onClick={() => this.fnDeleteRole(item.id)}>

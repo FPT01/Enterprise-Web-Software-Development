@@ -62,7 +62,7 @@ const dashboardRoutes = [
     path: "/editrole",
     name: "Edit Role",
     icon: "pe-7s-note2",
-    component: AddNewRole,
+    component: EditRole,
     layout: "/admin"
   },
   {

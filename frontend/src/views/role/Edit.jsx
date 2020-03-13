@@ -11,10 +11,11 @@ import { Card } from "components/Card/Card.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import { UserCard } from "components/UserCard/UserCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
+import queryString from 'query-string';
 
 import avatar from "assets/img/faces/face-3.jpg";
 
-class AddNewRole extends React.Component {
+class EditRole extends React.Component {
   constructor() {
     super();
 
@@ -30,10 +31,10 @@ class AddNewRole extends React.Component {
       this.setState(newState);
     };
 
-    this.submitForm = (roleName, roleDescription) => ev => {
+    this.submitEditForm = (roleName, roleDescription) => ev => {
       ev.preventDefault();
       // const recaptcha = recaptchaRef.current.getValue();
-      this.onSubmit(roleName, roleDescription);
+      this.onSubmitEdit(roleName, roleDescription);
       // recaptchaRef.current.reset();
     };
   }
@@ -44,17 +45,24 @@ class AddNewRole extends React.Component {
     });
   }
 
-  onSubmit = (roleName, roleDescription) => {
+  onSubmitEdit = (roleName, roleDescription) => {
+    const roleId=queryString.parse(this.props.location.search);
     return fetch(`http://localhost:8080/api/role/save`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ roleName: roleName, roleDescription: roleDescription })
+      body: JSON.stringify({id: roleId.id, roleName: roleName, roleDescription: roleDescription })
     })
-      .then((response) => {
-        console.log("response.json()", response.json());
-      })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Success:', data);
+      if(data.status === "OK"){
+        window.location.href = "/admin/role";
+      }else {
+        console.log("error"); 
+      }
+    })
   }
 
   render() {
@@ -66,7 +74,7 @@ class AddNewRole extends React.Component {
                 title="Add New Role"
                 className="change-password"
                 content={
-                  <form onSubmit={this.submitForm(this.state.rolename, this.state.roleDescription)}>
+                  <form onSubmit={this.submitEditForm(this.state.rolename, this.state.roleDescription)}>
                     <fieldset>
                       <fieldset className="form-group">
                         <label>Role Name<span>*</span></label>
@@ -102,4 +110,4 @@ class AddNewRole extends React.Component {
   }
 }
 
-export default AddNewRole
+export default EditRole
