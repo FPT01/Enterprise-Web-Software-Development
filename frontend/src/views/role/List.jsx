@@ -55,9 +55,9 @@ class UserRole extends Component {
                 content={
                   <>
                     <div>
-                       <a href="/admin/addnewrole">
-                          <i className="fa fa-plus" /> Add new Role
-                        </a>
+                      <a href="/admin/addnewrole">
+                        <i className="fa fa-plus" /> Add new Role
+                      </a>
                     </div>
                     <Table striped hover>
                       <thead>
@@ -77,7 +77,7 @@ class UserRole extends Component {
                               <td className="role-desc">{item.roleDescription}</td>
                               <td>
                                 <span>
-                                  <Button simple>
+                                  <Button>
                                     <i className="fa fa-edit" />
                                   </Button>
                                 </span>

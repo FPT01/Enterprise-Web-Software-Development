@@ -20,6 +20,7 @@ import StudentList from "views/student/List.jsx";
 
 import UserRole from "views/role/List.jsx";
 import AddNewRole from "views/role/AddNew.jsx";
+import EditRole from "views/role/Edit.jsx";
 
 const dashboardRoutes = [
   {
@@ -53,6 +54,13 @@ const dashboardRoutes = [
   {
     path: "/addnewrole",
     name: "Add New Role",
+    icon: "pe-7s-note2",
+    component: AddNewRole,
+    layout: "/admin"
+  },
+  {
+    path: "/editrole",
+    name: "Edit Role",
     icon: "pe-7s-note2",
     component: AddNewRole,
     layout: "/admin"
