@@ -19,8 +19,11 @@ class AddNewTutor extends React.Component {
     super();
 
     this.state = {
-      roleName: '',
-      roleDescription: '',
+      fullname: '',
+      username: '',
+      password: '',
+      roleId: '',
+      status: 1,
       isSuccessful: false,
     };
 
@@ -30,10 +33,10 @@ class AddNewTutor extends React.Component {
       this.setState(newState);
     };
 
-    this.submitForm = (roleName, roleDescription) => ev => {
+    this.submitForm = (fullname, username, password, status) => ev => {
       ev.preventDefault();
       // const recaptcha = recaptchaRef.current.getValue();
-      this.onSubmit(roleName, roleDescription);
+      this.onSubmit(fullname, username, password, status);
       // recaptchaRef.current.reset();
     };
   }
@@ -44,13 +47,13 @@ class AddNewTutor extends React.Component {
     });
   }
 
-  onSubmit = (roleName, roleDescription) => {
+  onSubmit = (fullname, username, password, status) => {
     return fetch(`http://localhost:8080/api/tutor/save`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ roleName: roleName, roleDescription: roleDescription })
+      body: JSON.stringify({user: {fullname: fullname, username: username, password: password, enabled: status }})
     })
     .then((response) => response.json())
     .then((data) => {
@@ -72,24 +75,40 @@ class AddNewTutor extends React.Component {
                 title="Add New Role"
                 className="change-password"
                 content={
-                  <form onSubmit={this.submitForm(this.state.rolename, this.state.roleDescription)}>
+                  <form onSubmit={this.submitForm(this.state.fullname, this.state.username, this.state.password, this.state.Status)}>
                     <fieldset>
                       <fieldset className="form-group">
                         <label>Role Name<span>*</span></label>
                         <input
                           className="form-control form-control-lg"
                           type="text"
-                          placeholder="Role Name"
-                          value={this.state.rolename} onChange={this.updateState('rolename')} />
+                          placeholder="Fullname"
+                          value={this.state.fullname} onChange={this.updateState('fullname')} />
                       </fieldset>
 
                       <fieldset className="form-group">
-                        <label>Role Description<span>*</span></label>
+                        <label>Username<span>*</span></label>
                         <input
                           className="form-control form-control-lg"
                           type="text"
-                          placeholder="Role Description"
-                          value={this.state.roleDescription} onChange={this.updateState('roleDescription')} />
+                          placeholder="Username"
+                          value={this.state.username} onChange={this.updateState('username')} />
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <label>Password<span>*</span></label>
+                        <input
+                          className="form-control form-control-lg"
+                          type="password"
+                          placeholder="Password"
+                          value={this.state.password} onChange={this.updateState('password')} />
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <label>Status<span>*</span></label>
+                        <input
+                          className="form-control form-control-lg"
+                          type="text"
+                          placeholder="text"
+                          value={this.state.status} onChange={this.updateState('status')} />
                       </fieldset>
                       <button
                         className="btn btn-primary login-btn"

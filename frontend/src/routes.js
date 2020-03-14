@@ -25,6 +25,14 @@ import Users from "views/user/List.jsx";
 import AddNewUser from "views/user/AddNew.jsx";
 import EditUser from "views/user/Edit.jsx";
 
+import Tutors from "views/tutor/List.jsx";
+import AddNewTutor from "views/tutor/AddNew.jsx";
+import EditTutor from "views/tutor/Edit.jsx";
+
+import Students from "views/student/List.jsx";
+import AddNewStudent from "views/student/AddNew.jsx";
+import EditStudent from "views/student/Edit.jsx";
+
 const dashboardRoutes = [
   {
     path: "/dashboard",
@@ -83,6 +91,48 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
+    path: "/tutor",
+    name: "Tutor List",
+    icon: "pe-7s-note2",
+    component: TutorList,
+    layout: "/admin"
+  },
+  {
+    path: "/add-new-tutor",
+    name: "Add New Tutor",
+    icon: "pe-7s-note2",
+    component: AddNewTutor,
+    layout: "/admin"
+  },
+  {
+    path: "/edit-tutor",
+    name: "Edit Tutor",
+    icon: "pe-7s-note2",
+    component: EditTutor,
+    layout: "/admin"
+  },
+  {
+    path: "/student",
+    name: "Student List",
+    icon: "pe-7s-note2",
+    component: StudentList,
+    layout: "/admin"
+  },
+  {
+    path: "/add-new-student",
+    name: "Add New Student",
+    icon: "pe-7s-note2",
+    component: AddNewStudent,
+    layout: "/admin"
+  },
+  {
+    path: "/edit-student",
+    name: "Edit Student",
+    icon: "pe-7s-note2",
+    component: EditStudent,
+    layout: "/admin"
+  },
+  {
     path: "/maps",
     name: "Maps",
     icon: "pe-7s-map-marker",
@@ -103,20 +153,6 @@ const dashboardRoutes = [
     icon: "pe-7s-rocket",
     component: Upgrade,
     layout: "/admin"
-  },
-  {
-    path: "/list",
-    name: "Tutor List",
-    icon: "pe-7s-note2",
-    component: TutorList,
-    layout: "/tutor"
-  },
-  {
-    path: "/list",
-    name: "Student List",
-    icon: "pe-7s-note2",
-    component: StudentList,
-    layout: "/student"
   },
 ];
 

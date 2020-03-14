@@ -13,22 +13,12 @@ import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 
-class UserRole extends Component {
+class Students extends Component {
   constructor(props) {
     super(props);
     this.state = { 
       studentList: []
     }
-  }
-
-  componentDidMount(){
-    fetch(`http://localhost:8080/api/student/`, {
-      method: "GET",
-    })
-    .then(response =>  response.json() )
-    .then(data => {
-      this.setState({ studentList: data });
-    });
   }
 
   fnDeleteStudent = (key) => {
@@ -49,6 +39,16 @@ class UserRole extends Component {
     })
   }
 
+  componentDidMount(){
+    fetch(`http://localhost:8080/api/student/`, {
+      method: "GET",
+    })
+    .then(response =>  response.json() )
+    .then(data => {
+      this.setState({ studentList: data });
+    });
+  }
+
   render() {
     const studentList = this.state.studentList;
     return (
@@ -57,15 +57,15 @@ class UserRole extends Component {
           <Row>
             <Col md={12}>
               <Card
-                title="Tutor List"
-                category="Here is a list of tutor"
+                title="Student List"
+                category="Here is a list of student"
                 ctTableFullWidth
                 ctTableResponsive
                 content={
                   <>
                     <div>
-                      <a href="/student/addnewstudent">
-                        <i className="fa fa-plus" /> Add new Role
+                      <a href="/admin/add-new-tutor">
+                        <i className="fa fa-plus" /> Add new Tutor
                       </a>
                     </div>
                     <Table striped hover>
@@ -75,7 +75,7 @@ class UserRole extends Component {
                           <th>Fullname</th>
                           <th>Username</th>
                           <th>Password</th>
-                          <th>Role</th>
+                          <th>Status</th>
                           <th>Actions</th>
                         </tr>
                       </thead>
@@ -84,13 +84,13 @@ class UserRole extends Component {
                           return(
                             <tr>
                               <td className="id">{key + 1}</td>
-                              <td className="fullname">{item.user.fullname}</td>
-                              <td className="username">{item.user.username}</td>
-                              <td className="password">{item.user.password}</td>
-                              <td className="password">{item.user.role}</td>
+                              <td className="fullname">{(item.user !== null) ? item.user.fullname : ""}</td>
+                              <td className="username">{(item.user !== null) ? item.user.username : ""}</td>
+                              <td className="password">{(item.user !== null) ? item.user.password : ""}</td>
+                              <td className="password">{(item.user !== null) ? ((item.user.enabled == 1) ? "active" : "unactive") : ""}</td>
                               <td>
                                 <span>
-                                  <a href={"/admin/editstudent?id=" + item.id}>
+                                  <a href={"/admin/edit-student?id=" + item.id}>
                                     <i className="fa fa-edit" />
                                   </a>
                                 </span>
@@ -116,4 +116,4 @@ class UserRole extends Component {
   }
 }
 
-export default UserRole;
+export default Students;

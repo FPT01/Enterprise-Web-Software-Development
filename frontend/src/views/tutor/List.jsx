@@ -13,7 +13,7 @@ import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 
-class UserRole extends Component {
+class Tutors extends Component {
   constructor(props) {
     super(props);
     this.state = { 
@@ -26,6 +26,15 @@ class UserRole extends Component {
       method: "DELETE",
       headers: {
         'Content-Type': 'application/json'
+      }
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Success:', data);
+      if(data.status === "OK"){
+        window.location.reload();
+      }else {
+        console.log("error");
       }
     })
   }
@@ -55,8 +64,8 @@ class UserRole extends Component {
                 content={
                   <>
                     <div>
-                      <a href="/tutor/addnewtutor">
-                        <i className="fa fa-plus" /> Add new Role
+                      <a href="/admin/add-new-tutor">
+                        <i className="fa fa-plus" /> Add new Tutor
                       </a>
                     </div>
                     <Table striped hover>
@@ -66,7 +75,7 @@ class UserRole extends Component {
                           <th>Fullname</th>
                           <th>Username</th>
                           <th>Password</th>
-                          <th>Role</th>
+                          <th>Status</th>
                           <th>Actions</th>
                         </tr>
                       </thead>
@@ -75,13 +84,13 @@ class UserRole extends Component {
                           return(
                             <tr>
                               <td className="id">{key + 1}</td>
-                              <td className="fullname">{item.user.fullname}</td>
-                              <td className="username">{item.user.username}</td>
-                              <td className="password">{item.user.password}</td>
-                              <td className="password">{item.user.role}</td>
+                              <td className="fullname">{(item.user !== null) ? item.user.fullname : ""}</td>
+                              <td className="username">{(item.user !== null) ? item.user.username : ""}</td>
+                              <td className="password">{(item.user !== null) ? item.user.password : ""}</td>
+                              <td className="password">{(item.user !== null) ? ((item.user.enabled == 1) ? "active" : "unactive") : ""}</td>
                               <td>
                                 <span>
-                                  <a href={"/admin/edittutor?id=" + item.id}>
+                                  <a href={"/admin/edit-tutor?id=" + item.id}>
                                     <i className="fa fa-edit" />
                                   </a>
                                 </span>
@@ -107,4 +116,4 @@ class UserRole extends Component {
   }
 }
 
-export default UserRole;
+export default Tutors;
