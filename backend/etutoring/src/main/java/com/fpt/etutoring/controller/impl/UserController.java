@@ -49,6 +49,7 @@ public class UserController implements BaseController<UserDTO, Long> {
             Role role = u.getRole();
             RoleDTO roleDTO = ResponseDTO.accepted().getObject(role, RoleDTO.class);
             roleDTO.setUsers(null);
+            userDTO.setRole(null);
             userDTO.setRoleDTO(roleDTO);
         }
         return userDTO;
