@@ -21,11 +21,20 @@ class Users extends Component {
     }
   }
 
-  fnDeleteTutor = (key) => {
+  fnDeleteUser = (key) => {
     fetch(`http://localhost:8080/api/user/delete/${key}`, {
       method: "DELETE",
       headers: {
         'Content-Type': 'application/json'
+      }
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Success:', data);
+      if(data.status === "OK"){
+        window.location.reload();
+      }else {
+        console.log("error");
       }
     })
   }
@@ -75,10 +84,10 @@ class Users extends Component {
                         return(
                           <tr>
                             <td className="id">{key + 1}</td>
-                            <td className="fullname">{item.fullname}</td>
-                            <td className="username">{item.username}</td>
-                            <td className="password">{item.roleDTO.roleName}</td>
-                            <td className="password">{(item.enabled == 1) ? "active" : "unactive"}</td>
+                              <td className="fullname">{(item.fullname !== null) ? item.fullname : ""}</td>
+                              <td className="username">{(item.username !== null) ? item.username : ""}</td>
+                              <td className="password">{(item.password !== null) ? item.password : ""}</td>
+                              <td className="password">{(item.enabled !== null) ? ((item.enabled == 1) ? "active" : "unactive") : ""}</td>
                             <td>
                               <span>
                                   <a href={"/admin/edit-user?id=" + item.id}>
@@ -86,7 +95,7 @@ class Users extends Component {
                                   </a>
                                 </span>
                               <span>
-                                <Button onClick={() => this.fnDeleteTutor(item.id)}>
+                                <Button onClick={() => this.fnDeleteUser(item.id)}>
                                   <i className="fa fa-trash" />
                                 </Button>
                               </span>

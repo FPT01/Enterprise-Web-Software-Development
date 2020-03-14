@@ -23,7 +23,6 @@ class EditUser extends React.Component {
       fullname: '',
       username: '',
       password: '',
-      roleId: '',
       status: '',
       isSuccessful: false,
     };
@@ -50,6 +49,7 @@ class EditUser extends React.Component {
 
   onSubmitEdit = (fullname, username, password, status) => {
     var newStatus = null;
+    var roleId = 1;
     const userId=queryString.parse(this.props.location.search);
     if(status == "active"){
       newStatus = 1
@@ -61,13 +61,13 @@ class EditUser extends React.Component {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({id: userId.userId, fullname: fullname, username: username, password: password, enabled: newStatus })
+      body: JSON.stringify({id: userId.id, fullname: fullname, username: username, password: password, enabled: newStatus, roleDTO:{id: roleId}})
     })
     .then((response) => response.json())
     .then((data) => {
       console.log('Success:', data);
       if(data.status === "OK"){
-        window.location.href = "/admin/user";
+        // window.location.href = "/admin/user";
       }else {
         console.log("error"); 
       }
@@ -83,7 +83,7 @@ class EditUser extends React.Component {
                 title="Edit Role"
                 className="change-password"
                 content={
-                  <form onSubmit={this.submitEditForm(this.state.fullname, this.state.username, this.state.password, )}>
+                  <form onSubmit={this.submitEditForm(this.state.fullname, this.state.username, this.state.password, this.state.roleId)}>
                     <fieldset>
                       <fieldset className="form-group">
                         <label>Role Name<span>*</span></label>
