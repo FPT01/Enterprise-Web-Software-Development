@@ -14,10 +14,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
         resolvers.add(new DTOMethodProcessor());
     }
 
-    /*@Bean(name="customDataSource")
-    @ConfigurationProperties("spring.datasource")
-    public DataSource customDataSource() {
-        return DataSourceBuilder.create().build();
-    }*/
-
 }
