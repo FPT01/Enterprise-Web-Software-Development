@@ -53,43 +53,50 @@ class UserRole extends Component {
                 ctTableFullWidth
                 ctTableResponsive
                 content={
-                  <Table striped hover>
-                    <thead>
-                      <tr>
-                        <th>No</th>
-                        <th>Fullname</th>
-                        <th>Username</th>
-                        <th>Password</th>
-                        <th>Role</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tutorList.map((item, key) => {
-                        return(
-                          <tr>
-                            <td className="id">{key + 1}</td>
-                            <td className="fullname">{item.user.fullname}</td>
-                            <td className="username">{item.user.username}</td>
-                            <td className="password">{item.user.password}</td>
-                            <td className="password">{item.user.role}</td>
-                            <td>
-                              <span>
-                                <Button simple>
-                                  <i className="fa fa-edit" />
-                                </Button>
-                              </span>
-                              <span>
-                                <Button onClick={() => this.fnDeleteTutor(item.id)}>
-                                  <i className="fa fa-trash" />
-                                </Button>
-                              </span>
-                            </td>
-                          </tr>
-                        )
-                      })}
-                    </tbody>
-                  </Table>
+                  <>
+                    <div>
+                      <a href="/tutor/addnewtutor">
+                        <i className="fa fa-plus" /> Add new Role
+                      </a>
+                    </div>
+                    <Table striped hover>
+                      <thead>
+                        <tr>
+                          <th>No</th>
+                          <th>Fullname</th>
+                          <th>Username</th>
+                          <th>Password</th>
+                          <th>Role</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {tutorList.map((item, key) => {
+                          return(
+                            <tr>
+                              <td className="id">{key + 1}</td>
+                              <td className="fullname">{item.user.fullname}</td>
+                              <td className="username">{item.user.username}</td>
+                              <td className="password">{item.user.password}</td>
+                              <td className="password">{item.user.role}</td>
+                              <td>
+                                <span>
+                                  <a href={"/admin/edittutor?id=" + item.id}>
+                                    <i className="fa fa-edit" />
+                                  </a>
+                                </span>
+                                <span>
+                                  <Button onClick={() => this.fnDeleteTutor(item.id)}>
+                                    <i className="fa fa-trash" />
+                                  </Button>
+                                </span>
+                              </td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    </Table>
+                  </>
                 }
               />
             </Col>

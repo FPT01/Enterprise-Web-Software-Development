@@ -17,22 +17,22 @@ class UserRole extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      studentList: []
+      listUserRole: []
     }
   }
 
   componentDidMount(){
-    fetch(`http://localhost:8080/api/student/`, {
+    fetch(`http://localhost:8080/api/role/`, {
       method: "GET",
     })
     .then(response =>  response.json() )
     .then(data => {
-      this.setState({ studentList: data });
+      this.setState({ listUserRole: data });
     });
   }
 
-  fnDeleteStudent = (key) => {
-    fetch(`http://localhost:8080/api/student/delete/${key}`, {
+  fnDeleteRole = (key) => {
+    fetch(`http://localhost:8080/api/role/delete/${key}`, {
       method: "DELETE",
       headers: {
         'Content-Type': 'application/json'
@@ -50,52 +50,48 @@ class UserRole extends Component {
   }
 
   render() {
-    const studentList = this.state.studentList;
+    const listUserRole = this.state.listUserRole;
     return (
       <div className="content">
         <Grid fluid>
           <Row>
             <Col md={12}>
               <Card
-                title="Tutor List"
-                category="Here is a list of tutor"
+                title="User Role List"
+                category="Here is a list of user role"
                 ctTableFullWidth
                 ctTableResponsive
                 content={
                   <>
                     <div>
-                      <a href="/student/addnewstudent">
+                      <a href="/admin/addnewrole">
                         <i className="fa fa-plus" /> Add new Role
                       </a>
                     </div>
                     <Table striped hover>
                       <thead>
                         <tr>
-                          <th>No</th>
-                          <th>Fullname</th>
-                          <th>Username</th>
-                          <th>Password</th>
-                          <th>Role</th>
+                          <th>ID</th>
+                          <th>Role's Name</th>
+                          <th>Role's Description</th>
                           <th>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {studentList.map((item, key) => {
+                        {listUserRole.map((item, key) => {
                           return(
-                            <tr>
-                              <td className="id">{key + 1}</td>
-                              <td className="fullname">{item.user.fullname}</td>
-                              <td className="username">{item.user.username}</td>
-                              <td className="password">{item.user.password}</td>
-                              <td className="password">{item.user.role}</td>
+                            <tr key={key}>
+                              <td className="id">{item.id}</td>
+                              <td className="role-name">{item.roleName}</td>
+                              <td className="role-desc">{item.roleDescription}</td>
                               <td>
                                 <span>
-                                  <a href={"/admin/editstudent?id=" + item.id}>
+                                  <a href={"/admin/editrole?id=" + item.id}>
                                     <i className="fa fa-edit" />
                                   </a>
                                 </span>
                                 <span>
-                                  <Button onClick={() => this.fnDeleteStudent(item.id)}>
+                                  <Button onClick={() => this.fnDeleteRole(item.id)}>
                                     <i className="fa fa-trash" />
                                   </Button>
                                 </span>

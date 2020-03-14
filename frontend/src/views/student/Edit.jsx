@@ -15,7 +15,7 @@ import queryString from 'query-string';
 
 import avatar from "assets/img/faces/face-3.jpg";
 
-class EditRole extends React.Component {
+class EditStudent extends React.Component {
   constructor() {
     super();
 
@@ -110,4 +110,4 @@ class EditRole extends React.Component {
   }
 }
 
-export default EditRole
+export default EditStudent

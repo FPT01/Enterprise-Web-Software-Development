@@ -10,7 +10,6 @@
 
 import Dashboard from "views/Dashboard.jsx";
 import UserProfile from "views/UserProfile.jsx";
-import TableList from "views/TableList.jsx";
 import Maps from "views/Maps.jsx";
 import Notifications from "views/Notifications.jsx";
 import Upgrade from "views/Upgrade.jsx";
@@ -22,6 +21,10 @@ import UserRole from "views/role/List.jsx";
 import AddNewRole from "views/role/AddNew.jsx";
 import EditRole from "views/role/Edit.jsx";
 
+import Users from "views/user/List.jsx";
+import AddNewUser from "views/user/AddNew.jsx";
+import EditUser from "views/user/Edit.jsx";
+
 const dashboardRoutes = [
   {
     path: "/dashboard",
@@ -31,45 +34,52 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/user",
+    path: "/user-profile",
     name: "User Profile",
     icon: "pe-7s-user",
     component: UserProfile,
     layout: "/admin"
   },
   {
-    path: "/changepassword",
-    name: "Change Password",
+    path: "/user",
+    name: "User List",
     icon: "pe-7s-user",
-    component: ChangePassword,
+    component: Users,
+    layout: "/admin"
+  },
+  {
+    path: "/add-new-user",
+    name: "Add New User",
+    icon: "pe-7s-user",
+    component: AddNewUser,
+    layout: "/admin"
+  },
+  {
+    path: "/edit-user",
+    name: "Edit User",
+    icon: "pe-7s-note2",
+    component: EditUser,
     layout: "/admin"
   },
   {
     path: "/role",
-    name: "Users Role",
+    name: "User Roles",
     icon: "pe-7s-note2",
     component: UserRole,
     layout: "/admin"
   },
   {
-    path: "/addnewrole",
+    path: "/add-new-role",
     name: "Add New Role",
     icon: "pe-7s-note2",
     component: AddNewRole,
     layout: "/admin"
   },
   {
-    path: "/editrole",
+    path: "/edit-role",
     name: "Edit Role",
     icon: "pe-7s-note2",
     component: EditRole,
-    layout: "/admin"
-  },
-  {
-    path: "/table",
-    name: "Table List",
-    icon: "pe-7s-note2",
-    component: TableList,
     layout: "/admin"
   },
   {
