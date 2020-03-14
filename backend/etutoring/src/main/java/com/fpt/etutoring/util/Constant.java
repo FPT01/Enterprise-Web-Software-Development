@@ -19,4 +19,10 @@ public class Constant {
     public static final String PATH_DASHBOARD_INFO = "/dashboardinfo";
     public static final String PATH_NOTIFICATION = "/notification";
     public static final String PATH_ROOM = "/room";
+    public static final String ERROR_INSERT = "Insert Error";
+    public static final String ERROR_UPDATE = "Edit Error";
+    public static final String ERROR_NOT_FOUND = "Data not found";
+    public static final String MSG_SUCCESS = "Success";
+    public static final String ERROR_LOGIN = "Username or password is invalid";
+    public static final String ERROR_DELETE = "Delete Error";
 }
