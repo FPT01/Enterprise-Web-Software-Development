@@ -4,8 +4,10 @@ import com.fpt.etutoring.controller.BaseController;
 import com.fpt.etutoring.dto.ResponseDTO;
 import com.fpt.etutoring.dto.impl.StudentDTO;
 import com.fpt.etutoring.entity.impl.Student;
+import com.fpt.etutoring.entity.impl.User;
 import com.fpt.etutoring.error.ApiMessage;
 import com.fpt.etutoring.service.StudentService;
+import com.fpt.etutoring.service.UserService;
 import com.fpt.etutoring.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,8 @@ public class StudentController implements BaseController<StudentDTO, Long> {
 
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private UserService userService;
 
     @Override
     @GetMapping(Constant.PATH)
@@ -43,6 +47,11 @@ public class StudentController implements BaseController<StudentDTO, Long> {
     public ResponseEntity<?> createOrUpdate(@RequestBody StudentDTO json) {
         try {
             Student from = ResponseDTO.accepted().getObject(json, Student.class);
+            if (json.getId() == null) {
+                User newUser = ResponseDTO.accepted().getObject(json.getUser(), User.class);
+                User user = userService.createOrUpdate(newUser);
+                from.setUser(user);
+            }
             studentService.createOrUpdate(from);
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
         } catch (Exception ex) {

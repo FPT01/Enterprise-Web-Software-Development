@@ -77,8 +77,8 @@ class Users extends Component {
                             <td className="id">{key + 1}</td>
                             <td className="fullname">{item.fullname}</td>
                             <td className="username">{item.username}</td>
+                            <td className="password">{item.roleDTO.roleName}</td>
                             <td className="password">{(item.enabled == 1) ? "active" : "unactive"}</td>
-                            <td className="password">{item.roleDTO.roleDescription}</td>
                             <td>
                               <span>
                                   <a href={"/admin/edit-user?id=" + item.id}>
