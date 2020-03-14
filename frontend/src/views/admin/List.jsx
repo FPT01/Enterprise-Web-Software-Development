@@ -13,16 +13,26 @@ import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 
-class Students extends Component {
+class UserRole extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      studentList: []
+      listUserRole: []
     }
   }
 
-  fnDeleteStudent = (key) => {
-    fetch(`http://localhost:8080/api/student/delete/${key}`, {
+  componentDidMount(){
+    fetch(`http://localhost:8080/api/role/`, {
+      method: "GET",
+    })
+    .then(response =>  response.json() )
+    .then(data => {
+      this.setState({ listUserRole: data });
+    });
+  }
+
+  fnDeleteRole = (key) => {
+    fetch(`http://localhost:8080/api/role/delete/${key}`, {
       method: "DELETE",
       headers: {
         'Content-Type': 'application/json'
@@ -39,63 +49,49 @@ class Students extends Component {
     })
   }
 
-  componentDidMount(){
-    fetch(`http://localhost:8080/api/student/`, {
-      method: "GET",
-    })
-    .then(response =>  response.json() )
-    .then(data => {
-      this.setState({ studentList: data });
-    });
-  }
-
   render() {
-    const studentList = this.state.studentList;
+    const listUserRole = this.state.listUserRole;
     return (
       <div className="content">
         <Grid fluid>
           <Row>
             <Col md={12}>
               <Card
-                title="Student List"
-                category="Here is a list of student"
+                title="User Role List"
+                category="Here is a list of user role"
                 ctTableFullWidth
                 ctTableResponsive
                 content={
                   <>
                     <div>
-                      <a href="/admin/add-new-tutor">
-                        <i className="fa fa-plus" /> Add new Tutor
+                      <a href="/admin/addnewrole">
+                        <i className="fa fa-plus" /> Add new Role
                       </a>
                     </div>
                     <Table striped hover>
                       <thead>
                         <tr>
-                          <th>No</th>
-                          <th>Fullname</th>
-                          <th>Username</th>
-                          <th>Password</th>
-                          <th>Status</th>
+                          <th>ID</th>
+                          <th>Role's Name</th>
+                          <th>Role's Description</th>
                           <th>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {studentList.map((item, key) => {
+                        {listUserRole.map((item, key) => {
                           return(
-                            <tr>
-                              <td className="id">{key + 1}</td>
-                              <td className="fullname">{(item.user !== null) ? item.user.fullname : ""}</td>
-                              <td className="username">{(item.user !== null) ? item.user.username : ""}</td>
-                              <td className="password">{(item.user !== null) ? item.user.password : ""}</td>
-                              <td className="password">{(item.user !== null) ? ((item.user.enabled == 1) ? "active" : "unactive") : ""}</td>
+                            <tr key={key}>
+                              <td className="id">{item.id}</td>
+                              <td className="role-name">{item.roleName}</td>
+                              <td className="role-desc">{item.roleDescription}</td>
                               <td>
                                 <span>
-                                  <a href={"/admin/edit-student?id=" + item.id}>
+                                  <a href={"/admin/editrole?id=" + item.id}>
                                     <i className="fa fa-edit" />
                                   </a>
                                 </span>
                                 <span>
-                                  <Button onClick={() => this.fnDeleteStudent(item.id)}>
+                                  <Button onClick={() => this.fnDeleteRole(item.id)}>
                                     <i className="fa fa-trash" />
                                   </Button>
                                 </span>
@@ -116,4 +112,4 @@ class Students extends Component {
   }
 }
 
-export default Students;
+export default UserRole;

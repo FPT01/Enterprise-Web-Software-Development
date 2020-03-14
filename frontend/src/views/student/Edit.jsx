@@ -15,13 +15,16 @@ import queryString from 'query-string';
 
 import avatar from "assets/img/faces/face-3.jpg";
 
-class EditRole extends React.Component {
+class EditStudent extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      roleName: '',
-      roleDescription: '',
+      fullname: '',
+      username: '',
+      password: '',
+      roleId: '',
+      status: '',
       isSuccessful: false,
     };
 
@@ -31,10 +34,10 @@ class EditRole extends React.Component {
       this.setState(newState);
     };
 
-    this.submitEditForm = (roleName, roleDescription) => ev => {
+    this.submitEditForm = (fullname, username, password, status) => ev => {
       ev.preventDefault();
       // const recaptcha = recaptchaRef.current.getValue();
-      this.onSubmitEdit(roleName, roleDescription);
+      this.onSubmitEdit(fullname, username, password, status);
       // recaptchaRef.current.reset();
     };
   }
@@ -45,20 +48,26 @@ class EditRole extends React.Component {
     });
   }
 
-  onSubmitEdit = (roleName, roleDescription) => {
-    const roleId=queryString.parse(this.props.location.search);
-    return fetch(`http://localhost:8080/api/role/save`, {
+  onSubmitEdit = (fullname, username, password, status) => {
+    const studentId=queryString.parse(this.props.location.search);
+    var newStatus = null;
+    if(status == "active"){
+      newStatus = 1
+    }else {
+      newStatus = 0
+    }
+    return fetch(`http://localhost:8080/api/student/save`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({id: roleId.id, roleName: roleName, roleDescription: roleDescription })
+      body: JSON.stringify({user: {id: studentId.id, fullname: fullname, username: username, password: password, enabled: newStatus}})
     })
     .then((response) => response.json())
     .then((data) => {
       console.log('Success:', data);
       if(data.status === "OK"){
-        window.location.href = "/admin/role";
+        // window.location.href = "/admin/student";
       }else {
         console.log("error"); 
       }
@@ -71,27 +80,43 @@ class EditRole extends React.Component {
         <Grid fluid>
           <Row>
             <Card
-                title="Edit Role"
+                title="Edit Tutor"
                 className="change-password"
                 content={
-                  <form onSubmit={this.submitEditForm(this.state.rolename, this.state.roleDescription)}>
+                  <form onSubmit={this.submitEditForm(this.state.fullname, this.state.username, this.state.password, this.state.status)}>
                     <fieldset>
                       <fieldset className="form-group">
                         <label>Role Name<span>*</span></label>
                         <input
                           className="form-control form-control-lg"
                           type="text"
-                          placeholder="Role Name"
-                          value={this.state.rolename} onChange={this.updateState('rolename')} />
+                          placeholder="Fullname"
+                          value={this.state.fullname} onChange={this.updateState('fullname')} />
                       </fieldset>
 
                       <fieldset className="form-group">
-                        <label>Role Description<span>*</span></label>
+                        <label>Username<span>*</span></label>
                         <input
                           className="form-control form-control-lg"
                           type="text"
-                          placeholder="Role Description"
-                          value={this.state.roleDescription} onChange={this.updateState('roleDescription')} />
+                          placeholder="Username"
+                          value={this.state.username} onChange={this.updateState('username')} />
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <label>Password<span>*</span></label>
+                        <input
+                          className="form-control form-control-lg"
+                          type="password"
+                          placeholder="Password"
+                          value={this.state.password} onChange={this.updateState('password')} />
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <label>Status<span>*</span></label>
+                        <input
+                          className="form-control form-control-lg"
+                          type="text"
+                          placeholder="text"
+                          value={this.state.status} onChange={this.updateState('status')} />
                       </fieldset>
                       <button
                         className="btn btn-primary login-btn"
@@ -110,4 +135,4 @@ class EditRole extends React.Component {
   }
 }
 
-export default EditRole
+export default EditStudent

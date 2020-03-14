@@ -13,7 +13,7 @@ import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 
-class UserRole extends Component {
+class Tutors extends Component {
   constructor(props) {
     super(props);
     this.state = { 
@@ -26,6 +26,15 @@ class UserRole extends Component {
       method: "DELETE",
       headers: {
         'Content-Type': 'application/json'
+      }
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Success:', data);
+      if(data.status === "OK"){
+        window.location.reload();
+      }else {
+        console.log("error");
       }
     })
   }
@@ -53,43 +62,50 @@ class UserRole extends Component {
                 ctTableFullWidth
                 ctTableResponsive
                 content={
-                  <Table striped hover>
-                    <thead>
-                      <tr>
-                        <th>No</th>
-                        <th>Fullname</th>
-                        <th>Username</th>
-                        <th>Password</th>
-                        <th>Role</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tutorList.map((item, key) => {
-                        return(
-                          <tr>
-                            <td className="id">{key + 1}</td>
-                            <td className="fullname">{item.user.fullname}</td>
-                            <td className="username">{item.user.username}</td>
-                            <td className="password">{item.user.password}</td>
-                            <td className="password">{item.user.role}</td>
-                            <td>
-                              <span>
-                                <Button simple>
-                                  <i className="fa fa-edit" />
-                                </Button>
-                              </span>
-                              <span>
-                                <Button onClick={() => this.fnDeleteTutor(item.id)}>
-                                  <i className="fa fa-trash" />
-                                </Button>
-                              </span>
-                            </td>
-                          </tr>
-                        )
-                      })}
-                    </tbody>
-                  </Table>
+                  <>
+                    <div>
+                      <a href="/admin/add-new-tutor">
+                        <i className="fa fa-plus" /> Add new Tutor
+                      </a>
+                    </div>
+                    <Table striped hover>
+                      <thead>
+                        <tr>
+                          <th>No</th>
+                          <th>Fullname</th>
+                          <th>Username</th>
+                          <th>Password</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {tutorList.map((item, key) => {
+                          return(
+                            <tr>
+                              <td className="id">{key + 1}</td>
+                              <td className="fullname">{(item.user !== null) ? item.user.fullname : ""}</td>
+                              <td className="username">{(item.user !== null) ? item.user.username : ""}</td>
+                              <td className="password">{(item.user !== null) ? item.user.password : ""}</td>
+                              <td className="password">{(item.user !== null) ? ((item.user.enabled == 1) ? "active" : "unactive") : ""}</td>
+                              <td>
+                                <span>
+                                  <a href={"/admin/edit-tutor?id=" + item.id}>
+                                    <i className="fa fa-edit" />
+                                  </a>
+                                </span>
+                                <span>
+                                  <Button onClick={() => this.fnDeleteTutor(item.id)}>
+                                    <i className="fa fa-trash" />
+                                  </Button>
+                                </span>
+                              </td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    </Table>
+                  </>
                 }
               />
             </Col>
@@ -100,4 +116,4 @@ class UserRole extends Component {
   }
 }
 
-export default UserRole;
+export default Tutors;
