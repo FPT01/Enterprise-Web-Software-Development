@@ -47,7 +47,7 @@ public class StudentController implements BaseController<StudentDTO, Long> {
     public ResponseEntity<?> createOrUpdate(@RequestBody StudentDTO json) {
         try {
             Student from = ResponseDTO.accepted().getObject(json, Student.class);
-            if (json.getId() == null) {
+            if (json.getUser() != null) {
                 User newUser = ResponseDTO.accepted().getObject(json.getUser(), User.class);
                 User user = userService.createOrUpdate(newUser);
                 from.setUser(user);

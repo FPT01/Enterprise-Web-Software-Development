@@ -38,5 +38,9 @@ public class User implements Serializable {
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 
-
+//    @OneToMany(mappedBy = "user")
+//    private Set<BlogComment> blogComments = new HashSet<>(0);
+//
+//    @OneToMany(mappedBy = "user")
+//    private Set<BlogPost> blogPosts = new HashSet<>(0);
 }
