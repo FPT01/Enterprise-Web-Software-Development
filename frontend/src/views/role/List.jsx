@@ -64,7 +64,7 @@ class UserRole extends Component {
                 content={
                   <>
                     <div>
-                      <a href="/admin/addnewrole">
+                      <a href="/admin/add-new-role">
                         <i className="fa fa-plus" /> Add new Role
                       </a>
                     </div>
@@ -86,7 +86,7 @@ class UserRole extends Component {
                               <td className="role-desc">{item.roleDescription}</td>
                               <td>
                                 <span>
-                                  <a href={"/admin/editrole?id=" + item.id}>
+                                  <a href={"/admin/edit-role?id=" + item.id}>
                                     <i className="fa fa-edit" />
                                   </a>
                                 </span>

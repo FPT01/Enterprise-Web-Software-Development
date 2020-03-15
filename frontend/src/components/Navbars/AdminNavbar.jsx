@@ -40,13 +40,9 @@ class Header extends Component {
   render() {
     return (
       <Navbar fluid>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <a href="#pablo">{this.props.brandText}</a>
-          </Navbar.Brand>
-          <Navbar.Toggle onClick={this.mobileSidebarToggle} />
-        </Navbar.Header>
-        <Navbar.Collapse>
+      <Navbar.Brand href="/">{this.props.brandText}</Navbar.Brand>
+        <Navbar.Toggle onClick={this.mobileSidebarToggle} aria-controls="basic-navbar-nav" className="navbar-toggler" />
+        <Navbar.Collapse id="basic-navbar-nav">
           <AdminNavbarLinks />
         </Navbar.Collapse>
       </Navbar>

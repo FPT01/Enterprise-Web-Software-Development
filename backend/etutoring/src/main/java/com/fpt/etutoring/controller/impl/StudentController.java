@@ -2,6 +2,7 @@ package com.fpt.etutoring.controller.impl;
 
 import com.fpt.etutoring.controller.BaseController;
 import com.fpt.etutoring.dto.ResponseDTO;
+import com.fpt.etutoring.dto.impl.RoleDTO;
 import com.fpt.etutoring.dto.impl.StudentDTO;
 import com.fpt.etutoring.entity.impl.Student;
 import com.fpt.etutoring.entity.impl.User;
@@ -36,6 +37,12 @@ public class StudentController implements BaseController<StudentDTO, Long> {
         if (!CollectionUtils.isEmpty(students)) {
             students.forEach(s -> {
                 StudentDTO studentDTO = ResponseDTO.accepted().getObject(s, StudentDTO.class);
+                if (studentDTO.getUser().getRole() != null) {
+                    RoleDTO roleDTO = ResponseDTO.accepted().getObject(studentDTO.getUser().getRole(), RoleDTO.class);
+                    roleDTO.setUsers(null);
+                    studentDTO.getUser().setRoleDTO(roleDTO);
+                    studentDTO.getUser().setRole(null);
+                }
                 studentDTOS.add(studentDTO);
             });
         }
@@ -47,7 +54,7 @@ public class StudentController implements BaseController<StudentDTO, Long> {
     public ResponseEntity<?> createOrUpdate(@RequestBody StudentDTO json) {
         try {
             Student from = ResponseDTO.accepted().getObject(json, Student.class);
-            if (json.getId() == null) {
+            if (json.getUser() != null) {
                 User newUser = ResponseDTO.accepted().getObject(json.getUser(), User.class);
                 User user = userService.createOrUpdate(newUser);
                 from.setUser(user);
