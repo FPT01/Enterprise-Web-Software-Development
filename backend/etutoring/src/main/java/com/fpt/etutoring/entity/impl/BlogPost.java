@@ -1,11 +1,20 @@
 package com.fpt.etutoring.entity.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
+@Table(name = "blog_post")
+@Getter
+@Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class BlogPost implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
