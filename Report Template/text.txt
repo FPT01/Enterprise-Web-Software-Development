@@ -1,0 +1,23 @@
+Scrum offers a structure for the efficient production of diverse goods. ' It should be noted that this is a general structure for the management of complex goods, mainly applications. Nevertheless, Scrum may be viewed as a forum for coordinating activities ranging from agile project management in general, product creation, publicity strategy, teaching and growth.Modular vehicles or other specific work.
+The Scrum description is actually published in the Scrum Guide manual and revised periodically by the developers of ScrumGuides.
+
+It should be remembered that Scrum is a system and not a particular process. As implemented, Scrum offers the fundamental framework, paired with certain approaches or techniques to maximize the result.
+
+Three Roles
+Throughout Scrum, the product engineering team is split into three positions with distinct duties to insure that different projects are streamlined. These three positions are: Brand Manager (Company Seller), Scrum Master and Design Group (Production Group or Project Team).
+Product Owner: The person responsible for the success of a project, who defines the requirements and ultimately evaluates the output of software developers.
+Scrum Master: A person who has a clear knowledge of Scrum and guarantees that the team can function successfully with Scrum.
+Development Team:A cross-functional self-managed team that handles the program configuration specifications grouped in the Software Backlog.
+
+The Core Values of the Scrum.
+Scrum is an agile approach that implements the ideals of the Manifesto for the Creation of Agile Applications Manifesto. In fact, Scrum works on the basis of three fundamental principles, commonly known as Scrum's Three Legs, namely integrity, examination and adaptation.
+Transparency: In Scrum, openness is advertised as the most important core principle. For order to work in Scrum, details relating to the production phase will be clear and open. These details can include: marketing vision, consumer needs, job schedule, challenges and obstacles, etc. Through which all have the required knowledge in every position.Make strategic choices to boost job performance. Scrum resources and workshops insure the communication is available to the stakeholders.
+Inspection: The continuous review of events in Scrum guarantees the identification of issues as well as approaches so that relevant and valuable knowledge can be rendered accessible to the project participants. A detailed and ongoing analysis is the initiating point for integration and continual development of Scrum.
+Adaptation: Scrum is as robust as any other agile product development system. Thanks to this, it gives really strong adaptability. Across the basis of consistent knowledge from review and job processes, Scrum is able to adapt to improvements in a constructive way, adding progress to the project.
+
+
+
+burndown chart
+The Sprint Burndown map displays revised regular averages of the volume of research that needs to be done. The Sprint Burndown map summarizes the approximate details from the Sprint Backlog.
+The Sprint Burndown model allows the manager to realize the actual task situation. When the process moves more gradually than anticipated, it is projected that this Sprint will not be able to finish the task, and the team will concentrate on delivering the most critical content to accomplish the target. Sprint and work for the POs.Especially in this sluggish scenario, the squad finds that they encounter certain challenges in order to meet the target of the Sprint. From this stage, the team can come together to examine the cause of the impediments and the necessary adaptation steps.
+However, this map is just an approximation, and the team does not depend too heavily on the map, but can continue to check and adjust on the basis of other realistic research.

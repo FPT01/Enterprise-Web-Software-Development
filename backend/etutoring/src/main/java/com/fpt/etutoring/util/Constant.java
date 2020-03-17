@@ -25,4 +25,6 @@ public class Constant {
     public static final String MSG_SUCCESS = "Success";
     public static final String ERROR_LOGIN = "Username or password is invalid";
     public static final String ERROR_DELETE = "Delete Error";
+    public static final String PATH_BLOG_POST = "/blogpost";
+    public static final String PATH_BLOG_COMMENT = "/blogcomment";
 }

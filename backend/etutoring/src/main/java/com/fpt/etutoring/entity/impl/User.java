@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -38,9 +40,9 @@ public class User implements Serializable {
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 
-//    @OneToMany(mappedBy = "user")
-//    private Set<BlogComment> blogComments = new HashSet<>(0);
-//
-//    @OneToMany(mappedBy = "user")
-//    private Set<BlogPost> blogPosts = new HashSet<>(0);
+    @OneToMany(mappedBy = "user")
+    private Set<BlogComment> blogComments = new HashSet<>(0);
+
+    @OneToMany(mappedBy = "user")
+    private Set<BlogPost> blogPosts = new HashSet<>(0);
 }
