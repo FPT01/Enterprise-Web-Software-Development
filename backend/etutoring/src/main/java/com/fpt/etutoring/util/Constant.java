@@ -1,6 +1,13 @@
 package com.fpt.etutoring.util;
 
 public class Constant {
+    // Export
+    public static final String SHEETNAME = "Report";
+    public static final String SUFFIX_XLSX = ".xlsx";
+    public static final String EXPORT_2007 = "export2007_"
+            + System.currentTimeMillis() + SUFFIX_XLSX;
+
+    // URL
     public static final String PATH_VARIABLE_ID =  "{id}";
     public static final String PATH_LOGIN =  "/login";
     public static final String PATH_USER =  "/user";
