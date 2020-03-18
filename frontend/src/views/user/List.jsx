@@ -74,6 +74,7 @@ class Users extends Component {
                         <th>No</th>
                         <th>Fullname</th>
                         <th>Username</th>
+                        <th>Password</th>
                         <th>Role</th>
                         <th>Status</th>
                         <th>Actions</th>
@@ -87,6 +88,7 @@ class Users extends Component {
                               <td className="fullname">{(item.fullname !== null) ? item.fullname : ""}</td>
                               <td className="username">{(item.username !== null) ? item.username : ""}</td>
                               <td className="password">{(item.password !== null) ? item.password : ""}</td>
+                              <td className="password">{(item.roleDTO !== null) ? item.roleDTO.roleName : ""}</td>
                               <td className="password">{(item.enabled !== null) ? ((item.enabled == 1) ? "active" : "unactive") : ""}</td>
                             <td>
                               <span>
