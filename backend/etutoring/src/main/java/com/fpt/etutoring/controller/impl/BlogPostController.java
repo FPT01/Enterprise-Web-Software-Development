@@ -34,8 +34,8 @@ public class BlogPostController implements BaseController<BlogPostDTO, Long> {
         if(!CollectionUtils.isEmpty(blogPosts)) {
             blogPosts.forEach(b -> {
                 BlogPostDTO blogPostDTO = ResponseDTO.accepted().getObject(b, BlogPostDTO.class);
-                User u = b.getUser();
                 if (b.getUser() != null) {
+                    User u = b.getUser();
                     Role role = b.getUser().getRole();
                     role.setUsers(null);
                     u.setRole(role);
