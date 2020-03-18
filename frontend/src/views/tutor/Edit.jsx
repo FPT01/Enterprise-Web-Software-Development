@@ -91,7 +91,7 @@ class EditTutor extends React.Component {
                   <form onSubmit={this.submitEditForm(this.state.fullname, this.state.username, this.state.password, this.state.status)}>
                     <fieldset>
                       <fieldset className="form-group">
-                        <label>Role Name<span>*</span></label>
+                        <label>Fullname<span>*</span></label>
                         <input
                           className="form-control form-control-lg"
                           type="text"

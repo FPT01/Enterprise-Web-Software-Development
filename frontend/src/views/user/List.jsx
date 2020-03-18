@@ -64,7 +64,7 @@ class Users extends Component {
                 content={
                   <>
                   <div>
-                    <a href="/tutor/add-new-user">
+                    <a href="/admin/add-new-user">
                       <i className="fa fa-plus" /> Add new User
                     </a>
                   </div>
@@ -83,7 +83,7 @@ class Users extends Component {
                     <tbody>
                       {userList.map((item, key) => {
                         return(
-                          <tr>
+                          <tr key={key}>
                             <td className="id">{key + 1}</td>
                               <td className="fullname">{(item.fullname !== null) ? item.fullname : ""}</td>
                               <td className="username">{(item.username !== null) ? item.username : ""}</td>
