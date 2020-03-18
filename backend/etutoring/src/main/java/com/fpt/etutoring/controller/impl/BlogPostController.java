@@ -3,7 +3,10 @@ package com.fpt.etutoring.controller.impl;
 import com.fpt.etutoring.controller.BaseController;
 import com.fpt.etutoring.dto.ResponseDTO;
 import com.fpt.etutoring.dto.impl.BlogPostDTO;
+import com.fpt.etutoring.dto.impl.UserDTO;
 import com.fpt.etutoring.entity.impl.BlogPost;
+import com.fpt.etutoring.entity.impl.Role;
+import com.fpt.etutoring.entity.impl.User;
 import com.fpt.etutoring.error.ApiMessage;
 import com.fpt.etutoring.service.BlogPostService;
 import com.fpt.etutoring.util.Constant;
@@ -31,6 +34,15 @@ public class BlogPostController implements BaseController<BlogPostDTO, Long> {
         if(!CollectionUtils.isEmpty(blogPosts)) {
             blogPosts.forEach(b -> {
                 BlogPostDTO blogPostDTO = ResponseDTO.accepted().getObject(b, BlogPostDTO.class);
+                if (b.getUser() != null) {
+                    User u = b.getUser();
+                    Role role = b.getUser().getRole();
+                    role.setUsers(null);
+                    u.setRole(role);
+                    UserDTO userDTO = ResponseDTO.accepted().getObject(u, UserDTO.class);
+                    blogPostDTO.setUser(userDTO);
+                }
+
                 blogPostDTOS.add(blogPostDTO);
             });
         }

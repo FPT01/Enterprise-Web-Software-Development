@@ -3,7 +3,10 @@ package com.fpt.etutoring.controller.impl;
 import com.fpt.etutoring.controller.BaseController;
 import com.fpt.etutoring.dto.ResponseDTO;
 import com.fpt.etutoring.dto.impl.BlogCommentDTO;
+import com.fpt.etutoring.dto.impl.UserDTO;
 import com.fpt.etutoring.entity.impl.BlogComment;
+import com.fpt.etutoring.entity.impl.Role;
+import com.fpt.etutoring.entity.impl.User;
 import com.fpt.etutoring.error.ApiMessage;
 import com.fpt.etutoring.service.BlogCommentService;
 import com.fpt.etutoring.util.Constant;
@@ -31,6 +34,14 @@ public class BlogCommentController implements BaseController<BlogCommentDTO, Lon
         if (!CollectionUtils.isEmpty(blogComments)) {
             blogComments.forEach(b -> {
                 BlogCommentDTO blogCommentDTO = ResponseDTO.accepted().getObject(b, BlogCommentDTO.class);
+                if (b.getUser() != null) {
+                    User u = b.getUser();
+                    Role role = b.getUser().getRole();
+                    role.setUsers(null);
+                    u.setRole(role);
+                    UserDTO userDTO = ResponseDTO.accepted().getObject(u, UserDTO.class);
+                    blogCommentDTO.setUser(userDTO);
+                }
                 blogCommentDTOS.add(blogCommentDTO);
             });
         }

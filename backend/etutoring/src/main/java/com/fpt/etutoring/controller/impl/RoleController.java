@@ -31,6 +31,7 @@ public class RoleController implements BaseController<RoleDTO, Long> {
         List<RoleDTO> roleDTOS = new ArrayList<>();
         if(!CollectionUtils.isEmpty(roles)) {
             roles.forEach(r -> {
+                r.setUsers(null);
                 RoleDTO roleDTO = ResponseDTO.accepted().getObject(r, RoleDTO.class);
                 roleDTOS.add(roleDTO);
             });
