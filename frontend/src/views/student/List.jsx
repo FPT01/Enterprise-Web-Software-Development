@@ -64,7 +64,7 @@ class Students extends Component {
                 content={
                   <>
                     <div>
-                      <a href="/admin/add-new-tutor">
+                      <a href="/admin/add-new-student">
                         <i className="fa fa-plus" /> Add new Tutor
                       </a>
                     </div>
