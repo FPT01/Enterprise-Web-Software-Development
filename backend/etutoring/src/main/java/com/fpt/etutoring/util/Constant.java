@@ -34,4 +34,5 @@ public class Constant {
     public static final String ERROR_DELETE = "Delete Error";
     public static final String PATH_BLOG_POST = "/blogpost";
     public static final String PATH_BLOG_COMMENT = "/blogcomment";
+    public static final String PATH_FILE_SERVER ="/fileserver";
 }
