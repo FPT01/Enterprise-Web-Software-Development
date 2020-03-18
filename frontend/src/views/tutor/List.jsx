@@ -12,6 +12,7 @@ import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
+import { Link } from 'react-router-dom';
 
 class Tutors extends Component {
   constructor(props) {
@@ -39,6 +40,18 @@ class Tutors extends Component {
     })
   }
 
+  insertParams = (url, params) => { // url is string, params is object
+    let paramUrl = url;
+    const copyParams = Object.assign({}, params);
+
+    Object.keys(copyParams).forEach(key => {
+      const currentParam = copyParams[key];
+      if (paramUrl.includes(key)) delete copyParams[key];
+      paramUrl = paramUrl.replace(`:${key}`, currentParam);
+    });
+    return paramUrl;
+  };
+
   componentDidMount(){    
     fetch(`http://localhost:8080/api/tutor/`, {
       method: "GET",
@@ -51,8 +64,6 @@ class Tutors extends Component {
 
   render() {
     const tutorList = this.state.tutorList;
-    const roleList = this.state.roleList;
-    console.log(roleList);
     return (
       <div className="content">
         <Grid fluid>
@@ -92,7 +103,7 @@ class Tutors extends Component {
                               <td className="password">{(item.user !== null) ? ((item.user.enabled == 1) ? "active" : "unactive") : ""}</td>
                               <td>
                                 <span>
-                                  <a href={"/admin/edit-tutor?id=" + item.user.id}>
+                                  <a href={`/admin/edit-tutor/?id=${item.id}&userId=${item.user.id}&roleId=${item.user.roleDTO.id}`}>
                                     <i className="fa fa-edit" />
                                   </a>
                                 </span>

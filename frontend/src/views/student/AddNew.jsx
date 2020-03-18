@@ -49,12 +49,18 @@ class AddNewStudent extends React.Component {
   }
 
   onSubmit = (fullname, username, password, status) => {
+    var roleId = null;
+    this.state.roleList.map(itm => {
+      if(itm.roleName === "Student"){
+        roleId = itm.id
+      }
+    });
     return fetch(`http://localhost:8080/api/student/save`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({user: {fullname: fullname, username: username, password: password, enabled: status }})
+      body: JSON.stringify({user: {fullname: fullname, username: username, password: password, enabled: status, roleDTO:{id: roleId}}})
     })
     .then((response) => response.json())
     .then((data) => {
@@ -86,7 +92,7 @@ class AddNewStudent extends React.Component {
                 title="Add New Role"
                 className="change-password"
                 content={
-                  <form onSubmit={this.submitForm(this.state.fullname, this.state.username, this.state.password, this.state.Status)}>
+                  <form onSubmit={this.submitForm(this.state.fullname, this.state.username, this.state.password, this.state.status)}>
                     <fieldset>
                       <fieldset className="form-group">
                         <label>Role Name<span>*</span></label>

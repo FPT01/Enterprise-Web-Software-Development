@@ -49,14 +49,13 @@ class AddNewTutor extends React.Component {
   }
 
   onSubmit = (fullname, username, password, status) => {
-    var stutorRoles = this.state.roleList;
     var roleId = null;
     this.state.roleList.map(itm => {
       if(itm.roleName === "Tutor"){
         roleId = itm.id
       }
     });
-    console.log("roleId", roleId);
+    console.log("status", status);
     return fetch(`http://localhost:8080/api/tutor/save`, {
       method: "POST",
       headers: {
@@ -68,7 +67,7 @@ class AddNewTutor extends React.Component {
     .then((data) => {
       console.log('Success:', data);
       if(data.status === "OK"){
-        // window.location.href = "/admin/tutor/";
+        window.location.href = "/admin/tutor/";
       }else {
         console.log("error"); 
       }
@@ -94,7 +93,7 @@ class AddNewTutor extends React.Component {
                 title="Add New Role"
                 className="change-password"
                 content={
-                  <form onSubmit={this.submitForm(this.state.fullname, this.state.username, this.state.password, this.state.Status)}>
+                  <form onSubmit={this.submitForm(this.state.fullname, this.state.username, this.state.password, this.state.tatus)}>
                     <fieldset>
                       <fieldset className="form-group">
                         <label>Role Name<span>*</span></label>
