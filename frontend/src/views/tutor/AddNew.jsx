@@ -93,7 +93,7 @@ class AddNewTutor extends React.Component {
                 title="Add New Role"
                 className="change-password"
                 content={
-                  <form onSubmit={this.submitForm(this.state.fullname, this.state.username, this.state.password, this.state.tatus)}>
+                  <form onSubmit={this.submitForm(this.state.fullname, this.state.username, this.state.password, this.state.status)}>
                     <fieldset>
                       <fieldset className="form-group">
                         <label>Role Name<span>*</span></label>

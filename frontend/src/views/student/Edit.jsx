@@ -67,7 +67,7 @@ class EditStudent extends React.Component {
     .then((data) => {
       console.log('Success:', data);
       if(data.status === "OK"){
-        // window.location.href = "/admin/student";
+        window.location.href = "/admin/student";
       }else {
         console.log("error"); 
       }
