@@ -17,7 +17,7 @@ class Tutors extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      tutorList: []
+      tutorList: [],
     }
   }
 
@@ -39,7 +39,7 @@ class Tutors extends Component {
     })
   }
 
-  componentDidMount(){
+  componentDidMount(){    
     fetch(`http://localhost:8080/api/tutor/`, {
       method: "GET",
     })
@@ -51,6 +51,8 @@ class Tutors extends Component {
 
   render() {
     const tutorList = this.state.tutorList;
+    const roleList = this.state.roleList;
+    console.log(roleList);
     return (
       <div className="content">
         <Grid fluid>

@@ -25,6 +25,7 @@ class AddNewTutor extends React.Component {
       roleId: '',
       status: 1,
       isSuccessful: false,
+      roleList: [],
     };
 
     this.updateState = field => ev => {
@@ -48,22 +49,40 @@ class AddNewTutor extends React.Component {
   }
 
   onSubmit = (fullname, username, password, status) => {
+    var stutorRoles = this.state.roleList;
+    var roleId = null;
+    this.state.roleList.map(itm => {
+      if(itm.roleName === "Tutor"){
+        roleId = itm.id
+      }
+    });
+    console.log("roleId", roleId);
     return fetch(`http://localhost:8080/api/tutor/save`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({user: {fullname: fullname, username: username, password: password, enabled: status }})
+      body: JSON.stringify({user: {fullname: fullname, username: username, password: password, enabled: status, roleDTO:{id: roleId}}})
     })
     .then((response) => response.json())
     .then((data) => {
       console.log('Success:', data);
       if(data.status === "OK"){
-        window.location.href = "/admin/tutor/";
+        // window.location.href = "/admin/tutor/";
       }else {
         console.log("error"); 
       }
     })
+  }
+
+  componentDidMount(){    
+    fetch(`http://localhost:8080/api/role/`, {
+      method: "GET",
+    })
+    .then(response =>  response.json() )
+    .then(data => {
+      this.setState({ roleList: data });
+    });
   }
 
   render() {

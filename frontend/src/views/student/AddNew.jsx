@@ -25,6 +25,7 @@ class AddNewStudent extends React.Component {
       roleId: '',
       status: 1,
       isSuccessful: false,
+      roleList: []
     };
 
     this.updateState = field => ev => {
@@ -64,6 +65,16 @@ class AddNewStudent extends React.Component {
         console.log("error"); 
       }
     })
+  }
+
+  componentDidMount(){    
+    fetch(`http://localhost:8080/api/role/`, {
+      method: "GET",
+    })
+    .then(response =>  response.json() )
+    .then(data => {
+      this.setState({ roleList: data });
+    });
   }
 
   render() {
