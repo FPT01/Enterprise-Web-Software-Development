@@ -13,16 +13,26 @@ import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 
-class Students extends Component {
+class Rooms extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      studentList: []
+      listRoom: []
     }
   }
 
-  fnDeleteStudent = (key) => {
-    fetch(`http://localhost:8080/api/student/delete/${key}`, {
+  componentDidMount(){
+    fetch(`http://localhost:8080/api/room/`, {
+      method: "GET",
+    })
+    .then(response =>  response.json() )
+    .then(data => {
+      this.setState({ listRoom: data });
+    });
+  }
+
+  fnDeleteRoom = (key) => {
+    fetch(`http://localhost:8080/api/room/delete/${key}`, {
       method: "DELETE",
       headers: {
         'Content-Type': 'application/json'
@@ -39,63 +49,47 @@ class Students extends Component {
     })
   }
 
-  componentDidMount(){
-    fetch(`http://localhost:8080/api/student/`, {
-      method: "GET",
-    })
-    .then(response =>  response.json() )
-    .then(data => {
-      this.setState({ studentList: data });
-    });
-  }
-
   render() {
-    const studentList = this.state.studentList;
+    const listRoom = this.state.listRoom;
     return (
       <div className="content">
         <Grid fluid>
           <Row>
             <Col md={12}>
               <Card
-                title="Student List"
-                category="Here is a list of student"
+                title="Room List"
+                category="Here is a list of Room"
                 ctTableFullWidth
                 ctTableResponsive
                 content={
                   <>
                     <div>
-                      <a href="/admin/add-new-student">
-                        <i className="fa fa-plus" /> Add new Student
+                      <a href="/admin/add-new-room">
+                        <i className="fa fa-plus" /> Add new Room
                       </a>
                     </div>
                     <Table striped hover>
                       <thead>
                         <tr>
-                          <th>No</th>
-                          <th>Fullname</th>
-                          <th>Username</th>
-                          <th>Password</th>
-                          <th>Status</th>
+                          <th>ID</th>
+                          <th>Room's Name</th>
                           <th>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {studentList.map((item, key) => {
+                        {listRoom.map((item, key) => {
                           return(
-                            <tr>
-                              <td className="id">{key + 1}</td>
-                              <td className="fullname">{(item.user !== null) ? item.user.fullname : ""}</td>
-                              <td className="username">{(item.user !== null) ? item.user.username : ""}</td>
-                              <td className="password">{(item.user !== null) ? item.user.password : ""}</td>
-                              <td className="password">{(item.user !== null) ? ((item.user.enabled == 1) ? "active" : "unactive") : ""}</td>
+                            <tr key={key}>
+                              <td className="id">{item.id}</td>
+                              <td className="room-name">{item.name}</td>
                               <td>
                                 <span>
-                                  <a href={`/admin/edit-student/?id=${item.id}&userId=${item.user.id}&roleId=${item.user.roleDTO.id}`}>
+                                  <a href={"/admin/edit-room?id=" + item.id}>
                                     <i className="fa fa-edit" />
                                   </a>
                                 </span>
                                 <span>
-                                  <Button onClick={() => this.fnDeleteStudent(item.id)}>
+                                  <Button onClick={() => this.fnDeleteRoom(item.id)}>
                                     <i className="fa fa-trash" />
                                   </Button>
                                 </span>
@@ -116,4 +110,4 @@ class Students extends Component {
   }
 }
 
-export default Students;
+export default Rooms;

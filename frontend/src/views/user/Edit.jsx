@@ -91,7 +91,7 @@ class EditUser extends React.Component {
         <Grid fluid>
           <Row>
             <Card
-                title="Edit Role"
+                title="Edit User"
                 className="change-password"
                 content={
                   <form onSubmit={this.submitEditForm(this.state.selectValue, this.state.fullname, this.state.username, this.state.password, this.state.status)}>

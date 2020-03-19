@@ -32,6 +32,11 @@ import Students from "views/student/List.jsx";
 import AddNewStudent from "views/student/AddNew.jsx";
 import EditStudent from "views/student/Edit.jsx";
 
+import Rooms from "views/room/List.jsx";
+import AddNewRoom from "views/room/AddNew.jsx";
+import EditRoom from "views/room/Edit.jsx";
+
+
 const dashboardRoutes = [
   {
     path: "/dashboard",
@@ -142,6 +147,31 @@ const dashboardRoutes = [
     name: "Edit Student",
     icon: "pe-7s-note2",
     component: EditStudent,
+    layout: "/admin",
+    subNav: true,
+  },
+
+  {
+    path: "/room",
+    name: "Management Room",
+    icon: "pe-7s-note2",
+    component: Rooms,
+    layout: "/admin",
+    subNav: false,
+  },
+  {
+    path: "/add-new-room",
+    name: "Add New Room",
+    icon: "pe-7s-note2",
+    component: AddNewRoom,
+    layout: "/admin",
+    subNav: true,
+  },
+  {
+    path: "/edit-room",
+    name: "Edit Room",
+    icon: "pe-7s-note2",
+    component: EditRoom,
     layout: "/admin",
     subNav: true,
   }
