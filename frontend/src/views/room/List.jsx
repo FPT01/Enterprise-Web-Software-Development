@@ -12,18 +12,27 @@ import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
-import { Link } from 'react-router-dom';
 
-class Tutors extends Component {
+class Rooms extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      tutorList: [],
+      listRoom: []
     }
   }
 
-  fnDeleteTutor = (key) => {
-    fetch(`http://localhost:8080/api/tutor/delete/${key}`, {
+  componentDidMount(){
+    fetch(`http://localhost:8080/api/room/`, {
+      method: "GET",
+    })
+    .then(response =>  response.json() )
+    .then(data => {
+      this.setState({ listRoom: data });
+    });
+  }
+
+  fnDeleteRoom = (key) => {
+    fetch(`http://localhost:8080/api/room/delete/${key}`, {
       method: "DELETE",
       headers: {
         'Content-Type': 'application/json'
@@ -40,75 +49,47 @@ class Tutors extends Component {
     })
   }
 
-  insertParams = (url, params) => { // url is string, params is object
-    let paramUrl = url;
-    const copyParams = Object.assign({}, params);
-
-    Object.keys(copyParams).forEach(key => {
-      const currentParam = copyParams[key];
-      if (paramUrl.includes(key)) delete copyParams[key];
-      paramUrl = paramUrl.replace(`:${key}`, currentParam);
-    });
-    return paramUrl;
-  };
-
-  componentDidMount(){    
-    fetch(`http://localhost:8080/api/tutor/`, {
-      method: "GET",
-    })
-    .then(response =>  response.json() )
-    .then(data => {
-      this.setState({ tutorList: data });
-    });
-  }
-
   render() {
-    const tutorList = this.state.tutorList;
+    const listRoom = this.state.listRoom;
     return (
       <div className="content">
         <Grid fluid>
           <Row>
             <Col md={12}>
               <Card
-                title="Tutor List"
-                category="Here is a list of tutor"
+                title="Room List"
+                category="Here is a list of Room"
                 ctTableFullWidth
                 ctTableResponsive
                 content={
                   <>
                     <div>
-                      <a href="/admin/add-new-tutor">
-                        <i className="fa fa-plus" /> Add new Tutor
+                      <a href="/admin/add-new-room">
+                        <i className="fa fa-plus" /> Add new Room
                       </a>
                     </div>
                     <Table striped hover>
                       <thead>
                         <tr>
-                          <th>No</th>
-                          <th>Fullname</th>
-                          <th>Username</th>
-                          <th>Password</th>
-                          <th>Status</th>
+                          <th>ID</th>
+                          <th>Room's Name</th>
                           <th>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {tutorList.map((item, key) => {
+                        {listRoom.map((item, key) => {
                           return(
-                            <tr>
-                              <td className="id">{key + 1}</td>
-                              <td className="fullname">{(item.user !== null) ? item.user.fullname : ""}</td>
-                              <td className="username">{(item.user !== null) ? item.user.username : ""}</td>
-                              <td className="password">{(item.user !== null) ? item.user.password : ""}</td>
-                              <td className="password">{(item.user !== null) ? ((item.user.enabled == 1) ? "active" : "unactive") : ""}</td>
+                            <tr key={key}>
+                              <td className="id">{item.id}</td>
+                              <td className="room-name">{item.name}</td>
                               <td>
                                 <span>
-                                  <a href={`/admin/edit-tutor/?id=${item.id}&userId=${item.user.id}&roleId=${item.user.roleDTO.id}`}>
+                                  <a href={"/admin/edit-room?id=" + item.id}>
                                     <i className="fa fa-edit" />
                                   </a>
                                 </span>
                                 <span>
-                                  <Button onClick={() => this.fnDeleteTutor(item.id)}>
+                                  <Button onClick={() => this.fnDeleteRoom(item.id)}>
                                     <i className="fa fa-trash" />
                                   </Button>
                                 </span>
@@ -129,4 +110,4 @@ class Tutors extends Component {
   }
 }
 
-export default Tutors;
+export default Rooms;

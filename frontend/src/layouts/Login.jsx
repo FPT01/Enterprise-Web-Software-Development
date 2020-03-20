@@ -43,25 +43,27 @@ class Login extends React.Component {
   }
 
   onSubmit = (username, password) => {
-    return this.fetch(`http://localhost:8080/api/user/login`, {
+    return this.fetch(`http://localhost:8080/api/user/login/`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ username: username, password: password })
     })
-      .then((response) => response.json())
-      .then((data) => {
-        let account = {};
-        account.username = data.username;
-        account.role = data.roleDTO.roleName;
-        window.localStorage.setItem('account', JSON.stringify(account));
-
-        if( data.roleDTO.roleName == "admin")
-          window.location.href = "/admin";
+    .then((response) => response.json())
+    .then((data) => {
+      let account = {};
+      account.username = data.username;
+      account.role = data.roleDTO.roleName;
+      console.log(data);
+      window.localStorage.setItem('account', JSON.stringify(account));
+      if( data.roleDTO.roleName == "ADMIN"){
+        window.location.href = "/admin/dashboard";
+      }else {
+        window.location.href = "/student/dashboard";
+      }
       });
-
-  }
+    }
 
   fetch = (url, options) => {
     // performs api calls sending the required authentication headers

@@ -24,8 +24,9 @@ class EditTutor extends React.Component {
       username: '',
       password: '',
       roleId: '',
-      status: '',
+      status: 1,
       isSuccessful: false,
+      roleList: [],
     };
 
     this.updateState = field => ev => {
@@ -49,19 +50,13 @@ class EditTutor extends React.Component {
   }
 
   onSubmitEdit = (fullname, username, password, status) => {
-    const tutorId=queryString.parse(this.props.location.search);
-    var newStatus = null;
-    if(status == "active"){
-      newStatus = 1
-    }else {
-      newStatus = 0
-    }
+    const tutorObj=queryString.parse(this.props.location.search);
     return fetch(`http://localhost:8080/api/tutor/save`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({user: {id: tutorId.id, fullname: fullname, username: username, password: password, enabled: newStatus}})
+      body: JSON.stringify({id: tutorObj.id, user: {id: tutorObj.userId, fullname: fullname, username: username, password: password, enabled: status, roleDTO:{id: tutorObj.roleId}}})
     })
     .then((response) => response.json())
     .then((data) => {
@@ -72,6 +67,16 @@ class EditTutor extends React.Component {
         console.log("error"); 
       }
     })
+  }
+
+  componentDidMount(){    
+    fetch(`http://localhost:8080/api/role/`, {
+      method: "GET",
+    })
+    .then(response =>  response.json() )
+    .then(data => {
+      this.setState({ roleList: data });
+    });
   }
 
   render() {
@@ -86,7 +91,7 @@ class EditTutor extends React.Component {
                   <form onSubmit={this.submitEditForm(this.state.fullname, this.state.username, this.state.password, this.state.status)}>
                     <fieldset>
                       <fieldset className="form-group">
-                        <label>Role Name<span>*</span></label>
+                        <label>Fullname<span>*</span></label>
                         <input
                           className="form-control form-control-lg"
                           type="text"

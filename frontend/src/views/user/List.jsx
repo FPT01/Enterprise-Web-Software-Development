@@ -21,11 +21,20 @@ class Users extends Component {
     }
   }
 
-  fnDeleteTutor = (key) => {
+  fnDeleteUser = (key) => {
     fetch(`http://localhost:8080/api/user/delete/${key}`, {
       method: "DELETE",
       headers: {
         'Content-Type': 'application/json'
+      }
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Success:', data);
+      if(data.status === "OK"){
+        window.location.reload();
+      }else {
+        console.log("error");
       }
     })
   }
@@ -55,7 +64,7 @@ class Users extends Component {
                 content={
                   <>
                   <div>
-                    <a href="/tutor/add-new-user">
+                    <a href="/admin/add-new-user">
                       <i className="fa fa-plus" /> Add new User
                     </a>
                   </div>
@@ -65,6 +74,7 @@ class Users extends Component {
                         <th>No</th>
                         <th>Fullname</th>
                         <th>Username</th>
+                        <th>Password</th>
                         <th>Role</th>
                         <th>Status</th>
                         <th>Actions</th>
@@ -73,12 +83,13 @@ class Users extends Component {
                     <tbody>
                       {userList.map((item, key) => {
                         return(
-                          <tr>
+                          <tr key={key}>
                             <td className="id">{key + 1}</td>
-                            <td className="fullname">{item.fullname}</td>
-                            <td className="username">{item.username}</td>
-                            <td className="password">{item.roleDTO.roleName}</td>
-                            <td className="password">{(item.enabled == 1) ? "active" : "unactive"}</td>
+                              <td className="fullname">{(item.fullname !== null) ? item.fullname : ""}</td>
+                              <td className="username">{(item.username !== null) ? item.username : ""}</td>
+                              <td className="password">{(item.password !== null) ? item.password : ""}</td>
+                              <td className="password">{(item.roleDTO !== null) ? item.roleDTO.roleName : ""}</td>
+                              <td className="password">{(item.enabled !== null) ? ((item.enabled == 1) ? "active" : "unactive") : ""}</td>
                             <td>
                               <span>
                                   <a href={"/admin/edit-user?id=" + item.id}>
@@ -86,7 +97,7 @@ class Users extends Component {
                                   </a>
                                 </span>
                               <span>
-                                <Button onClick={() => this.fnDeleteTutor(item.id)}>
+                                <Button onClick={() => this.fnDeleteUser(item.id)}>
                                   <i className="fa fa-trash" />
                                 </Button>
                               </span>

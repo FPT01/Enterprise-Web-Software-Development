@@ -69,13 +69,40 @@ class Sidebar extends Component {
             {this.state.width <= 991 ? <AdminNavbarLinks /> : null}
             {this.props.routes.map((prop, key) => {
               if (!prop.redirect)
+                if(prop.subNav){
+                  return (
+                    <></>
+                  );
+                }else {
+                  return (
+                    <li
+                      className={
+                        prop.subNav
+                          ? ""
+                          : this.activeRoute(prop.layout + prop.path)
+                      }
+                      key={key}
+                    >
+                      <NavLink
+                        style={{"display": "flex"}}
+                        to={prop.layout + prop.path}
+                        className="nav-link"
+                        activeClassName="active"
+                      >
+                        <i className={prop.icon} />
+                        <p>{prop.name}</p>
+                      </NavLink>
+                    </li>
+                  );
+                }
                 return (
                   <li
                     className={
-                      prop.upgrade
-                        ? "active active-pro"
+                      prop.subNav
+                        ? "sub-nav"
                         : this.activeRoute(prop.layout + prop.path)
                     }
+                    style={(prop.subNav) ? {display: "none"} : {display: "block"} }
                     key={key}
                   >
                     <NavLink

@@ -49,7 +49,7 @@ class EditStudent extends React.Component {
   }
 
   onSubmitEdit = (fullname, username, password, status) => {
-    const studentId=queryString.parse(this.props.location.search);
+    const studentObj=queryString.parse(this.props.location.search);
     var newStatus = null;
     if(status == "active"){
       newStatus = 1
@@ -61,13 +61,13 @@ class EditStudent extends React.Component {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({user: {id: studentId.id, fullname: fullname, username: username, password: password, enabled: newStatus}})
+      body: JSON.stringify({id: studentObj.id, user: {id: studentObj.userId, fullname: fullname, username: username, password: password, enabled: status, roleDTO:{id: studentObj.roleId}}})
     })
     .then((response) => response.json())
     .then((data) => {
       console.log('Success:', data);
       if(data.status === "OK"){
-        // window.location.href = "/admin/student";
+        window.location.href = "/admin/student";
       }else {
         console.log("error"); 
       }
@@ -80,13 +80,13 @@ class EditStudent extends React.Component {
         <Grid fluid>
           <Row>
             <Card
-                title="Edit Tutor"
+                title="Edit Student"
                 className="change-password"
                 content={
                   <form onSubmit={this.submitEditForm(this.state.fullname, this.state.username, this.state.password, this.state.status)}>
                     <fieldset>
                       <fieldset className="form-group">
-                        <label>Role Name<span>*</span></label>
+                        <label>Fullname<span>*</span></label>
                         <input
                           className="form-control form-control-lg"
                           type="text"

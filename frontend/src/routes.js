@@ -12,7 +12,6 @@ import Dashboard from "views/Dashboard.jsx";
 import UserProfile from "views/UserProfile.jsx";
 import Maps from "views/Maps.jsx";
 import Notifications from "views/Notifications.jsx";
-import Upgrade from "views/Upgrade.jsx";
 import ChangePassword from "views/ChangePassword.jsx";
 import TutorList from "views/tutor/List.jsx";
 import StudentList from "views/student/List.jsx";
@@ -33,127 +32,149 @@ import Students from "views/student/List.jsx";
 import AddNewStudent from "views/student/AddNew.jsx";
 import EditStudent from "views/student/Edit.jsx";
 
+import Rooms from "views/room/List.jsx";
+import AddNewRoom from "views/room/AddNew.jsx";
+import EditRoom from "views/room/Edit.jsx";
+
+
 const dashboardRoutes = [
   {
     path: "/dashboard",
     name: "Dashboard",
     icon: "pe-7s-graph",
     component: Dashboard,
-    layout: "/admin"
+    layout: "/admin",
+    subNav: false,
   },
   {
     path: "/user-profile",
     name: "User Profile",
     icon: "pe-7s-user",
     component: UserProfile,
-    layout: "/admin"
-  },
-  {
-    path: "/user",
-    name: "User List",
-    icon: "pe-7s-user",
-    component: Users,
-    layout: "/admin"
-  },
-  {
-    path: "/add-new-user",
-    name: "Add New User",
-    icon: "pe-7s-user",
-    component: AddNewUser,
-    layout: "/admin"
-  },
-  {
-    path: "/edit-user",
-    name: "Edit User",
-    icon: "pe-7s-note2",
-    component: EditUser,
-    layout: "/admin"
+    layout: "/admin",
+    subNav: false,
   },
   {
     path: "/role",
-    name: "User Roles",
+    name: "Management Roles",
     icon: "pe-7s-note2",
     component: UserRole,
-    layout: "/admin"
+    layout: "/admin",
+    subNav: false,
   },
   {
     path: "/add-new-role",
     name: "Add New Role",
     icon: "pe-7s-note2",
     component: AddNewRole,
-    layout: "/admin"
+    layout: "/admin",
+    subNav: true,
   },
   {
     path: "/edit-role",
     name: "Edit Role",
     icon: "pe-7s-note2",
     component: EditRole,
-    layout: "/admin"
+    layout: "/admin",
+    subNav: true,
+  },
+  {
+    path: "/user",
+    name: "Management Users",
+    icon: "pe-7s-user",
+    component: Users,
+    layout: "/admin",
+    subNav: false,
+  },
+  {
+    path: "/add-new-user",
+    name: "Add New User",
+    icon: "pe-7s-user",
+    component: AddNewUser,
+    layout: "/admin",
+    subNav: true,
+  },
+  {
+    path: "/edit-user",
+    name: "Edit User",
+    icon: "pe-7s-note2",
+    component: EditUser,
+    layout: "/admin",
+    subNav: true,
   },
   {
     path: "/tutor",
-    name: "Tutor List",
+    name: "Management Tutor",
     icon: "pe-7s-note2",
     component: TutorList,
-    layout: "/admin"
+    layout: "/admin",
+    subNav: false,
   },
   {
     path: "/add-new-tutor",
     name: "Add New Tutor",
     icon: "pe-7s-note2",
     component: AddNewTutor,
-    layout: "/admin"
+    layout: "/admin",
+    subNav: true,
   },
   {
     path: "/edit-tutor",
     name: "Edit Tutor",
     icon: "pe-7s-note2",
     component: EditTutor,
-    layout: "/admin"
+    layout: "/admin",
+    subNav: true,
   },
   {
     path: "/student",
-    name: "Student List",
+    name: "Management Student",
     icon: "pe-7s-note2",
     component: StudentList,
-    layout: "/admin"
+    layout: "/admin",
+    subNav: false,
   },
   {
     path: "/add-new-student",
     name: "Add New Student",
     icon: "pe-7s-note2",
     component: AddNewStudent,
-    layout: "/admin"
+    layout: "/admin",
+    subNav: true,
   },
   {
     path: "/edit-student",
     name: "Edit Student",
     icon: "pe-7s-note2",
     component: EditStudent,
-    layout: "/admin"
+    layout: "/admin",
+    subNav: true,
+  },
+
+  {
+    path: "/room",
+    name: "Management Room",
+    icon: "pe-7s-note2",
+    component: Rooms,
+    layout: "/admin",
+    subNav: false,
   },
   {
-    path: "/maps",
-    name: "Maps",
-    icon: "pe-7s-map-marker",
-    component: Maps,
-    layout: "/admin"
+    path: "/add-new-room",
+    name: "Add New Room",
+    icon: "pe-7s-note2",
+    component: AddNewRoom,
+    layout: "/admin",
+    subNav: true,
   },
   {
-    path: "/notifications",
-    name: "Notifications",
-    icon: "pe-7s-bell",
-    component: Notifications,
-    layout: "/admin"
-  },
-  {
-    upgrade: true,
-    path: "/upgrade",
-    name: "Upgrade to PRO",
-    icon: "pe-7s-rocket",
-    component: Upgrade,
-    layout: "/admin"
-  },
+    path: "/edit-room",
+    name: "Edit Room",
+    icon: "pe-7s-note2",
+    component: EditRoom,
+    layout: "/admin",
+    subNav: true,
+  }
 ];
 
 export default dashboardRoutes;

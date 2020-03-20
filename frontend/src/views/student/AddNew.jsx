@@ -25,6 +25,7 @@ class AddNewStudent extends React.Component {
       roleId: '',
       status: 1,
       isSuccessful: false,
+      roleList: []
     };
 
     this.updateState = field => ev => {
@@ -48,12 +49,18 @@ class AddNewStudent extends React.Component {
   }
 
   onSubmit = (fullname, username, password, status) => {
+    var roleId = null;
+    this.state.roleList.map(itm => {
+      if(itm.roleName === "Student"){
+        roleId = itm.id
+      }
+    });
     return fetch(`http://localhost:8080/api/student/save`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({user: {fullname: fullname, username: username, password: password, enabled: status }})
+      body: JSON.stringify({user: {fullname: fullname, username: username, password: password, enabled: status, roleDTO:{id: roleId}}})
     })
     .then((response) => response.json())
     .then((data) => {
@@ -66,19 +73,29 @@ class AddNewStudent extends React.Component {
     })
   }
 
+  componentDidMount(){    
+    fetch(`http://localhost:8080/api/role/`, {
+      method: "GET",
+    })
+    .then(response =>  response.json() )
+    .then(data => {
+      this.setState({ roleList: data });
+    });
+  }
+
   render() {
     return (
       <div className="content">
         <Grid fluid>
           <Row>
             <Card
-                title="Add New Role"
+                title="Add New Student"
                 className="change-password"
                 content={
-                  <form onSubmit={this.submitForm(this.state.fullname, this.state.username, this.state.password, this.state.Status)}>
+                  <form onSubmit={this.submitForm(this.state.fullname, this.state.username, this.state.password, this.state.status)}>
                     <fieldset>
                       <fieldset className="form-group">
-                        <label>Role Name<span>*</span></label>
+                        <label>Fullname<span>*</span></label>
                         <input
                           className="form-control form-control-lg"
                           type="text"
