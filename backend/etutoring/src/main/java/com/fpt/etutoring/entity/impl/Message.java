@@ -38,4 +38,9 @@ public class Message implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @PrePersist
+    private void prePersist() {
+        time = new Date();
+    }
+
 }
