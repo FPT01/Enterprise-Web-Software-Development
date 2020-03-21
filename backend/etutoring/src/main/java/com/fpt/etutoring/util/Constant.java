@@ -45,4 +45,9 @@ public class Constant {
     public static final String PATH_REPLY = "/reply";
     public static final String PATH_ADD_PRIVATE_USER = "/addPrivateUser";
     public static final String PATH_QUEUE_REPLY = "/queue" + PATH_REPLY;
+    public static final String PATH_EXPORT = "/export";
+    public static final String PATH_STUDENT_WITHOUT_TUTOR = PATH_EXPORT + "/studentwithouttutor";
+    public static final String PATH_STUDENT_WITH_NO_INTERACTION = PATH_EXPORT + "/studentwithnointeraction";
+    public static final String EXCEL_STUDENT_WITHOUT_TUTOR = "StudentWithoutTutor.xlsx";
+    public static final String EXCEL_STUDENT_WITH_NO_INTERACTION = "StudentWithNoInteraction.xlsx";
 }
