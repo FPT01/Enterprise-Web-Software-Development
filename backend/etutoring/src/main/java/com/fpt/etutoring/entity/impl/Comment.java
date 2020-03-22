@@ -22,6 +22,7 @@ public class Comment implements Serializable {
     private long id;
 
     @Column(name = "content")
+    @Lob
     private String content;
 
     @ManyToOne

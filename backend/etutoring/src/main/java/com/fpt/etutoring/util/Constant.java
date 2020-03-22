@@ -41,10 +41,6 @@ public class Constant {
     public static final String PATH_SEND_MSG = "/sendMessage";
     public static final String PATH_TOPIC_PUBLIC = "/topic/pubic";
     public static final String PATH_ADD_USER = "/addUser";
-    public static final String PATH_SEND_PRIVATE_MSG = "/sendPrivateMessage";
-    public static final String PATH_REPLY = "/reply";
-    public static final String PATH_ADD_PRIVATE_USER = "/addPrivateUser";
-    public static final String PATH_QUEUE_REPLY = "/queue" + PATH_REPLY;
     public static final String PATH_EXPORT = "/export";
     public static final String PATH_STUDENT_WITHOUT_TUTOR = PATH_EXPORT + "/studentwithouttutor";
     public static final String PATH_STUDENT_WITH_NO_INTERACTION = PATH_EXPORT + "/studentwithnointeraction";
