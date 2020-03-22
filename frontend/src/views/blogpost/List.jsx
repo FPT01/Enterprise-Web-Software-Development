@@ -9,9 +9,10 @@
 */
 
 import React, { Component } from "react";
-import { Grid, Row, Col, Table} from "react-bootstrap";
+import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
+import Moment from 'react-moment';
 
 class BlogPosts extends Component {
   constructor(props) {
@@ -19,24 +20,6 @@ class BlogPosts extends Component {
     this.state = {
       blogPostList: []
     }
-  }
-
-  fnDeleteTutor = (key) => {
-    fetch(`http://localhost:8080/api/tutor/delete/${key}`, {
-      method: "DELETE",
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Success:', data);
-        if (data.status === "OK") {
-          window.location.reload();
-        } else {
-          console.log("error");
-        }
-      })
   }
 
   componentDidMount() {
@@ -49,35 +32,43 @@ class BlogPosts extends Component {
       });
   }
 
+  cutContentText(str) {
+    return str.replace(/^(.{400}[^\s]*).*/, "$1");
+  }
+
   render() {
     const blogPostList = this.state.blogPostList;
     return (
       <div className="content">
-      
-      {blogPostList.map((item, key) => {
-        return (
-          <Grid fluid>
-        <Row>
-          <Col md={12}>
-            <Card
-              title={item.title}
-              category=""
-              ctTableFullWidth
-              ctTableResponsive
-              content={
-                <>
-                  <div>{item.content}</div>
-                  
-                  
-                </>
-              }
-            />
-          </Col>
-        </Row>
-        </Grid>
-        )})}
-      
-    </div>
+
+        {blogPostList.map((item, key) => {
+          return (
+            <Grid fluid>
+              <Row>
+                <Col md={12} className="padding-bot">
+                  <Card
+                    title={item.title}
+                    category=""
+                    ctTableFullWidth
+                    ctTableResponsive
+                    content={
+                      <>
+                        <i><div className="blog-creator">Written By: {item.user.fullname} - At <Moment format="YYYY/MM/DD">
+                          {item.creationTime}
+                        </Moment></div>
+                        </i>
+                        <div className="blog-content">{this.cutContentText(item.content)}...<a href="">view more</a></div>
+                        
+                      </>
+                    }
+                  />
+                </Col>
+              </Row>
+            </Grid>
+          )
+        })}
+
+      </div>
 
     );
   }

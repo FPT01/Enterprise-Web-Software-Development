@@ -169,20 +169,13 @@ const dashboardRoutes = [
     subNav: true,
   },
   {
-    upgrade: true,
-    path: "/upgrade",
-    name: "Upgrade to PRO",
-    icon: "pe-7s-rocket",
-    component: Upgrade,
-    layout: "/admin"
-  },
-  {
     path: "/blogposts",
     name: "Blog post",
     icon: "pe-7s-rocket",
     component: BlogPosts,
     layout: "/admin"
   },
+  {
     path: "/edit-room",
     name: "Edit Room",
     icon: "pe-7s-note2",
