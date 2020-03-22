@@ -36,6 +36,8 @@ import Rooms from "views/room/List.jsx";
 import AddNewRoom from "views/room/AddNew.jsx";
 import EditRoom from "views/room/Edit.jsx";
 
+import ChatMessageBox from "views/chatRoom/ChatMessageBox.jsx";
+
 
 const dashboardRoutes = [
   {
@@ -149,6 +151,15 @@ const dashboardRoutes = [
     component: EditStudent,
     layout: "/admin",
     subNav: true,
+  },
+
+  {
+    path: "/chat-message-box",
+    name: "Chat Box",
+    icon: "pe-7s-note2",
+    component: ChatMessageBox,
+    layout: "/admin",
+    subNav: false,
   },
 
   {
