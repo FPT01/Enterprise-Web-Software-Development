@@ -19,9 +19,14 @@ class AddNewUser extends React.Component {
     super();
 
     this.state = {
-      roleName: '',
-      roleDescription: '',
+      fullname: '',
+      username: '',
+      password: '',
+      roleId: '',
+      status: 1,
+      selectValue: "",
       isSuccessful: false,
+      roleList: [],
     };
 
     this.updateState = field => ev => {
@@ -30,10 +35,10 @@ class AddNewUser extends React.Component {
       this.setState(newState);
     };
 
-    this.submitForm = (roleName, roleDescription) => ev => {
+    this.submitForm = (roleId, fullname, username, password, status) => ev => {
       ev.preventDefault();
       // const recaptcha = recaptchaRef.current.getValue();
-      this.onSubmit(roleName, roleDescription);
+      this.onSubmit(roleId, fullname, username, password, status);
       // recaptchaRef.current.reset();
     };
   }
@@ -44,52 +49,96 @@ class AddNewUser extends React.Component {
     });
   }
 
-  onSubmit = (roleName, roleDescription) => {
-    return fetch(`http://localhost:8080/api/role/save`, {
+  onSubmit = (roleId, fullname, username, password, status) => {
+    var roleId = null;
+    this.state.roleList.map(itm => {
+      if(itm.roleName === "Tutor"){
+        roleId = itm.id
+      }
+    });
+    console.log("status", status);
+    return fetch(`http://localhost:8080/api/user/save`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ roleName: roleName, roleDescription: roleDescription })
+      body: JSON.stringify({fullname: fullname, username: username, password: password, enabled: status, roleDTO:{id: roleId}})
     })
     .then((response) => response.json())
     .then((data) => {
       console.log('Success:', data);
       if(data.status === "OK"){
-        window.location.href = "/admin/role";
+        window.location.href = "/admin/user/";
       }else {
         console.log("error"); 
       }
     })
   }
 
+  componentDidMount(){    
+    fetch(`http://localhost:8080/api/role/`, {
+      method: "GET",
+    })
+    .then(response =>  response.json() )
+    .then(data => {
+      this.setState({ roleList: data });
+    });
+  }
+
   render() {
+    const selectOptions = () => {
+      return this.state.roleList.map(item => {
+        return <option value={item.id}>{item.roleName}</option>
+      })
+    }
     return (
       <div className="content">
         <Grid fluid>
           <Row>
             <Card
-                title="Add New Role"
+                title="Add New User"
                 className="change-password"
                 content={
-                  <form onSubmit={this.submitForm(this.state.rolename, this.state.roleDescription)}>
+                  <form onSubmit={this.submitForm(this.state.selectValue, this.state.fullname, this.state.username, this.state.password, this.state.status)}>
                     <fieldset>
                       <fieldset className="form-group">
-                        <label>Role Name<span>*</span></label>
-                        <input
-                          className="form-control form-control-lg"
-                          type="text"
-                          placeholder="Role Name"
-                          value={this.state.rolename} onChange={this.updateState('rolename')} />
+                        <label>Roles Name<span>*</span></label>
+                        <select className="form-control" value={this.state.selectValue} onChange={this.updateState('selectValue')} >
+                          <option value="">Please choose role</option>
+                          {selectOptions()}
+                        </select>
                       </fieldset>
-
                       <fieldset className="form-group">
-                        <label>Role Description<span>*</span></label>
+                        <label>Fullname<span>*</span></label>
                         <input
                           className="form-control form-control-lg"
                           type="text"
-                          placeholder="Role Description"
-                          value={this.state.roleDescription} onChange={this.updateState('roleDescription')} />
+                          placeholder="Fullname"
+                          value={this.state.fullname} onChange={this.updateState('fullname')} />
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <label>Username<span>*</span></label>
+                        <input
+                          className="form-control form-control-lg"
+                          type="text"
+                          placeholder="Username"
+                          value={this.state.username} onChange={this.updateState('username')} />
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <label>Password<span>*</span></label>
+                        <input
+                          className="form-control form-control-lg"
+                          type="password"
+                          placeholder="Password"
+                          value={this.state.password} onChange={this.updateState('password')} />
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <label>Status<span>*</span></label>
+                        <input
+                          className="form-control form-control-lg"
+                          type="text"
+                          placeholder="text"
+                          value={this.state.status} onChange={this.updateState('status')} />
                       </fieldset>
                       <button
                         className="btn btn-primary login-btn"
