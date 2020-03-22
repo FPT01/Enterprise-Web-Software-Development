@@ -33,6 +33,8 @@ import Students from "views/student/List.jsx";
 import AddNewStudent from "views/student/AddNew.jsx";
 import EditStudent from "views/student/Edit.jsx";
 
+import BlogPosts from "views/blogpost/List.jsx";
+
 const dashboardRoutes = [
   {
     path: "/dashboard",
@@ -152,6 +154,13 @@ const dashboardRoutes = [
     name: "Upgrade to PRO",
     icon: "pe-7s-rocket",
     component: Upgrade,
+    layout: "/admin"
+  },
+  {
+    path: "/blogposts",
+    name: "Blog post",
+    icon: "pe-7s-rocket",
+    component: BlogPosts,
     layout: "/admin"
   },
 ];
