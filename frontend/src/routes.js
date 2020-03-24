@@ -32,6 +32,7 @@ import Students from "views/student/List.jsx";
 import AddNewStudent from "views/student/AddNew.jsx";
 import EditStudent from "views/student/Edit.jsx";
 
+import BlogPosts from "views/blogpost/List.jsx";
 import Rooms from "views/room/List.jsx";
 import AddNewRoom from "views/room/AddNew.jsx";
 import EditRoom from "views/room/Edit.jsx";
@@ -179,6 +180,20 @@ const dashboardRoutes = [
     subNav: true,
   },
   {
+    upgrade: true,
+    path: "/upgrade",
+    name: "Upgrade to PRO",
+    icon: "pe-7s-rocket",
+    component: Upgrade,
+    layout: "/admin"
+  },
+  {
+    path: "/blogposts",
+    name: "Blog post",
+    icon: "pe-7s-rocket",
+    component: BlogPosts,
+    layout: "/admin"
+  },
     path: "/edit-room",
     name: "Edit Room",
     icon: "pe-7s-note2",

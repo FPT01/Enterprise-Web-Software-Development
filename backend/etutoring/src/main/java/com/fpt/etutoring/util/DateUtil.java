@@ -12,6 +12,12 @@ public class DateUtil {
         return Date.from(then.atZone(ZoneId.systemDefault()).toInstant());
     }
 
+    public static Date getLastTwentyEightDays() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime then = now.minusDays(28);
+        return Date.from(then.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
     public static boolean isSameDay(Date date1, Date date2) {
         LocalDate localDate1 = date1.toInstant()
                 .atZone(ZoneId.systemDefault())
