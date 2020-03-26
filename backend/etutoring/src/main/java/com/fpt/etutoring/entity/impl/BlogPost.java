@@ -26,6 +26,7 @@ public class BlogPost implements Serializable {
     private String title;
 
     @Column(name = "content")
+    @Lob
     private String content;
 
     @Basic

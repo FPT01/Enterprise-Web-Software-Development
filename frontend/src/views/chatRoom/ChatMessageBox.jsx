@@ -183,24 +183,26 @@ class ChatMessageBox extends Component {
   render() {
 
     return (
-      <div>
-        {this.state.channelConnected ?
-          (
-            <div>
-              {this.state.roomNotification}
-              {this.state.bellRing}
-              {this.state.openNotifications}
-              {this.state.username}
-              {this.state.broadcastMessage}
-
+      <div id="chat-container">
+         <div className="chat-header">
+            <div className="user-container">
+               <span id="username"></span>
             </div>
-
-
-          ) : (
-            <></>
-
-          )
-        }
+            <h3>Spring WebSocket Chat Demo</h3>
+         </div>
+          
+         <hr/>
+          
+         <div id="connecting">Connecting...</div>
+         <ul id="messageArea">
+         </ul>
+         <form id="messageForm" name="messageForm">
+            <div className="input-message">
+               <input type="text" id="message" autocomplete="off"
+                  placeholder="Type a message..."/>
+               <button type="submit">Send</button>
+            </div>
+         </form>
       </div>
     )
   }

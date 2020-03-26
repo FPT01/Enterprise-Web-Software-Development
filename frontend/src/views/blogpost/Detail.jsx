@@ -18,7 +18,7 @@ class BlogPosts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      blogPostList: []
+      blogDetail: []
     }
   }
 
@@ -28,36 +28,29 @@ class BlogPosts extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        this.setState({ blogPostList: data });
+       // this.setState({ blogDetail: data });
       });
   }
 
-  cutContentText(str) {
-    return str.replace(/^(.{400}[^\s]*).*/, "$1");
-  }
-
   render() {
-    const blogPostList = this.state.blogPostList;
+    const blogDetail = this.state.blogDetail;
     return (
       <div className="content">
-
-        {blogPostList.map((item, key) => {
-          return (
             <Grid fluid>
               <Row>
                 <Col md={12} className="padding-bot">
                   <Card
-                    title={item.title}
+                    title={blogDetail.title}
                     category=""
                     ctTableFullWidth
                     ctTableResponsive
                     content={
                       <>
-                        <i><div className="blog-creator">Written By: {item.user.fullname} - At <Moment format="YYYY/MM/DD">
-                          {item.creationTime}
+                        <i><div className="blog-creator">Written By: {blogDetail} - At <Moment format="YYYY/MM/DD">
+                          {blogDetail.creationTime}
                         </Moment></div>
                         </i>
-                        <div className="blog-content">{this.cutContentText(item.content)}...<a href="">view more</a></div>
+                        <div className="blog-content">{blogDetail.content}</div>
                         
                       </>
                     }
@@ -65,8 +58,7 @@ class BlogPosts extends Component {
                 </Col>
               </Row>
             </Grid>
-          )
-        })}
+          
 
       </div>
 
