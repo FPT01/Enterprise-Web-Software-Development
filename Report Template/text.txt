@@ -21,3 +21,37 @@ burndown chart
 The Sprint Burndown map displays revised regular averages of the volume of research that needs to be done. The Sprint Burndown map summarizes the approximate details from the Sprint Backlog.
 The Sprint Burndown model allows the manager to realize the actual task situation. When the process moves more gradually than anticipated, it is projected that this Sprint will not be able to finish the task, and the team will concentrate on delivering the most critical content to accomplish the target. Sprint and work for the POs.Especially in this sluggish scenario, the squad finds that they encounter certain challenges in order to meet the target of the Sprint. From this stage, the team can come together to examine the cause of the impediments and the necessary adaptation steps.
 However, this map is just an approximation, and the team does not depend too heavily on the map, but can continue to check and adjust on the basis of other realistic research.
+
+
+meeing minutes
+Meeting minutes are meeting minutes. The key function is to preserve the meeting material, which is known to be a memo or meeting record.
+
+Meeting minutes play an significant role in some businesses as a deliverables tool to consumers, rather than other daily updates.
+The primary aim of meeting minutes is to log anything that occurs in the conference, a report for members, as well as exchange details with non-present individuals and all interested parties. Meetings, despite helping to discourage the loss of such research happens only because of the forgetfulness of any person.
+You can log conversation points, suggestions, current situation and actual activities in meeting minutes, as well as task plans, and it can also be used as a job guide to better improve the consistency of the work and support. Carry out more successfully the next meeting.
+In the office, multiple sessions frequently take place at varying intervals, such as regular, weekly, monthly, ... It's a responsibility to log meeting minutes for meetings of high volume and relevant material. Needs more meticulousness, more consideration and more elaboration than other people assume.
+We will discuss the key points in this article to create successful meeting minutes and resources to help you do it, hopefully it will be useful for those who have trouble writing minutes or those who want to minimize the time taken to produce a meeting minutes.
+
+
+sprints
+Sprint is Scrum's heart, providing the flow, product creation process for users to upload. A sprint can be seen as a project in which the sprint would restrict the duration of the project to 1 month or less.
+Image Sprint will have a no more than 30-day Time-box.
+
+The Speed Target remains unchanged at Speed. The sprint will be canceled if the Sprint goal no longer exists
+In Sprint Preparation the Scrum team must build the Sprint Target.
+
+The marketing department is responsible for product development and at the end of the Sprint, produce Completed Percentage.
+
+The next sprint will begin as soon as the current sprint ends.
+
+Sprint 0, Layout Sprint or Hardening Sprint are not available.
+
+
+
+product backlog
+The User Backlog is where you store the list of requested software functionality. The collection is structured on the basis of each item's value. The higher priority products are at the top of the list and will be chosen for early production by the Marketing Department, the lower priority products will be at the bottom of the list, and produced later.
+The Brand Manager is responsible for the monitoring and control of the Backlog. It involves defining material (products to be developed), prioritizing and organizing products, optimizing items, clarifying and answering all issues relating to the product.
+
+The Product Backlog can include elements in these categories: Product features Failure Technical Work Analysis research
+Things from Product Backlog can be represented in several different ways. A typical way of doing this is to use User Story (a User Story is a concise summary of the product's desired function from the user's viewpoint, it has the form: Is ... I want ... to ...
+Example: As a consumer I want to see a list of items to select from.) But this is not the only way to pick the correct type for each category, such as using User Situation, User Scenario, etc. It should be succinct, succinct and simple, no matter which approach the team uses.
