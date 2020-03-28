@@ -41,6 +41,8 @@ import EditRoom from "views/room/Edit.jsx";
 
 import ChatMessageBox from "views/chatRoom/ChatMessageBox.jsx";
 
+import ReportLastSevenDays from "views/report/ReportLastSevenDays.jsx";
+
 
 const dashboardRoutes = [
   {
@@ -202,6 +204,13 @@ const dashboardRoutes = [
     component: EditRoom,
     layout: "/admin",
     subNav: true,
+  },
+  {
+    path: "/report-lastsevendays",
+    name: "Report",
+    icon: "pe-7s-note2",
+    component: ReportLastSevenDays,
+    layout: "/admin",
   }
 ];
 

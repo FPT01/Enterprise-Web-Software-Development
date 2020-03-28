@@ -63,7 +63,7 @@ class EditUser extends React.Component {
     .then((data) => {
       console.log('Success:', data);
       if(data.status === "OK"){
-        window.location.href = "/admin/user";
+        // window.location.href = "/admin/user";
       }else {
         console.log("error"); 
       }
