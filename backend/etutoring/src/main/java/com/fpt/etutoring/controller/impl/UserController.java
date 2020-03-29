@@ -9,6 +9,7 @@ import com.fpt.etutoring.dto.impl.UserDTO;
 import com.fpt.etutoring.entity.impl.Role;
 import com.fpt.etutoring.entity.impl.User;
 import com.fpt.etutoring.error.ApiMessage;
+import com.fpt.etutoring.service.RoleService;
 import com.fpt.etutoring.service.UserService;
 import com.fpt.etutoring.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ public class UserController implements BaseController<UserDTO, Long> {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
 
     @PostMapping(Constant.PATH_LOGIN)
@@ -74,6 +77,11 @@ public class UserController implements BaseController<UserDTO, Long> {
     public ResponseEntity<?> createOrUpdate(@RequestBody UserDTO json) {
         try {
             User from = ResponseDTO.accepted().getObject(json, User.class);
+            if (json.getRoleDTO() != null) {
+                Role role = roleService.findById(json.getRoleDTO().getId());
+                if (role != null)
+                    from.setRole(role);
+            }
             userService.createOrUpdate(from);
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
         } catch (Exception ex) {
