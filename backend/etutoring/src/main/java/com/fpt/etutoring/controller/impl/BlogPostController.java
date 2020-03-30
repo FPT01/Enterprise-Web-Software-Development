@@ -96,7 +96,14 @@ public class BlogPostController implements BaseController<BlogPostDTO, Long> {
         if (blogPost == null)
             return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
         BlogPostDTO dto = ResponseDTO.accepted().getObject(blogPost, BlogPostDTO.class);
-        dto.setUser(null);
+        if (blogPost.getUser() != null) {
+            User u = blogPost.getUser();
+            Role role = blogPost.getUser().getRole();
+            role.setUsers(null);
+            u.setRole(role);
+            UserDTO userDTO = ResponseDTO.accepted().getObject(u, UserDTO.class);
+            dto.setUser(userDTO);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
