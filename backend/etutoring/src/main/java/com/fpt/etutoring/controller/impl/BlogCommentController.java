@@ -80,7 +80,9 @@ public class BlogCommentController implements BaseController<BlogCommentDTO, Lon
         BlogComment blogComment = blogCommentService.findById(id);
         if (blogComment == null)
             return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.accepted().getObject(blogComment, BlogCommentDTO.class));
+        BlogCommentDTO dto = ResponseDTO.accepted().getObject(blogComment, BlogCommentDTO.class);
+        dto.setUser(null);
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
     @Override

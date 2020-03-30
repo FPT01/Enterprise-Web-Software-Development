@@ -95,7 +95,9 @@ public class BlogPostController implements BaseController<BlogPostDTO, Long> {
         BlogPost blogPost = blogPostService.findById(id);
         if (blogPost == null)
             return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.accepted().getObject(blogPost, BlogPostDTO.class));
+        BlogPostDTO dto = ResponseDTO.accepted().getObject(blogPost, BlogPostDTO.class);
+        dto.setUser(null);
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
     @Override
