@@ -8,8 +8,7 @@
 
 */
 
-import React, { Component } from "react";
-import { Grid, Row, Col, Table } from "react-bootstrap";
+import React, { Component } from "react"; import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import Moment from 'react-moment';
@@ -18,47 +17,87 @@ class BlogPosts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      blogDetail: []
+      id: "",
+      title: "",
+      content: "",
+      creationTime: "",
+
+
     }
   }
-
+  cutContentText(str) {
+    return str.replace(/^(.{40}[^\s]*).*/, "$1");
+  }
   componentDidMount() {
-    fetch(`http://localhost:8080/api/blogpost/`, {
-      method: "GET",
+    fetch(`http://localhost:8080/api/blogpost/findById/1/`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }, method: "GET",
     })
       .then(response => response.json())
       .then(data => {
-       // this.setState({ blogDetail: data });
+        console.log(data);
+
+        this.setState({
+          ...data
+        });
       });
   }
 
   render() {
-    const blogDetail = this.state.blogDetail;
+    console.log(this.state)
     return (
       <div className="content">
-            <Grid fluid>
-              <Row>
-                <Col md={12} className="padding-bot">
-                  <Card
-                    title={blogDetail.title}
-                    category=""
-                    ctTableFullWidth
-                    ctTableResponsive
-                    content={
-                      <>
-                        <i><div className="blog-creator">Written By: {blogDetail} - At <Moment format="YYYY/MM/DD">
-                          {blogDetail.creationTime}
-                        </Moment></div>
-                        </i>
-                        <div className="blog-content">{blogDetail.content}</div>
-                        
-                      </>
-                    }
-                  />
-                </Col>
-              </Row>
-            </Grid>
-          
+        <Grid fluid>
+          <Row>
+            <Col md={12} className="padding-bot">
+              <Card
+                title={this.state.title}
+                category=""
+                ctTableFullWidth
+                ctTableResponsive
+                content={
+                  <>
+                    <i>
+                      <div className="blog-creator">Written By: {this.state.user?.username} - At :
+                        <Moment format="YYYY/MM/DD">{this.state.creationTime}</Moment>
+                      </div>
+                    </i>
+                    <div className="blog-content">{this.state.content}</div>
+                    { this.state.blogComments?.map((item, key) => {
+                      return (
+                        <Grid fluid className="blog-comment-wrap" key={item.id}>
+                          <Row>
+                            <Col md={12} className="padding-bot">
+                              <Card
+                                title=""
+                                category=""
+                                ctTableFullWidth
+                                ctTableResponsive
+                                content={
+                                  <>
+                                    <i>
+                                      <div className="blog-comment-creator">{item.user?.username} said at :
+                                      <Moment format="YYYY/MM/DD">{item.creationTime}</Moment>
+                                      </div>
+                                    </i>
+                                    <div className="blog-comment-content" >{item.content}</div>
+
+                                  </>
+                                }
+                              />
+                            </Col>
+                          </Row>
+                        </Grid>)
+                    })}
+
+                  </>
+                }
+              />
+            </Col>
+          </Row>
+        </Grid>
+
 
       </div>
 
