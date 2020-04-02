@@ -14,4 +14,5 @@ public class BlogCommentDTO extends BaseDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
     private Date creationTime;
     private UserDTO user;
+    private BlogPostDTO blogPost;
 }
