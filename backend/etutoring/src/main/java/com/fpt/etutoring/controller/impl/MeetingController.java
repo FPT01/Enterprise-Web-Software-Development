@@ -1,6 +1,7 @@
 package com.fpt.etutoring.controller.impl;
 
 import com.fpt.etutoring.controller.BaseController;
+import com.fpt.etutoring.controller.ResponseController;
 import com.fpt.etutoring.dto.ResponseDTO;
 import com.fpt.etutoring.dto.impl.MeetingDTO;
 import com.fpt.etutoring.entity.impl.Meeting;
@@ -19,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping(Constant.PATH_MEETING)
 @CrossOrigin
-public class MeetingController implements BaseController<MeetingDTO, Long> {
+public class MeetingController extends ResponseController implements BaseController<MeetingDTO, Long> {
 
     @Autowired
     private MeetingService meetingService;

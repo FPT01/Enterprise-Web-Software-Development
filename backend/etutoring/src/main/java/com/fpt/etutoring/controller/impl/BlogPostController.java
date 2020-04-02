@@ -1,10 +1,12 @@
 package com.fpt.etutoring.controller.impl;
 
 import com.fpt.etutoring.controller.BaseController;
+import com.fpt.etutoring.controller.ResponseController;
 import com.fpt.etutoring.dto.ResponseDTO;
 import com.fpt.etutoring.dto.impl.BlogCommentDTO;
 import com.fpt.etutoring.dto.impl.BlogPostDTO;
 import com.fpt.etutoring.dto.impl.UserDTO;
+import com.fpt.etutoring.entity.impl.BlogComment;
 import com.fpt.etutoring.entity.impl.BlogPost;
 import com.fpt.etutoring.entity.impl.Role;
 import com.fpt.etutoring.entity.impl.User;
@@ -25,7 +27,7 @@ import java.util.Set;
 @RestController
 @RequestMapping(Constant.PATH_BLOG_POST)
 @CrossOrigin
-public class BlogPostController implements BaseController<BlogPostDTO, Long> {
+public class BlogPostController extends ResponseController implements BaseController<BlogPostDTO, Long> {
     @Autowired
     private BlogPostService blogPostService;
 
@@ -95,7 +97,33 @@ public class BlogPostController implements BaseController<BlogPostDTO, Long> {
         BlogPost blogPost = blogPostService.findById(id);
         if (blogPost == null)
             return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.accepted().getObject(blogPost, BlogPostDTO.class));
+        BlogPostDTO dto = ResponseDTO.accepted().getObject(blogPost, BlogPostDTO.class);
+        if (blogPost.getUser() != null) {
+            User u = blogPost.getUser();
+            Role role = blogPost.getUser().getRole();
+            role.setUsers(null);
+            u.setRole(role);
+            UserDTO userDTO = ResponseDTO.accepted().getObject(u, UserDTO.class);
+            dto.setUser(userDTO);
+        }
+        Set<BlogCommentDTO> blogCommentDTOS = new HashSet<>();
+        Set<BlogComment> blogComments = blogPost.getBlogComments();
+        if (!CollectionUtils.isEmpty(blogComments)) {
+            blogComments.forEach(b -> {
+                BlogCommentDTO blogCommentDTO = ResponseDTO.accepted().getObject(b, BlogCommentDTO.class);
+                if (b.getUser() != null) {
+                    User u = b.getUser();
+                    Role role = b.getUser().getRole();
+                    role.setUsers(null);
+                    u.setRole(role);
+                    UserDTO userDTO = ResponseDTO.accepted().getObject(u, UserDTO.class);
+                    blogCommentDTO.setUser(userDTO);
+                }
+                blogCommentDTOS.add(blogCommentDTO);
+            });
+            dto.setBlogComments(blogCommentDTOS);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
     @Override

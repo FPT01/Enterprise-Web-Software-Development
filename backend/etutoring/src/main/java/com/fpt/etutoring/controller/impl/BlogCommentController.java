@@ -1,6 +1,7 @@
 package com.fpt.etutoring.controller.impl;
 
 import com.fpt.etutoring.controller.BaseController;
+import com.fpt.etutoring.controller.ResponseController;
 import com.fpt.etutoring.dto.ResponseDTO;
 import com.fpt.etutoring.dto.impl.BlogCommentDTO;
 import com.fpt.etutoring.dto.impl.UserDTO;
@@ -22,7 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping(Constant.PATH_BLOG_COMMENT)
 @CrossOrigin
-public class BlogCommentController implements BaseController<BlogCommentDTO, Long> {
+public class BlogCommentController extends ResponseController implements BaseController<BlogCommentDTO, Long> {
     @Autowired
     private BlogCommentService blogCommentService;
 
@@ -80,7 +81,16 @@ public class BlogCommentController implements BaseController<BlogCommentDTO, Lon
         BlogComment blogComment = blogCommentService.findById(id);
         if (blogComment == null)
             return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.accepted().getObject(blogComment, BlogCommentDTO.class));
+        BlogCommentDTO dto = ResponseDTO.accepted().getObject(blogComment, BlogCommentDTO.class);
+        if (blogComment.getUser() != null) {
+            User u = blogComment.getUser();
+            Role role = blogComment.getUser().getRole();
+            role.setUsers(null);
+            u.setRole(role);
+            UserDTO userDTO = ResponseDTO.accepted().getObject(u, UserDTO.class);
+            dto.setUser(userDTO);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
     @Override

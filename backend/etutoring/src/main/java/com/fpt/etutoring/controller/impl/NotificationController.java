@@ -1,6 +1,7 @@
 package com.fpt.etutoring.controller.impl;
 
 import com.fpt.etutoring.controller.BaseController;
+import com.fpt.etutoring.controller.ResponseController;
 import com.fpt.etutoring.dto.ResponseDTO;
 import com.fpt.etutoring.dto.impl.NotificationDTO;
 import com.fpt.etutoring.entity.impl.Notification;
@@ -19,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping(Constant.PATH_NOTIFICATION)
 @CrossOrigin
-public class NotificationController implements BaseController<NotificationDTO, Long> {
+public class NotificationController extends ResponseController implements BaseController<NotificationDTO, Long> {
     @Autowired
     private NotificationService notificationService;
 

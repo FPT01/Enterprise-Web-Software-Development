@@ -1,6 +1,7 @@
 package com.fpt.etutoring.controller.impl;
 
 import com.fpt.etutoring.controller.BaseController;
+import com.fpt.etutoring.controller.ResponseController;
 import com.fpt.etutoring.dto.ResponseDTO;
 import com.fpt.etutoring.dto.impl.MessageDTO;
 import com.fpt.etutoring.entity.impl.Message;
@@ -19,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping(Constant.PATH_MESSAGE)
 @CrossOrigin
-public class MessageController implements BaseController<MessageDTO, Long> {
+public class MessageController extends ResponseController implements BaseController<MessageDTO, Long> {
 
     @Autowired
     private MessageService messageService;

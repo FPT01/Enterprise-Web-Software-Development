@@ -1,6 +1,7 @@
 package com.fpt.etutoring.controller.impl;
 
 import com.fpt.etutoring.controller.BaseController;
+import com.fpt.etutoring.controller.ResponseController;
 import com.fpt.etutoring.dto.ResponseDTO;
 import com.fpt.etutoring.dto.impl.RoleDTO;
 import com.fpt.etutoring.entity.impl.Role;
@@ -19,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping(Constant.PATH_ROLE)
 @CrossOrigin
-public class RoleController implements BaseController<RoleDTO, Long> {
+public class RoleController extends ResponseController implements BaseController<RoleDTO, Long> {
 
     @Autowired
     private RoleService roleService;

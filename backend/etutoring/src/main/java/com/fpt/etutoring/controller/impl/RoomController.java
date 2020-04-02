@@ -1,6 +1,7 @@
 package com.fpt.etutoring.controller.impl;
 
 import com.fpt.etutoring.controller.BaseController;
+import com.fpt.etutoring.controller.ResponseController;
 import com.fpt.etutoring.dto.ResponseDTO;
 import com.fpt.etutoring.dto.impl.RoomDTO;
 import com.fpt.etutoring.entity.impl.Room;
@@ -19,7 +20,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping(Constant.PATH_ROOM)
-public class RoomController implements BaseController<RoomDTO, Long> {
+public class RoomController extends ResponseController implements BaseController<RoomDTO, Long> {
     @Autowired
     private RoomService roomService;
 

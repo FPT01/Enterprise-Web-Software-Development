@@ -1,6 +1,7 @@
 package com.fpt.etutoring.controller.impl;
 
 import com.fpt.etutoring.controller.BaseController;
+import com.fpt.etutoring.controller.ResponseController;
 import com.fpt.etutoring.dto.ResponseDTO;
 import com.fpt.etutoring.dto.impl.DocumentDTO;
 import com.fpt.etutoring.entity.impl.Document;
@@ -19,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping(Constant.PATH_DOCUMENT)
 @CrossOrigin
-public class DocumentController implements BaseController<DocumentDTO, Long> {
+public class DocumentController extends ResponseController implements BaseController<DocumentDTO, Long> {
 
     @Autowired
     private DocumentService documentService;
