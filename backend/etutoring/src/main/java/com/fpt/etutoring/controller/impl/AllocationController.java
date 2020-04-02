@@ -1,6 +1,7 @@
 package com.fpt.etutoring.controller.impl;
 
 import com.fpt.etutoring.controller.BaseController;
+import com.fpt.etutoring.controller.ResponseController;
 import com.fpt.etutoring.dto.ResponseDTO;
 import com.fpt.etutoring.dto.impl.AllocationDTO;
 import com.fpt.etutoring.entity.impl.Allocation;
@@ -19,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping(Constant.PATH_ALLOCATE)
 @CrossOrigin
-public class AllocationController implements BaseController<AllocationDTO, Long> {
+public class AllocationController extends ResponseController implements BaseController<AllocationDTO, Long> {
     @Autowired
     private AllocationService allocationService;
 

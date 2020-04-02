@@ -1,6 +1,7 @@
 package com.fpt.etutoring.controller.impl;
 
 import com.fpt.etutoring.controller.BaseController;
+import com.fpt.etutoring.controller.ResponseController;
 import com.fpt.etutoring.dto.ResponseDTO;
 import com.fpt.etutoring.dto.impl.BlogCommentDTO;
 import com.fpt.etutoring.dto.impl.UserDTO;
@@ -22,7 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping(Constant.PATH_BLOG_COMMENT)
 @CrossOrigin
-public class BlogCommentController implements BaseController<BlogCommentDTO, Long> {
+public class BlogCommentController extends ResponseController implements BaseController<BlogCommentDTO, Long> {
     @Autowired
     private BlogCommentService blogCommentService;
 

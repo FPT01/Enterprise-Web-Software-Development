@@ -19,9 +19,9 @@ public class SocketHandler extends TextWebSocketHandler {
     public void handleTextMessage(WebSocketSession session, TextMessage message)
             throws InterruptedException, IOException {
         Map<String, String> value = new Gson().fromJson(message.getPayload(), Map.class);
-		/*for(WebSocketSession webSocketSession : sessions) {
+		for(WebSocketSession webSocketSession : sessions) {
 			webSocketSession.sendMessage(new TextMessage("Hello " + value.get("name") + " !"));
-		}*/
+		}
         session.sendMessage(new TextMessage("Hello " + value.get("name") + " !"));
     }
 

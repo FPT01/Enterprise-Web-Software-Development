@@ -1,6 +1,7 @@
 package com.fpt.etutoring.controller.impl;
 
 import com.fpt.etutoring.controller.BaseController;
+import com.fpt.etutoring.controller.ResponseController;
 import com.fpt.etutoring.dto.ResponseDTO;
 import com.fpt.etutoring.dto.impl.RoleDTO;
 import com.fpt.etutoring.dto.impl.TutorDTO;
@@ -24,7 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping(Constant.PATH_TUTOR)
 @CrossOrigin
-public class TutorController implements BaseController<TutorDTO, Long> {
+public class TutorController extends ResponseController implements BaseController<TutorDTO, Long> {
 
     @Autowired
     private TutorService tutorService;

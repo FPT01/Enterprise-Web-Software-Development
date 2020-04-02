@@ -35,7 +35,6 @@ public class Constant {
     public static final String ERROR_DELETE = "Delete Error";
     public static final String PATH_BLOG_POST = PATH_API + "/blogpost";
     public static final String PATH_BLOG_COMMENT = PATH_API + "/blogcomment";
-    public static final String PATH_FILE_SERVER = PATH_API + "/fileserver";
     public static final String PATH_STATISTIC = PATH_API + "/statistic";
     public static final String PATH_LAST_SEVEN_DAYS = PATH_API + "/lastsevendays";
     public static final String PATH_AVG_MSG = PATH_API + "/avgmsg";
@@ -47,4 +46,5 @@ public class Constant {
     public static final String PATH_STUDENT_WITH_NO_INTERACTION = PATH_EXPORT + "/studentwithnointeraction";
     public static final String EXCEL_STUDENT_WITHOUT_TUTOR = "StudentWithoutTutor.xlsx";
     public static final String EXCEL_STUDENT_WITH_NO_INTERACTION = "StudentWithNoInteraction.xlsx";
+    public static final String PATH_LOAD_FILE = "/loadfile";
 }
