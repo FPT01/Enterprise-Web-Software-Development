@@ -22,19 +22,27 @@ class ChatMessageBox extends Component {
 
   connect = (userName) => {
 
-    const Stomp = require('stompjs');
+    var socket = new WebSocket("ws://localhost:8080/api/ws");
 
-    var SockJS = require('sockjs-client');
+    socket.onopen = function(e) {
+      alert("[open] Connection established");
+      alert("Sending to server");
+      socket.send("My name is John");
+    };
 
-    SockJS = new SockJS('/ws');
+    // const Stomp = require('stompjs');
 
-    stompClient = Stomp.over(SockJS);
+    // var SockJS = require('sockjs-client');
 
-    stompClient.connect({}, this.onConnected, this.onError);
+    // SockJS = new SockJS('/ws');
 
-    this.setState({
-      username: userName,
-    })
+    // stompClient = Stomp.over(SockJS);
+
+    // stompClient.connect({}, this.onConnected, this.onError);
+
+    // this.setState({
+    //   username: userName,
+    // })
   }
 
   onConnected = () => {
@@ -42,7 +50,7 @@ class ChatMessageBox extends Component {
       channelConnected: true
     })
     // Subscribing to the public topic
-    stompClient.subscribe('ws://localhost:8080/', this.onMessageReceived);
+    stompClient.subscribe('ws://localhost:8080/api/', this.onMessageReceived);
     // Registering user to server as a public chat user
     stompClient.send("http://localhost:3000/admin/chat-message-box", {}, JSON.stringify({ sender: this.state.username, type: 'JOIN' }))
   }
