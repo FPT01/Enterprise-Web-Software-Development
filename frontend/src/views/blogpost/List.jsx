@@ -24,6 +24,10 @@ class BlogPosts extends Component {
 
   componentDidMount() {
     fetch(`http://localhost:8080/api/blogpost/`, {
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
       method: "GET",
     })
       .then(response => response.json())
