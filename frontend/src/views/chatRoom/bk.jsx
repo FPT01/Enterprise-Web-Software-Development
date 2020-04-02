@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import StompClient from "react-stomp-client";
 import Websocket from 'react-websocket';
  
 var stompClient = null;
@@ -81,6 +82,7 @@ class ChatMessageBox extends Component {
   }
 
   render() {
+    console.log("this.state.newMessage", this.state.newMessage);
     return (
       <div id="chat-container">
          <div className="chat-header">
