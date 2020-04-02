@@ -31,10 +31,6 @@ public class Message implements Serializable {
     private Date time;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id", referencedColumnName = "id")
-    private Room room;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
