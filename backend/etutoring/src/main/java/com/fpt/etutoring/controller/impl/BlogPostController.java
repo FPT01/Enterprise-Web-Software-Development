@@ -55,6 +55,7 @@ public class BlogPostController extends ResponseController implements BaseContro
                             r.setUsers(null);
                             c.getUser().setRole(r);
                         }
+                        c.setBlogPost(null);
                         blogCommentDTOS.add(ResponseDTO.accepted().getObject(c, BlogCommentDTO.class));
                     });
                     blogPostDTO.setBlogComments(blogCommentDTOS);
@@ -110,7 +111,7 @@ public class BlogPostController extends ResponseController implements BaseContro
         Set<BlogComment> blogComments = blogPost.getBlogComments();
         if (!CollectionUtils.isEmpty(blogComments)) {
             blogComments.forEach(b -> {
-                BlogCommentDTO blogCommentDTO = ResponseDTO.accepted().getObject(b, BlogCommentDTO.class);
+                BlogCommentDTO blogCommentDTO = new BlogCommentDTO();
                 if (b.getUser() != null) {
                     User u = b.getUser();
                     Role role = b.getUser().getRole();
@@ -119,6 +120,8 @@ public class BlogPostController extends ResponseController implements BaseContro
                     UserDTO userDTO = ResponseDTO.accepted().getObject(u, UserDTO.class);
                     blogCommentDTO.setUser(userDTO);
                 }
+                b.setBlogPost(null);
+                blogCommentDTO = ResponseDTO.accepted().getObject(b, BlogCommentDTO.class);
                 blogCommentDTOS.add(blogCommentDTO);
             });
             dto.setBlogComments(blogCommentDTOS);
