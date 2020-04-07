@@ -24,9 +24,6 @@ class EditUser extends React.Component {
       username: '',
       password: '',
       status: '',
-      gender: '',
-      email:'',
-      avatar: '',
       selectValue: "",
       isSuccessful: false,
       roleList: [],
@@ -38,10 +35,10 @@ class EditUser extends React.Component {
       this.setState(newState);
     };
 
-    this.submitEditForm = (roleId, fullname, username, password, status, email, gender) => ev => {
+    this.submitEditForm = (roleId, fullname, username, password, status) => ev => {
       ev.preventDefault();
       // const recaptcha = recaptchaRef.current.getValue();
-      this.onSubmitEdit(roleId, fullname, username, password, status, email, gender);
+      this.onSubmitEdit(roleId, fullname, username, password, status);
       // recaptchaRef.current.reset();
     };
   }
@@ -52,30 +49,15 @@ class EditUser extends React.Component {
     });
   }
 
-  onSubmitEdit = (roleId, fullname, username, password, status, email, gender) => {
+  onSubmitEdit = (roleId, fullname, username, password, status) => {
     const userObj=queryString.parse(this.props.location.search);
-    const formData = new FormData();
-    // formData.append('dto', `{
-    //     "id": ${userObj.id},
-    //     "password": ${password},
-    //     "username": ${username},
-    //     "enabled": ${status},
-    //     "fullname": ${fullname},
-    //     "gender": 1,
-    //     "avatar": "1.jpg",
-    //     "email": "",
-    //     "roleDTO": {
-    //         "id": ${roleId}
-    //     }
-    // }`);
-    formData.append("password", password);
-    console.log("formData", formData);
+    console.log("roleId", roleId);
     return fetch(`http://localhost:8080/api/user/save`, {
       method: "POST",
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
       },
-      body: formData
+      body: JSON.stringify({id: userObj.id, fullname: fullname, username: username, password: password, enabled: status, roleDTO:{id: roleId}})
     })
     .then((response) => response.json())
     .then((data) => {
@@ -112,7 +94,7 @@ class EditUser extends React.Component {
                 title="Edit User"
                 className="change-password"
                 content={
-                  <form onSubmit={this.submitEditForm(this.state.selectValue, this.state.fullname, this.state.username, this.state.password, this.state.status, this.state.email, this.state.gender)}>
+                  <form onSubmit={this.submitEditForm(this.state.selectValue, this.state.fullname, this.state.username, this.state.password, this.state.status)}>
                     <fieldset>
                       <fieldset className="form-group">
                         <label>Roles Name<span>*</span></label>
@@ -126,25 +108,14 @@ class EditUser extends React.Component {
                         <input
                           className="form-control form-control-lg"
                           type="text"
-                          name="fulname"
                           placeholder="Fullname"
                           value={this.state.fullname} onChange={this.updateState('fullname')} />
-                      </fieldset>
-                      <fieldset className="form-group">
-                        <label>Gender<span>*</span></label>
-                        <input
-                          className="form-control form-control-lg"
-                          type="text"
-                          name="gender"
-                          placeholder="Gender"
-                          value={this.state.gender} onChange={this.updateState('gender')} />
                       </fieldset>
                       <fieldset className="form-group">
                         <label>Username<span>*</span></label>
                         <input
                           className="form-control form-control-lg"
                           type="text"
-                          name="username"
                           placeholder="Username"
                           value={this.state.username} onChange={this.updateState('username')} />
                       </fieldset>
@@ -153,26 +124,15 @@ class EditUser extends React.Component {
                         <input
                           className="form-control form-control-lg"
                           type="password"
-                          name="password"
                           placeholder="Password"
                           value={this.state.password} onChange={this.updateState('password')} />
-                      </fieldset>
-                      <fieldset className="form-group">
-                        <label>Email<span>*</span></label>
-                        <input
-                          className="form-control form-control-lg"
-                          type="text"
-                          name="email"
-                          placeholder="Email"
-                          value={this.state.email} onChange={this.updateState('email')} />
                       </fieldset>
                       <fieldset className="form-group">
                         <label>Status<span>*</span></label>
                         <input
                           className="form-control form-control-lg"
                           type="text"
-                          name="status"
-                          placeholder=""
+                          placeholder="text"
                           value={this.state.status} onChange={this.updateState('status')} />
                       </fieldset>
                       <button
