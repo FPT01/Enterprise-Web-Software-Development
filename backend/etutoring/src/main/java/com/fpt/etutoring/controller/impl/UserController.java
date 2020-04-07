@@ -3,6 +3,7 @@ package com.fpt.etutoring.controller.impl;
 
 import com.fpt.etutoring.controller.BaseController;
 import com.fpt.etutoring.controller.ResponseController;
+import com.fpt.etutoring.converter.StringToUserDTOConverter;
 import com.fpt.etutoring.dto.RequestDTO;
 import com.fpt.etutoring.dto.ResponseDTO;
 import com.fpt.etutoring.dto.impl.RoleDTO;
@@ -12,12 +13,16 @@ import com.fpt.etutoring.entity.impl.User;
 import com.fpt.etutoring.error.ApiMessage;
 import com.fpt.etutoring.service.RoleService;
 import com.fpt.etutoring.service.UserService;
+import com.fpt.etutoring.storage.StorageService;
 import com.fpt.etutoring.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +38,17 @@ public class UserController extends ResponseController implements BaseController
     private UserService userService;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private StorageService storageService;
+    @Autowired
+    private StringToUserDTOConverter converter;
 
 
     @PostMapping(Constant.PATH_LOGIN)
     public ResponseEntity<?> login(@RequestDTO(UserDTO.class) User user) {
 //        return securityService.autoLogin(user.getUsername(), user.getPassword());
         User u = userService.getUserByUsernameAndPassword(user.getUsername(), user.getPassword());
-        if (u != null) {
+        if (u != null && u.getEnabled() == 1) {
             UserDTO userDTO = getUserWithRole(u);
             userDTO.setPassword(null);
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
@@ -73,9 +82,17 @@ public class UserController extends ResponseController implements BaseController
         return dtos;
     }
 
+    @PostMapping(value = Constant.PATH_SAVE)
+    public ResponseEntity<?> save(@RequestParam(value = "file", required = false) MultipartFile file,
+                                  @RequestParam("dto") String source) {
+        if (file.getSize() > 0)
+            storageService.store(file);
+
+        return createOrUpdate(converter.convert(source));
+    }
+
     @Override
-    @PostMapping(value = Constant.PATH_SAVE, consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> createOrUpdate(@RequestBody UserDTO json) {
+    public ResponseEntity<?> createOrUpdate(UserDTO json) {
         try {
             User from = ResponseDTO.accepted().getObject(json, User.class);
             if (json.getRoleDTO() != null) {
@@ -94,7 +111,7 @@ public class UserController extends ResponseController implements BaseController
     }
 
     @Override
-    @DeleteMapping(value = Constant.PATH_DELETE, consumes = "application/json", produces = "application/json")
+    @DeleteMapping(value = Constant.PATH_DELETE)
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
             User user = userService.findById(id);
@@ -109,12 +126,23 @@ public class UserController extends ResponseController implements BaseController
     }
 
     @Override
-    @GetMapping(value = Constant.PATH_FIND_BY_ID, consumes = "application/json", produces = "application/json")
+    @GetMapping(value = Constant.PATH_FIND_BY_ID)
     public ResponseEntity<?> findById(@PathVariable Long id) {
         User u = userService.findById(id);
         if (u == null)
             return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
         return ResponseEntity.status(HttpStatus.OK).body(getUserWithRole(u));
+    }
+
+    @GetMapping(value = Constant.PATH_LOAD_FILE)
+    @ResponseBody
+    public ResponseEntity<?> upload(@RequestParam(value = "filename") String filename) {
+        if (filename == null)
+            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
+
+        Resource file = storageService.loadAsResource(filename);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
     @Override

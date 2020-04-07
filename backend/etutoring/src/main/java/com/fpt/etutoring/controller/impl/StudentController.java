@@ -12,6 +12,7 @@ import com.fpt.etutoring.error.ApiMessage;
 import com.fpt.etutoring.service.RoleService;
 import com.fpt.etutoring.service.StudentService;
 import com.fpt.etutoring.service.UserService;
+import com.fpt.etutoring.storage.StorageService;
 import com.fpt.etutoring.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,8 @@ public class StudentController extends ResponseController implements BaseControl
     private UserService userService;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private StorageService storageService;
 
     @Override
     @GetMapping(Constant.PATH)
@@ -81,6 +84,10 @@ public class StudentController extends ResponseController implements BaseControl
     @DeleteMapping(value = Constant.PATH_DELETE, consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
+            Student student = studentService.findById(id);
+            if (student != null) {
+                storageService.deleteByFilename(student.getUser().getAvatar());
+            }
             studentService.delete(id);
         } catch (Exception ex) {
             return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, ex));

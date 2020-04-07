@@ -8,10 +8,12 @@
 
 */
 
-import React, { Component } from "react"; import { Grid, Row, Col, Table } from "react-bootstrap";
+import React, { Component } from "react";
+import { Grid, Row, Col } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
-import Button from "components/CustomButton/CustomButton.jsx";
 import Moment from 'react-moment';
+
+import queryString from 'query-string';
 
 class BlogPosts extends Component {
   constructor(props) {
@@ -21,15 +23,28 @@ class BlogPosts extends Component {
       title: "",
       content: "",
       creationTime: "",
+      commenttext: "",
 
 
     }
+    this.updateState = field => ev => {
+      const state = this.state;
+      const newState = Object.assign({}, state, { [field]: ev.target.value });
+      this.setState(newState);
+    };
+
+    this.submitForm = (fullname, username, password, status) => ev => {
+      ev.preventDefault();
+      this.onSubmit(fullname, username, password, status);
+    };
   }
   cutContentText(str) {
     return str.replace(/^(.{40}[^\s]*).*/, "$1");
   }
   componentDidMount() {
-    fetch(`http://localhost:8080/api/blogpost/findById/1/`, {
+    console.log(this.props.location);
+    const blogId=queryString.parse(this.props.location.search).id;
+    fetch(`http://localhost:8080/api/blogpost/findById/${blogId}/`, {
       headers: {
         'Content-Type': 'application/json'
       }, method: "GET",
@@ -43,11 +58,46 @@ class BlogPosts extends Component {
         });
       });
   }
+  updateInputValue(evt) {
+    this.setState({
+      inputValue: evt.target.value
+    });
+  }
+
+  onSubmit = (commenttext) => {
+    console.log(JSON.stringify({ content: commenttext, user : { id : 1}, postDTO: { id: this.state.id} }));
+    return fetch(`http://localhost:8080/api/blogcomment/save`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ content: commenttext, user : { id : 1}, postDTO: { id: this.state.id} })
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+        if (data.status === "OK") {
+          window.location.href = "/admin/blogdetail?id=" + this.state.id;
+        } else {
+          console.log("error");
+        }
+      })
+  }
 
   render() {
     console.log(this.state)
+    const prevBlog = this.state.id * 1 - 1;
+    const nextBlog = this.state.id * 1 + 1;
     return (
       <div className="content">
+        <div>
+          <a href={"/admin/blogdetail?id=" + prevBlog}>
+            <i className="fa fa-plus" /> Previous Blog
+          </a>
+          <a href={"/admin/blogdetail?id=" + nextBlog}>
+            <i className="fa fa-plus" /> Next Blog
+          </a>
+        </div>
         <Grid fluid>
           <Row>
             <Col md={12} className="padding-bot">
@@ -64,7 +114,7 @@ class BlogPosts extends Component {
                       </div>
                     </i>
                     <div className="blog-content">{this.state.content}</div>
-                    { this.state.blogComments?.map((item, key) => {
+                    {this.state.blogComments?.map((item, key) => {
                       return (
                         <Grid fluid className="blog-comment-wrap" key={item.id}>
                           <Row>
@@ -82,22 +132,82 @@ class BlogPosts extends Component {
                                       </div>
                                     </i>
                                     <div className="blog-comment-content" >{item.content}</div>
-
                                   </>
                                 }
                               />
                             </Col>
                           </Row>
-                        </Grid>)
+                          <Row>
+                            <Col md={12} className="padding-bot">
+                              <Card
+                                title=""
+                                category=""
+                                ctTableFullWidth
+                                ctTableResponsive
+                                content={
+                                  <>
+                                    <i>
+                                      <div className="blog-comment-creator">{item.user?.username} said at :
+                                      <Moment format="YYYY/MM/DD">{item.creationTime}</Moment>
+                                      </div>
+                                    </i>
+                                    <div className="blog-comment-content" >{item.content}</div>
+                                  </>
+                                }
+                              />
+                            </Col>
+                          </Row>
+
+
+                        </Grid>
+                      )
                     })}
+                    <Grid fluid className="blog-comment-wrap">
+                      <Row>
+                        <Col md={12} className="padding-bot">
+                          <Card
+                            title=""
+                            category=""
+                            ctTableFullWidth
+                            ctTableResponsive
+                            content={
+                              <>
+                                <form onSubmit={this.submitForm(this.state.commenttext)} className=" margin-lr">
+                                  <fieldset>
+                                    <fieldset className="form-group">
+                                      <label>Input Comment<span>*</span></label>
+                                      <textarea
+                                        className="form-control form-control-lg"
+                                        type="text"
+                                        placeholder="Put your comment here"
+                                        value={this.state.commenttext} onChange={this.updateState('commenttext')} />
+                                    </fieldset>
+
+                                    <button
+                                      className="btn btn-primary login-btn"
+                                      type="submit" >
+                                      Save
+                                    </button>
+
+                                  </fieldset>
+                                </form>
+
+                              </>
+                            }
+                          />
+                        </Col>
+                      </Row>
+
+
+                    </Grid>
 
                   </>
                 }
               />
             </Col>
           </Row>
-        </Grid>
 
+        </Grid>
 
       </div>
 

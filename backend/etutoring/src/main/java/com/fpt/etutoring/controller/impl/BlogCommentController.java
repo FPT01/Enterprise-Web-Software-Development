@@ -4,12 +4,16 @@ import com.fpt.etutoring.controller.BaseController;
 import com.fpt.etutoring.controller.ResponseController;
 import com.fpt.etutoring.dto.ResponseDTO;
 import com.fpt.etutoring.dto.impl.BlogCommentDTO;
+import com.fpt.etutoring.dto.impl.BlogPostDTO;
 import com.fpt.etutoring.dto.impl.UserDTO;
 import com.fpt.etutoring.entity.impl.BlogComment;
+import com.fpt.etutoring.entity.impl.BlogPost;
 import com.fpt.etutoring.entity.impl.Role;
 import com.fpt.etutoring.entity.impl.User;
 import com.fpt.etutoring.error.ApiMessage;
 import com.fpt.etutoring.service.BlogCommentService;
+import com.fpt.etutoring.service.BlogPostService;
+import com.fpt.etutoring.service.UserService;
 import com.fpt.etutoring.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +30,10 @@ import java.util.List;
 public class BlogCommentController extends ResponseController implements BaseController<BlogCommentDTO, Long> {
     @Autowired
     private BlogCommentService blogCommentService;
+    @Autowired
+    private BlogPostService blogPostService;
+    @Autowired
+    private UserService userService;
 
     @Override
     @GetMapping(Constant.PATH)
@@ -43,6 +51,9 @@ public class BlogCommentController extends ResponseController implements BaseCon
                     UserDTO userDTO = ResponseDTO.accepted().getObject(u, UserDTO.class);
                     blogCommentDTO.setUser(userDTO);
                 }
+                BlogPostDTO blogPostDTO = new BlogPostDTO();
+                blogPostDTO.setId(b.getBlogPost().getId());
+                blogCommentDTO.setBlogPost(blogPostDTO);
                 blogCommentDTOS.add(blogCommentDTO);
             });
         }
@@ -54,6 +65,14 @@ public class BlogCommentController extends ResponseController implements BaseCon
     public ResponseEntity<?> createOrUpdate(@RequestBody BlogCommentDTO json) {
         try {
             BlogComment from = ResponseDTO.accepted().getObject(json, BlogComment.class);
+            if (json.getBlogPost() != null) {
+                BlogPost blogPost = blogPostService.findById(json.getBlogPost().getId());
+                from.setBlogPost(blogPost);
+            }
+            if (json.getUser() != null) {
+                User user = userService.findById(json.getUser().getId());
+                from.setUser(user);
+            }
             blogCommentService.createOrUpdate(from);
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
         } catch (Exception ex) {
@@ -90,6 +109,9 @@ public class BlogCommentController extends ResponseController implements BaseCon
             UserDTO userDTO = ResponseDTO.accepted().getObject(u, UserDTO.class);
             dto.setUser(userDTO);
         }
+        BlogPostDTO blogPostDTO = new BlogPostDTO();
+        blogPostDTO.setId(blogComment.getBlogPost().getId());
+        dto.setBlogPost(blogPostDTO);
         return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 

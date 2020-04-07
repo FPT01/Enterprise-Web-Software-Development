@@ -24,6 +24,9 @@ class EditUser extends React.Component {
       username: '',
       password: '',
       status: '',
+      gender: '',
+      email:'',
+      avatar: '',
       selectValue: "",
       isSuccessful: false,
       roleList: [],
@@ -35,10 +38,10 @@ class EditUser extends React.Component {
       this.setState(newState);
     };
 
-    this.submitEditForm = (roleId, fullname, username, password, status) => ev => {
+    this.submitEditForm = (roleId, fullname, username, password, status, email, gender) => ev => {
       ev.preventDefault();
       // const recaptcha = recaptchaRef.current.getValue();
-      this.onSubmitEdit(roleId, fullname, username, password, status);
+      this.onSubmitEdit(roleId, fullname, username, password, status, email, gender);
       // recaptchaRef.current.reset();
     };
   }
@@ -49,15 +52,30 @@ class EditUser extends React.Component {
     });
   }
 
-  onSubmitEdit = (roleId, fullname, username, password, status) => {
+  onSubmitEdit = (roleId, fullname, username, password, status, email, gender) => {
     const userObj=queryString.parse(this.props.location.search);
-    console.log("roleId", roleId);
+    const formData = new FormData();
+    const newGender = parseInt(gender);
+    formData.append('dto', `"{
+        "id": 1,
+        "password": ${password},
+        "username": ${username},
+        "enabled": ${status},
+        "fullname": ${fullname},
+        "gender": 1,
+        "avatar": "1.jpg",
+        "email": "",
+        "roleDTO": {
+            "id": ${roleId}
+        }
+    }"`);
+    
     return fetch(`http://localhost:8080/api/user/save`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({id: userObj.id, fullname: fullname, username: username, password: password, enabled: status, roleDTO:{id: roleId}})
+      body: formData
     })
     .then((response) => response.json())
     .then((data) => {
@@ -94,7 +112,7 @@ class EditUser extends React.Component {
                 title="Edit User"
                 className="change-password"
                 content={
-                  <form onSubmit={this.submitEditForm(this.state.selectValue, this.state.fullname, this.state.username, this.state.password, this.state.status)}>
+                  <form onSubmit={this.submitEditForm(this.state.selectValue, this.state.fullname, this.state.username, this.state.password, this.state.status, this.state.email, this.state.gender)}>
                     <fieldset>
                       <fieldset className="form-group">
                         <label>Roles Name<span>*</span></label>
@@ -110,6 +128,14 @@ class EditUser extends React.Component {
                           type="text"
                           placeholder="Fullname"
                           value={this.state.fullname} onChange={this.updateState('fullname')} />
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <label>Gender<span>*</span></label>
+                        <input
+                          className="form-control form-control-lg"
+                          type="text"
+                          placeholder="Gender"
+                          value={this.state.gender} onChange={this.updateState('gender')} />
                       </fieldset>
                       <fieldset className="form-group">
                         <label>Username<span>*</span></label>
@@ -128,11 +154,19 @@ class EditUser extends React.Component {
                           value={this.state.password} onChange={this.updateState('password')} />
                       </fieldset>
                       <fieldset className="form-group">
+                        <label>Email<span>*</span></label>
+                        <input
+                          className="form-control form-control-lg"
+                          type="text"
+                          placeholder="Email"
+                          value={this.state.email} onChange={this.updateState('email')} />
+                      </fieldset>
+                      <fieldset className="form-group">
                         <label>Status<span>*</span></label>
                         <input
                           className="form-control form-control-lg"
                           type="text"
-                          placeholder="text"
+                          placeholder=""
                           value={this.state.status} onChange={this.updateState('status')} />
                       </fieldset>
                       <button

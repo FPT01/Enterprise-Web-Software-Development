@@ -26,7 +26,6 @@ class BlogPosts extends Component {
     fetch(`http://localhost:8080/api/blogpost/`, {
       headers: {
         'Content-Type': 'application/json'
-        // 'Content-Type': 'application/x-www-form-urlencoded',
       },
       method: "GET",
     })
@@ -44,33 +43,39 @@ class BlogPosts extends Component {
     const blogPostList = this.state.blogPostList;
     return (
       <div className="content">
+        <div>
+          <a href="/admin/add-new-blog">
+            <i className="fa fa-plus" /> Add new Blog
+                      </a>
+        </div>
+        {blogPostList.map((item, key) => (
+          <Grid fluid>
+            <Row>
+              <Col md={12} className="padding-bot">
+                <Card
+                  title={item.title}
+                  category=""
+                  ctTableFullWidth
+                  ctTableResponsive
+                  content={
+                    <>
+                      <i><div className="blog-creator">Written By: {item.user.fullname} - At <Moment format="YYYY/MM/DD">
+                        {item.creationTime}
+                      </Moment></div>
+                      </i>
+                      <div className="blog-content">{this.cutContentText(item.content)}...
 
-        {blogPostList.map((item, key) => {
-          return (
-            <Grid fluid>
-              <Row>
-                <Col md={12} className="padding-bot">
-                  <Card
-                    title={item.title}
-                    category=""
-                    ctTableFullWidth
-                    ctTableResponsive
-                    content={
-                      <>
-                        <i><div className="blog-creator">Written By: {item.user.fullname} - At <Moment format="YYYY/MM/DD">
-                          {item.creationTime}
-                        </Moment></div>
-                        </i>
-                        <div className="blog-content">{this.cutContentText(item.content)}...<a href="">view more</a></div>
-                        
-                      </>
-                    }
-                  />
-                </Col>
-              </Row>
-            </Grid>
-          )
-        })}
+
+                        <a href={"/admin/blogdetail?id=" + item.id}>view more</a></div>
+
+                    </>
+                  }
+                />
+              </Col>
+            </Row>
+          </Grid>
+        )
+        )}
 
       </div>
 

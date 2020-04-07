@@ -34,6 +34,7 @@ import EditStudent from "views/student/Edit.jsx";
 
 import BlogPosts from "views/blogpost/List.jsx";
 import BlogDetail from "views/blogpost/Detail.jsx";
+import AddNewBlog from "views/blogpost/AddNew.jsx";
 
 import Rooms from "views/room/List.jsx";
 import AddNewRoom from "views/room/AddNew.jsx";
@@ -195,7 +196,16 @@ const dashboardRoutes = [
     name: "Blog post",
     icon: "pe-7s-note2",
     component: BlogDetail,
-    layout: "/admin"
+    layout: "/admin",
+    subNav: true,
+  },
+  {
+    path: "/add-new-blog",
+    name: "Add New Blog",
+    icon: "pe-7s-note2",
+    component: AddNewBlog,
+    layout: "/admin",
+    subNav: true,
   },
   {
     path: "/edit-room",
