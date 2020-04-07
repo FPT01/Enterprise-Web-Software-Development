@@ -57,11 +57,17 @@ class Login extends React.Component {
       account.role = data.roleDTO.roleName;
       console.log(data);
       window.localStorage.setItem('account', JSON.stringify(account));
-      if( data.roleDTO.roleName == "ADMIN"){
-        window.location.href = "/admin/dashboard";
-      }else {
-        window.location.href = "/student/dashboard";
-      }
+        if( data.roleDTO.roleName === "Admin"){
+          window.location.href = "/admin/dashboard";
+        }else if(data.roleDTO.roleName === "Tutor"){
+          window.location.href = "/tutor/dashboard";
+        }else if (data.roleDTO.roleName==="Student"){
+          window.location.href = "/student/dashboard";
+        }else if(data.roleDTO.roleName === "Staff"){
+          window.location.href = "/admin/dashboard";
+        }else {
+          window.location.href = "/admin/dashboard";
+        }
       });
     }
 

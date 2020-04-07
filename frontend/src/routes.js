@@ -35,9 +35,14 @@ import EditStudent from "views/student/Edit.jsx";
 import BlogPosts from "views/blogpost/List.jsx";
 import BlogDetail from "views/blogpost/Detail.jsx";
 import AddNewBlog from "views/blogpost/AddNew.jsx";
+
 import Rooms from "views/room/List.jsx";
 import AddNewRoom from "views/room/AddNew.jsx";
 import EditRoom from "views/room/Edit.jsx";
+
+import ChatMessageBox from "views/chatRoom/ChatMessageBox.jsx";
+
+import ReportLastSevenDays from "views/report/ReportLastSevenDays.jsx";
 
 
 const dashboardRoutes = [
@@ -155,6 +160,15 @@ const dashboardRoutes = [
   },
 
   {
+    path: "/chat-message-box",
+    name: "Chat Box",
+    icon: "pe-7s-note2",
+    component: ChatMessageBox,
+    layout: "/admin",
+    subNav: false,
+  },
+
+  {
     path: "/room",
     name: "Management Room",
     icon: "pe-7s-note2",
@@ -200,6 +214,13 @@ const dashboardRoutes = [
     component: EditRoom,
     layout: "/admin",
     subNav: true,
+  },
+  {
+    path: "/report-lastsevendays",
+    name: "Report",
+    icon: "pe-7s-note2",
+    component: ReportLastSevenDays,
+    layout: "/admin",
   }
 ];
 
