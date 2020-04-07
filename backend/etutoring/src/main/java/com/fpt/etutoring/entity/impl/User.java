@@ -36,6 +36,15 @@ public class User implements Serializable {
     @Column(name = "enabled")
     private Short enabled;
 
+    @Column(name="gender")
+    private Short gender;
+
+    @Column(name="avatar")
+    private String avatar;
+
+    @Column(name="email")
+    private String email;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
