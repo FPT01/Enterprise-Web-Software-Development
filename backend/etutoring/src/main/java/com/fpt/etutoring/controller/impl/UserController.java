@@ -84,11 +84,32 @@ public class UserController extends ResponseController implements BaseController
 
     @PostMapping(value = Constant.PATH_SAVE)
     public ResponseEntity<?> save(@RequestParam(value = "file", required = false) MultipartFile file,
-                                  @RequestParam("dto") String source) {
+                                  @RequestParam(value = "id", required = false) Long id,
+                                  @RequestParam("password") String password,
+                                  @RequestParam("username") String username,
+                                  @RequestParam("enabled") Short enabled,
+                                  @RequestParam("fullname") String fullname,
+                                  @RequestParam("gender") Short gender,
+                                  @RequestParam("avatar") String avatar,
+                                  @RequestParam("email") String email,
+                                  @RequestParam("roleId") Long roleId) {
         if (file != null && file.getSize() > 0)
             storageService.store(file);
 
-        return createOrUpdate(converter.convert(source));
+        UserDTO source = new UserDTO();
+        if (id != null)
+            source.setId(id);
+        source.setPassword(password);
+        source.setUsername(username);
+        source.setEnabled(enabled);
+        source.setFullname(fullname);
+        source.setGender(gender);
+        source.setAvatar(avatar);
+        source.setEmail(email);
+        RoleDTO roleDTO = new RoleDTO();
+        roleDTO.setId(roleId);
+        source.setRoleDTO(roleDTO);
+        return createOrUpdate(source);
     }
 
     @Override
