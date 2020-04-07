@@ -56,24 +56,37 @@ class EditUser extends React.Component {
     const userObj=queryString.parse(this.props.location.search);
     const formData = new FormData();
     const newGender = parseInt(gender);
-    formData.append('dto', `"{
-        "id": 1,
-        "password": ${password},
-        "username": ${username},
-        "enabled": ${status},
-        "fullname": ${fullname},
-        "gender": 1,
-        "avatar": "1.jpg",
-        "email": "",
-        "roleDTO": {
-            "id": ${roleId}
-        }
-    }"`);
-    
+    const dto = new Object();
+    dto["id"] = userObj.id;
+    dto["password"] = password;
+    dto["username"] = username;
+    dto["enabled"] = status;
+    dto["fullname"] = fullname;
+    dto["gender"] = 1;
+    dto["avatar"] = "1.jpg";
+    dto["email"] = email;
+    dto["roleDTO"] = {"id":roleId};
+    // console.log(dto);
+    // formData.append('dto', `{
+    //     "id": ${userObj.id},
+    //     "password": ${password},
+    //     "username": ${username},
+    //     "enabled": ${status},
+    //     "fullname": ${fullname},
+    //     "gender": 1,
+    //     "avatar": "1.jpg",
+    //     "email": "",
+    //     "roleDTO": {
+    //         "id": ${roleId}
+    //     }
+    // }`);
+    // formData.append('dto', userObj.id);
+    formData.append('dto', dto);
     return fetch(`http://localhost:8080/api/user/save`, {
       method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "multipart/form-data",
       },
       body: formData
     })

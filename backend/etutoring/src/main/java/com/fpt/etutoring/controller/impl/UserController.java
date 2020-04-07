@@ -85,7 +85,7 @@ public class UserController extends ResponseController implements BaseController
     @PostMapping(value = Constant.PATH_SAVE)
     public ResponseEntity<?> save(@RequestParam(value = "file", required = false) MultipartFile file,
                                   @RequestParam("dto") String source) {
-        if (file.getSize() > 0)
+        if (file != null && file.getSize() > 0)
             storageService.store(file);
 
         return createOrUpdate(converter.convert(source));
