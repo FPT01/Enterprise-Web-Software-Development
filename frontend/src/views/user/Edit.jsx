@@ -55,18 +55,6 @@ class EditUser extends React.Component {
   onSubmitEdit = (roleId, fullname, username, password, status, email, gender) => {
     const userObj=queryString.parse(this.props.location.search);
     const formData = new FormData();
-    const newGender = parseInt(gender);
-    const dto = new Object();
-    dto["id"] = userObj.id;
-    dto["password"] = password;
-    dto["username"] = username;
-    dto["enabled"] = status;
-    dto["fullname"] = fullname;
-    dto["gender"] = 1;
-    dto["avatar"] = "1.jpg";
-    dto["email"] = email;
-    dto["roleDTO"] = {"id":roleId};
-    // console.log(dto);
     // formData.append('dto', `{
     //     "id": ${userObj.id},
     //     "password": ${password},
@@ -80,23 +68,12 @@ class EditUser extends React.Component {
     //         "id": ${roleId}
     //     }
     // }`);
-    // formData.append('dto', userObj.id);
-    formData.append('id', userObj.id);
-    formData.append('password', "123");
-    formData.append('username', "username");
-    formData.append('enabled', 1);
-    formData.append('fullname', "fullname");
-    formData.append('gender', 1);
-    formData.append('avatar', "");
-    formData.append('email', "email");
-    formData.append('roleId', 1);
+    formData.append("password", password);
     console.log("formData", formData);
-
     return fetch(`http://localhost:8080/api/user/save`, {
       method: "POST",
       headers: {
-        Accept: "application/json",
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
       body: formData
     })
@@ -149,6 +126,7 @@ class EditUser extends React.Component {
                         <input
                           className="form-control form-control-lg"
                           type="text"
+                          name="fulname"
                           placeholder="Fullname"
                           value={this.state.fullname} onChange={this.updateState('fullname')} />
                       </fieldset>
@@ -157,6 +135,7 @@ class EditUser extends React.Component {
                         <input
                           className="form-control form-control-lg"
                           type="text"
+                          name="gender"
                           placeholder="Gender"
                           value={this.state.gender} onChange={this.updateState('gender')} />
                       </fieldset>
@@ -165,6 +144,7 @@ class EditUser extends React.Component {
                         <input
                           className="form-control form-control-lg"
                           type="text"
+                          name="username"
                           placeholder="Username"
                           value={this.state.username} onChange={this.updateState('username')} />
                       </fieldset>
@@ -173,6 +153,7 @@ class EditUser extends React.Component {
                         <input
                           className="form-control form-control-lg"
                           type="password"
+                          name="password"
                           placeholder="Password"
                           value={this.state.password} onChange={this.updateState('password')} />
                       </fieldset>
@@ -181,6 +162,7 @@ class EditUser extends React.Component {
                         <input
                           className="form-control form-control-lg"
                           type="text"
+                          name="email"
                           placeholder="Email"
                           value={this.state.email} onChange={this.updateState('email')} />
                       </fieldset>
@@ -189,6 +171,7 @@ class EditUser extends React.Component {
                         <input
                           className="form-control form-control-lg"
                           type="text"
+                          name="status"
                           placeholder=""
                           value={this.state.status} onChange={this.updateState('status')} />
                       </fieldset>
