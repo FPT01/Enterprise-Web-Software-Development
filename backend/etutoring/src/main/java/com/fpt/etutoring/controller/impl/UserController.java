@@ -19,11 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +81,7 @@ public class UserController extends ResponseController implements BaseController
         return dtos;
     }
 
-    @PostMapping(value = Constant.PATH_SAVE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    /*@PostMapping(value = Constant.PATH_SAVE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> save(@RequestParam(value = "file", required = false) MultipartFile file,
                                   @RequestParam(value = "id", required = false) Long id,
                                   @RequestParam("password") String password,
@@ -111,10 +109,11 @@ public class UserController extends ResponseController implements BaseController
         roleDTO.setId(roleId);
         source.setRoleDTO(roleDTO);
         return createOrUpdate(source);
-    }
+    }*/
 
     @Override
-    public ResponseEntity<?> createOrUpdate(UserDTO json) {
+    @PostMapping(value = Constant.PATH_SAVE, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> createOrUpdate(@RequestBody UserDTO json) {
         try {
             User from = ResponseDTO.accepted().getObject(json, User.class);
             if (json.getRoleDTO() != null) {
@@ -133,7 +132,7 @@ public class UserController extends ResponseController implements BaseController
     }
 
     @Override
-    @DeleteMapping(value = Constant.PATH_DELETE)
+    @DeleteMapping(value = Constant.PATH_DELETE, consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
             User user = userService.findById(id);
@@ -148,7 +147,7 @@ public class UserController extends ResponseController implements BaseController
     }
 
     @Override
-    @GetMapping(value = Constant.PATH_FIND_BY_ID)
+    @GetMapping(value = Constant.PATH_FIND_BY_ID, consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         User u = userService.findById(id);
         if (u == null)
