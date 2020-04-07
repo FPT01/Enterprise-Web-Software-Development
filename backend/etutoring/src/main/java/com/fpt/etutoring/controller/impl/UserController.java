@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -82,7 +83,7 @@ public class UserController extends ResponseController implements BaseController
         return dtos;
     }
 
-    @PostMapping(value = Constant.PATH_SAVE)
+    @PostMapping(value = Constant.PATH_SAVE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> save(@RequestParam(value = "file", required = false) MultipartFile file,
                                   @RequestParam(value = "id", required = false) Long id,
                                   @RequestParam("password") String password,
