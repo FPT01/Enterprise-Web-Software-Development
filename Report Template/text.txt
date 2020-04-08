@@ -55,3 +55,66 @@ The Brand Manager is responsible for the monitoring and control of the Backlog. 
 The Product Backlog can include elements in these categories: Product features Failure Technical Work Analysis research
 Things from Product Backlog can be represented in several different ways. A typical way of doing this is to use User Story (a User Story is a concise summary of the product's desired function from the user's viewpoint, it has the form: Is ... I want ... to ...
 Example: As a consumer I want to see a list of items to select from.) But this is not the only way to pick the correct type for each category, such as using User Situation, User Scenario, etc. It should be succinct, succinct and simple, no matter which approach the team uses.
+
+
+
+
+
+
+Responsive Web Development (RWD) is a recent phenomenon in which web design and production systems satisfy both platforms and user experience through screen size and dimension requirements. We will use versatile combination of techniques like versatile map, responsive graphic, and CSS media query for this reason.
+As users switch from a desktop to an iPad or iPhone, the platform changes automatically to match the screen size and scenario for processing. To put it another way, websites require technology that adapts to the system of the customer. This reduces the need for several separate site projects, which minimizes web design time and expense.
+
+
+
+Few years back, when versatile layout became almost a "luxury" and "premium" for websites, the only aspect that was versatile in column and page layout was that versatility was used in architecture. Email. Email. Photos can quickly split the arrangement and as they are forced forward even structural components may induce arrangement breakage. Versatile architecture isn't really versatile-programmers can produce hundreds of pixels, but they can't change the mainframe configuration to suit a netbook.
+We may now change even further. Photos can be changed dynamically, and we've got workarounds such that the interface rarely fails. The modular display approach is ideal for apps that turn handheld devices such as iPad or iPhone from a horizontal screen to a vertical screen.
+
+In CSS3 we'll use a media query function to construct dynamic layout and responsive materials. The min-width and max-width parameters should do just as we're advising to match the screen and window scale of the user. The min-width property defines a default window and screen width centered on a selection of common models (or similar models) that match the computer to the minimum distance. For every computer that has a screen size below this cap is ignored the stylesheets format. The attribute of max-width does the reverse. Any computer that meets the standard with a toolbar or full screen width does not implement the corresponding stylesheet file.
+When the picture size is too high, the picture may seem to be of poor quality but we also want it to remain on the site and do not want it to be deleted because it is significant. The image is then split into two groups: one group should be allowed to strip out the unimportant bits while the other group must preserve the picture which will be zoomed in and out.
+Many methods are used to produce versatile photographs that can reach various screen sizes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
