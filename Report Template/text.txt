@@ -73,16 +73,30 @@ In CSS3 we'll use a media query function to construct dynamic layout and respons
 When the picture size is too high, the picture may seem to be of poor quality but we also want it to remain on the site and do not want it to be deleted because it is significant. The image is then split into two groups: one group should be allowed to strip out the unimportant bits while the other group must preserve the picture which will be zoomed in and out.
 Many methods are used to produce versatile photographs that can reach various screen sizes.
 
+important of role
+The configuration and maintenance of the safety model is simplified by a function. It is a category of related rights that the individual may obtain. It is difficult to assign or remove rights to users as multiple users are included in a database. So once you identify roles: rights may even be granted or cancelled, and rights granted or cancelled automatically. 
+You can build tasks or you can predefined machine functions.
 
 
 
 
 
+class diagram
+The Diagram class is a type of static structure diagram that explains the system structure by displaying the classes of the system, its property, its actions and the relationships between artifacts. The unit diagram is the primary object-oriented layout building block.
 
 
 
+benefit relationship database 
+Previously, users also only operated their data by different records. This strategy just fits small-scale data collection environments. But the case needs to handle vast volumes of data, it means that we use the database. Data processing by database services can have beneficial benefits and help to easily store, access, use and modify data and to reach a high degree of job efficiency.
+The benefit of data processing is that it prevents replication which helps in a continuity of data which the manager can not manually monitor. The data formats maintained maintain consistency and data validity. Around the same time, it offers other opportunities for communicating with other team leaders, allowing us to freely share and update data in order to tackle the problem. Solve rapidly developing issues.
 
 
+When you try to put any filed into columns, you experience difficulties. 
+Restrict the duration of data areas, which ensures knowledge will be lost if you insert more data into a area than it can handle. 
+The output of the reassembly into their more complicated real world interpretations of basic data structures. 
+If you enter complicated data, SQL is tight. 
+To build ad hoc requests, you need to learn the layout of the database. 
+Lacking framework specified by RDBMS does not permit design transactions to be assisted. Lack of support of specific premise forms such as drawing ...
 
 
 
