@@ -100,7 +100,7 @@ class AddNewStudent extends React.Component {
                           className="form-control form-control-lg"
                           type="text"
                           placeholder="Fullname"
-                          value={this.state.fullname} onChange={this.updateState('fullname')} />
+                          value={this.state.fullname} onChange={this.updateState('fullname')} required />
                       </fieldset>
 
                       <fieldset className="form-group">
@@ -109,7 +109,7 @@ class AddNewStudent extends React.Component {
                           className="form-control form-control-lg"
                           type="text"
                           placeholder="Username"
-                          value={this.state.username} onChange={this.updateState('username')} />
+                          value={this.state.username} onChange={this.updateState('username')} required />
                       </fieldset>
                       <fieldset className="form-group">
                         <label>Password<span>*</span></label>
@@ -117,7 +117,7 @@ class AddNewStudent extends React.Component {
                           className="form-control form-control-lg"
                           type="password"
                           placeholder="Password"
-                          value={this.state.password} onChange={this.updateState('password')} />
+                          value={this.state.password} onChange={this.updateState('password')} required />
                       </fieldset>
                       <fieldset className="form-group">
                         <label>Status<span>*</span></label>
@@ -125,7 +125,7 @@ class AddNewStudent extends React.Component {
                           className="form-control form-control-lg"
                           type="text"
                           placeholder="text"
-                          value={this.state.status} onChange={this.updateState('status')} />
+                          value={this.state.status} onChange={this.updateState('status')} required />
                       </fieldset>
                       <button
                         className="btn btn-primary login-btn"

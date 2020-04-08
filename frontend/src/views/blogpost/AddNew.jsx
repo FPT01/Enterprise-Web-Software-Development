@@ -83,7 +83,7 @@ class BlogPosts extends Component {
                             className="form-control form-control-lg"
                             type="text"
                             placeholder="Blog title"
-                            value={this.state.fullname} onChange={this.updateState('title')} />
+                            value={this.state.fullname} onChange={this.updateState('title')} required />
                         </fieldset>
                         <fieldset className="form-group">
                           <label>Content<span>*</span></label>
@@ -91,7 +91,7 @@ class BlogPosts extends Component {
                             className="form-control form-control-lg"
                             type="text"
                             placeholder="Blog content"
-                            value={this.state.fullname} onChange={this.updateState('content')} />
+                            value={this.state.fullname} onChange={this.updateState('content')} required />
                         </fieldset>
 
                         <button
