@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Websocket from 'react-websocket';
  
 var stompClient = null;
+var ws = new WebSocket('ws://localhost:8080/ws');
+
 class ChatMessageBox extends Component {
   constructor(props) {
     super(props);
@@ -45,16 +47,15 @@ class ChatMessageBox extends Component {
   }
 
   connect(){
-    var ws = new WebSocket('ws://localhost:8080/ws');
-    console.log(ws);
     ws.onopen = function(data){
       console.log("connect roi nha");
+      console.log(data);
       if(data.length){
         this.state.isWS = true
       }
     }
     ws.onmessage = function(data){
-      console.log(data);
+      console.log("data", data);
       this.showGreeting("Hello lala");
     }
     this.setState({
@@ -69,10 +70,14 @@ class ChatMessageBox extends Component {
   }
 
   handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
+    console.log(this.state.message);
+    var data = JSON.stringify({'userId': 1, 'msg': this.state.message})
+    ws.send(data);
     this.setState({
-      message: ''
-    })
+      message: this.state.message
+    });
+
   }
 
   componentDidMount(){
