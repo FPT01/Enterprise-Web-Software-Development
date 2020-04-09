@@ -81,7 +81,7 @@ class EditRoom extends React.Component {
                           className="form-control form-control-lg"
                           type="text"
                           placeholder="Room Name"
-                          value={this.state.roomName} onChange={this.updateState('roomName')} />
+                          value={this.state.roomName} onChange={this.updateState('roomName')} required />
                       </fieldset>
                       <button
                         className="btn btn-primary login-btn"
