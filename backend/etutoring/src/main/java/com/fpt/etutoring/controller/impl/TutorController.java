@@ -84,10 +84,10 @@ public class TutorController extends ResponseController implements BaseControlle
     @DeleteMapping(value = Constant.PATH_DELETE, consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
-            Tutor tutor = tutorService.findById(id);
-            if (tutor != null) {
-                storageService.deleteByFilename(tutor.getUser().getAvatar());
-            }
+//            Tutor tutor = tutorService.findById(id);
+//            if (tutor != null) {
+//                storageService.deleteByFilename(tutor.getUser().getAvatar());
+//            }
             tutorService.delete(id);
         } catch (Exception ex) {
             return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, ex));

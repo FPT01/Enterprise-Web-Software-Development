@@ -12,7 +12,7 @@ public class UserDTO extends BaseDTO {
     private Short enabled;
     private String fullname;
     private Short gender;
-    private String avatar;
+    //private String avatar;
     private String email;
     private RoleDTO roleDTO;
     private RoleDTO role;

@@ -23,6 +23,8 @@ public class EtutoringApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		//emailService.sendSimpleMessage("phonglhtcs19002@fpt.edu.vn", "Test", "1234");
+		//emailService.sendSimpleMessage("phonglhtcs19002@fpt.edu.vn", "Test");
+//		String pass = StringUtil.generateCommonLangPassword();
+//		System.out.println(">>>>> pass: " + pass);
 	}
 }
