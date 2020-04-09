@@ -29,7 +29,8 @@ class Admin extends Component {
       image: image,
       color: "black",
       hasImage: true,
-      fixedClasses: "dropdown show-dropdown open"
+      fixedClasses: "dropdown show-dropdown open",
+      currentUser: [],
     };
   }
 
@@ -86,6 +87,20 @@ class Admin extends Component {
     }
   };
 
+  onClickLogout = () => {
+    window.localStorage.setItem('account', null);
+    window.location.href = "/login";
+  }
+
+  componentWillMount(){
+    const currentUser = JSON.parse(window.localStorage.getItem('account'));
+    if(currentUser ===null){
+      window.location.href = "/login";
+    }else {
+      this.state.currentUser = currentUser
+    }
+  }
+
   componentDidUpdate(e) {
     if (
       window.innerWidth < 993 &&
@@ -103,10 +118,22 @@ class Admin extends Component {
   render() {
     return (
       <div className="wrapper">
-        
+        <div className="welcome-block">
+          <div className="inner">
+            <h4><i className="fa fa-user-circle-o" aria-hidden="true"></i>  {this.state.currentUser.username}</h4>
+            <div className="logout">
+              <button
+                className="btn btn-primary"
+                onClick={this.onClickLogout}>
+                <i className="fa fa-sign-out" aria-hidden="true"></i> Logout
+              </button>
+            </div>
+          </div>
+        </div>
         <Sidebar {...this.props} routes={routes} image={this.state.image}
         color={this.state.color}
-        hasImage={this.state.hasImage}/>
+        hasImage={this.state.hasImage} currentUser={this.state.currentUser}/>
+
         <div id="main-panel" className="main-panel" ref="mainPanel">
           <AdminNavbar
             {...this.props}

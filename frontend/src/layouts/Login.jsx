@@ -10,6 +10,7 @@
 
 import React from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import Logo from "../logo.jpg";
 
 const recaptchaRef = React.createRef();
 
@@ -55,13 +56,18 @@ class Login extends React.Component {
       let account = {};
       account.username = data.username;
       account.role = data.roleDTO.roleName;
-      console.log(data);
       window.localStorage.setItem('account', JSON.stringify(account));
-      if( data.roleDTO.roleName == "ADMIN"){
-        window.location.href = "/admin/dashboard";
-      }else {
-        window.location.href = "/student/dashboard";
-      }
+        if( data.roleDTO.roleName === "Admin"){
+          window.location.href = "/admin/dashboard";
+        }else if(data.roleDTO.roleName === "Tutor"){
+          window.location.href = "/tutor/dashboard";
+        }else if (data.roleDTO.roleName==="Student"){
+          window.location.href = "/student/dashboard";
+        }else if(data.roleDTO.roleName === "Staff"){
+          window.location.href = "/admin/dashboard";
+        }else {
+          window.location.href = "/admin/dashboard";
+        }
       });
     }
 
@@ -129,6 +135,7 @@ class Login extends React.Component {
             <div className="container page">
               <div className="inner-form">
                 <div className="heading-title text-xs-center">
+                  <div className="fpt-greenwich-logo"><img src={Logo} /></div>
                   <div className="heading-title">
                     <h2 className="active">Đăng Nhập</h2>
                   </div>

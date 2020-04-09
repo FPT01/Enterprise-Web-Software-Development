@@ -35,7 +35,7 @@ class AddNewUser extends React.Component {
       this.setState(newState);
     };
 
-    this.submitForm = (roleId, fullname, username, password, status) => ev => {
+    this.submitForm = (roleId, fullname, username, password, status, email, gender) => ev => {
       ev.preventDefault();
       // const recaptcha = recaptchaRef.current.getValue();
       this.onSubmit(roleId, fullname, username, password, status);
@@ -49,7 +49,7 @@ class AddNewUser extends React.Component {
     });
   }
 
-  onSubmit = (roleId, fullname, username, password, status) => {
+  onSubmit = (roleId, fullname, username, password, status, email, gender) => {
     var roleId = null;
     this.state.roleList.map(itm => {
       if(itm.roleName === "Tutor"){
@@ -62,7 +62,7 @@ class AddNewUser extends React.Component {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({fullname: fullname, username: username, password: password, enabled: status, roleDTO:{id: roleId}})
+      body: JSON.stringify({fullname: fullname, username: username, password: password, enabled: status, email: email, gender:gender, roleDTO:{id: roleId}})
     })
     .then((response) => response.json())
     .then((data) => {
@@ -99,11 +99,11 @@ class AddNewUser extends React.Component {
                 title="Add New User"
                 className="change-password"
                 content={
-                  <form onSubmit={this.submitForm(this.state.selectValue, this.state.fullname, this.state.username, this.state.password, this.state.status)}>
+                  <form onSubmit={this.submitForm(this.state.selectValue, this.state.fullname, this.state.username, this.state.password, this.state.status, this.state.email, this.state.gender)}>
                     <fieldset>
                       <fieldset className="form-group">
                         <label>Roles Name<span>*</span></label>
-                        <select className="form-control" value={this.state.selectValue} onChange={this.updateState('selectValue')} >
+                        <select className="form-control" value={this.state.selectValue} onChange={this.updateState('selectValue')} required >
                           <option value="">Please choose role</option>
                           {selectOptions()}
                         </select>
@@ -114,7 +114,15 @@ class AddNewUser extends React.Component {
                           className="form-control form-control-lg"
                           type="text"
                           placeholder="Fullname"
-                          value={this.state.fullname} onChange={this.updateState('fullname')} />
+                          value={this.state.fullname} onChange={this.updateState('fullname')} required />
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <label>Gender<span>*</span></label>
+                        <input
+                          className="form-control form-control-lg"
+                          type="text"
+                          placeholder="Gender"
+                          value={this.state.gender} onChange={this.updateState('gender')} required />
                       </fieldset>
                       <fieldset className="form-group">
                         <label>Username<span>*</span></label>
@@ -122,7 +130,7 @@ class AddNewUser extends React.Component {
                           className="form-control form-control-lg"
                           type="text"
                           placeholder="Username"
-                          value={this.state.username} onChange={this.updateState('username')} />
+                          value={this.state.username} onChange={this.updateState('username')} required />
                       </fieldset>
                       <fieldset className="form-group">
                         <label>Password<span>*</span></label>
@@ -130,7 +138,15 @@ class AddNewUser extends React.Component {
                           className="form-control form-control-lg"
                           type="password"
                           placeholder="Password"
-                          value={this.state.password} onChange={this.updateState('password')} />
+                          value={this.state.password} onChange={this.updateState('password')} required />
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <label>Email<span>*</span></label>
+                        <input
+                          className="form-control form-control-lg"
+                          type="text"
+                          placeholder="Email"
+                          value={this.state.email} onChange={this.updateState('email')} required />
                       </fieldset>
                       <fieldset className="form-group">
                         <label>Status<span>*</span></label>
@@ -138,7 +154,7 @@ class AddNewUser extends React.Component {
                           className="form-control form-control-lg"
                           type="text"
                           placeholder="text"
-                          value={this.state.status} onChange={this.updateState('status')} />
+                          value={this.state.status} onChange={this.updateState('status')} required />
                       </fieldset>
                       <button
                         className="btn btn-primary login-btn"

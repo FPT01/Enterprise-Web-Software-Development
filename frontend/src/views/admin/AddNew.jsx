@@ -80,7 +80,7 @@ class AddNewRole extends React.Component {
                           className="form-control form-control-lg"
                           type="text"
                           placeholder="Role Name"
-                          value={this.state.rolename} onChange={this.updateState('rolename')} />
+                          value={this.state.rolename} onChange={this.updateState('rolename')} required />
                       </fieldset>
 
                       <fieldset className="form-group">
@@ -89,7 +89,7 @@ class AddNewRole extends React.Component {
                           className="form-control form-control-lg"
                           type="text"
                           placeholder="Role Description"
-                          value={this.state.roleDescription} onChange={this.updateState('roleDescription')} />
+                          value={this.state.roleDescription} onChange={this.updateState('roleDescription')} required />
                       </fieldset>
                       <button
                         className="btn btn-primary login-btn"

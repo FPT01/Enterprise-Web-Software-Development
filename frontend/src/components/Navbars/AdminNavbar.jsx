@@ -12,6 +12,8 @@ import React, { Component } from "react";
 import { Navbar } from "react-bootstrap";
 
 import AdminNavbarLinks from "./AdminNavbarLinks.jsx";
+import StudentNavbarLinks from "./StudentNavBarLinks.jsx";
+import TutorNavbarLinks from "./TutorNavbarLinks.jsx";
 
 class Header extends Component {
   constructor(props) {

@@ -44,7 +44,7 @@ class Sidebar extends Component {
         data-image={this.props.image}
       >
           {this.props.hasImage ? (
-            <div className="sidebar-background" style={sidebarBackground} />
+            <div className="sidebar-background" />
           ) : (
             null
           )}
@@ -75,7 +75,7 @@ class Sidebar extends Component {
                   );
                 }else {
                   return (
-                    <li
+                    <li key={key}
                       className={
                         prop.subNav
                           ? ""
@@ -96,21 +96,10 @@ class Sidebar extends Component {
                   );
                 }
                 return (
-                  <li
-                    className={
-                      prop.subNav
-                        ? "sub-nav"
-                        : this.activeRoute(prop.layout + prop.path)
-                    }
-                    style={(prop.subNav) ? {display: "none"} : {display: "block"} }
-                    key={key}
+                  <li style={(prop.subNav) ? {display: "none"} : {display: "block"}}
+                    className={prop.subNav ? "sub-nav" : this.activeRoute(prop.layout + prop.path)}
                   >
-                    <NavLink
-                      style={{"display": "flex"}}
-                      to={prop.layout + prop.path}
-                      className="nav-link"
-                      activeClassName="active"
-                    >
+                    <NavLink style={{"display": "flex"}} to={prop.layout + prop.path} className="nav-link" activeClassName="active">
                       <i className={prop.icon} />
                       <p>{prop.name}</p>
                     </NavLink>

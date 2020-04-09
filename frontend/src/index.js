@@ -30,7 +30,7 @@ ReactDOM.render(
       <Route path="/admin" render={props => <AdminLayout {...props} />} />
       <Route path="/tutor" render={props => <TutorLayout {...props} />} />
       <Route path="/student" render={props => <StudentLayout {...props} />} />
-      // <Redirect from="/" to="/admin/dashboard" />
+      <Redirect from="/" to="/login" />
     </Switch>
   </BrowserRouter>,
   document.getElementById("root")
