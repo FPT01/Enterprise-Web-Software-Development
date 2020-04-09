@@ -4,8 +4,8 @@ package com.fpt.etutoring.controller.impl;
 import com.fpt.etutoring.controller.BaseController;
 import com.fpt.etutoring.controller.ResponseController;
 import com.fpt.etutoring.converter.StringToUserDTOConverter;
-import com.fpt.etutoring.dto.RequestDTO;
 import com.fpt.etutoring.dto.ResponseDTO;
+import com.fpt.etutoring.dto.impl.LoginDTO;
 import com.fpt.etutoring.dto.impl.RoleDTO;
 import com.fpt.etutoring.dto.impl.UserDTO;
 import com.fpt.etutoring.entity.impl.Role;
@@ -43,10 +43,10 @@ public class UserController extends ResponseController implements BaseController
     private StringToUserDTOConverter converter;
 
 
-    @PostMapping(Constant.PATH_LOGIN)
-    public ResponseEntity<?> login(@RequestDTO(UserDTO.class) User user) {
+    @PostMapping(value = Constant.PATH_LOGIN)
+    public ResponseEntity<?> login(@RequestBody LoginDTO json) {
 //        return securityService.autoLogin(user.getUsername(), user.getPassword());
-        User u = userService.getUserByUsernameAndPassword(user.getUsername(), user.getPassword());
+        User u = userService.getUserByUsernameAndPassword(json.getUsername(), json.getPassword());
         if (u != null && u.getEnabled() == 1) {
             UserDTO userDTO = getUserWithRole(u);
             userDTO.setPassword(null);
