@@ -10,27 +10,25 @@ class ChatMessageBox extends Component {
     this.state =
       {
         username: 'tutor1',
+        textMessage: "",
       };
       this.handleSubmit = this.handleSubmit.bind(this)
   }
   componentDidMount() {
-    console.log('Component did mount');
     // The compat mode syntax is totally different, converting to v5 syntax
     // Client is imported from '@stomp/stompjs'
-    
-
     client.configure({
       brokerURL: 'ws://localhost:8080/stomp',
       onConnect: () => {
         console.log('onConnect');
-
         client.subscribe('/queue/now', message => {
-          console.log(message);
-          this.setState({serverTime: message.body});
+          this.setState({textMessage: message.body});
         });
 
         client.subscribe('/topic/greetings', message => {
-          alert(message.body);
+          this.setState({textMessage: message.body});
+          console.log(message);
+          this.showMessageOutput(JSON.stringify(message.body));
         });
       },
       // Helps during debugging, remove in production
@@ -42,17 +40,24 @@ class ChatMessageBox extends Component {
     client.activate();
   }
 
+
+
+  showMessageOutput(messageOutput) {
+    var response = document.getElementById('response');
+    var p = document.createElement('p');
+    p.style.wordWrap = 'break-word';
+    p.appendChild(document.createTextNode(messageOutput));
+    response.appendChild(p);
+  }
+
   handleSubmit = () => {
-      console.log("hello", 1111);
-      var from = document.getElementById('from').value;
+      var username = "hello";
+      console.log(window.localStorage.getItem('account').username);
       var text = document.getElementById('text').value;
-      debugger;
-      console.log("from", from);
-      console.log("from", from);
+      var json = {'username':username, 'text':text};
       // this.client.send("/app/greetings", {}, JSON.stringify({'from':from, 'text':text}));
       console.log("this.client", client);
-      client.publish({destination: '/app/greetings', body: 'test'});
-      // this.client.publish("/app/greetings", {}, "test");
+      client.publish({destination: '/app/greetings', body: json});
 
   }
 
