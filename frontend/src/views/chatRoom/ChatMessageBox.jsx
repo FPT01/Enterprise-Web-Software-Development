@@ -51,7 +51,7 @@ class ChatMessageBox extends Component {
       console.log("from", from);
       // this.client.send("/app/greetings", {}, JSON.stringify({'from':from, 'text':text}));
       console.log("this.client", client);
-      client.publish({destination: '/app/greetings', body: JSON.stringify({'from':"hello", 'text':text})});
+      client.publish({destination: '/app/greetings', body: 'test'});
       // this.client.publish("/app/greetings", {}, "test");
 
   }
