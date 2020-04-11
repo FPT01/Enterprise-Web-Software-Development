@@ -2,29 +2,34 @@ import React, { Component } from "react";
 
 import { Client } from '@stomp/stompjs';
  
-class ChatMessageBox extends Component {
-  
-  state = {
-    serverTime: null,
-  }
+var client = new Client();
 
+class ChatMessageBox extends Component {
+  constructor(props) {
+    super(props);
+    this.state =
+      {
+        username: 'tutor1',
+      };
+      this.handleSubmit = this.handleSubmit.bind(this)
+  }
   componentDidMount() {
     console.log('Component did mount');
     // The compat mode syntax is totally different, converting to v5 syntax
     // Client is imported from '@stomp/stompjs'
-    this.client = new Client();
+    
 
-    this.client.configure({
-      brokerURL: 'wss://http://localhost:8080/chat/info',
+    client.configure({
+      brokerURL: 'ws://localhost:8080/stomp',
       onConnect: () => {
         console.log('onConnect');
 
-        this.client.subscribe('/queue/now', message => {
+        client.subscribe('/queue/now', message => {
           console.log(message);
           this.setState({serverTime: message.body});
         });
 
-        this.client.subscribe('/topic/greetings', message => {
+        client.subscribe('/topic/greetings', message => {
           alert(message.body);
         });
       },
@@ -34,27 +39,40 @@ class ChatMessageBox extends Component {
       }
     });
 
-    this.client.activate();
+    client.activate();
   }
 
-  clickHandler = () => {
-    this.client.publish({destination: '/app/greetings', body: 'Hello world'});
+  handleSubmit = () => {
+      console.log("hello", 1111);
+      var from = document.getElementById('from').value;
+      var text = document.getElementById('text').value;
+      debugger;
+      console.log("from", from);
+      console.log("from", from);
+      // this.client.send("/app/greetings", {}, JSON.stringify({'from':from, 'text':text}));
+      console.log("this.client", client);
+      client.publish({destination: '/app/greetings', body: 'test'});
+      // this.client.publish("/app/greetings", {}, "test");
+
   }
 
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <p>
-            Server time: {this.state.serverTime ? this.state.serverTime : 'no data'}
-          </p>
-          <p>
-            <button onClick={this.clickHandler}>Click me</button>
-          </p>
-        </header>
+        <div>
+          <input type="text" id="from" placeholder="Choose a nickname"/>
+        </div>
+        <br />
+        <div>
+            <button id="connect">Connect</button>
+            <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
+        </div>
+        <br />
+        <div id="conversationDiv">
+            <input type="text" id="text" placeholder="Write a message..."/>
+            <button id="sendMessage" onClick={this.handleSubmit}>Send</button>
+            <p id="response"></p>
+        </div>
       </div>
     );
   }
