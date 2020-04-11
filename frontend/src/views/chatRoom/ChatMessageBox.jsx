@@ -10,13 +10,19 @@ class ChatMessageBox extends Component {
     this.state =
       {
         username: "",
-        textMessage: "",
+        textMessage: null,
+        listMessage: [],
       };
       this.handleSubmit = this.handleSubmit.bind(this)
   }
   componentDidMount() {
     // The compat mode syntax is totally different, converting to v5 syntax
-    // Client is imported from '@stomp/stompjs'
+    // Client is imported from '@stomp/stompjs';
+    var account = window.localStorage.getItem('account');
+    var username = JSON.parse(account).username;
+    this.setState({
+      username: username
+    })
     client.configure({
       brokerURL: 'ws://localhost:8080/stomp',
       onConnect: () => {
@@ -26,9 +32,18 @@ class ChatMessageBox extends Component {
         });
 
         client.subscribe('/topic/greetings', message => {
-          this.setState({textMessage: message.body});
           var response = JSON.parse(message.body);
-          this.showMessageOutput(response);
+          var oldMessage = this.state.textMessage;
+          console.log("oldMessage", oldMessage);
+          var newListMessage = [];
+          if(oldMessage !== null){
+            newListMessage.push(oldMessage);
+          }
+          newListMessage.push(response);
+          this.setState({
+            textMessage: response,
+            listMessage: newListMessage
+          });
         });
       },
       // Helps during debugging, remove in production
@@ -43,40 +58,54 @@ class ChatMessageBox extends Component {
 
 
   showMessageOutput(messageOutput) {
-    var response = document.getElementById('response');
-    var p = document.createElement('p');
-    p.style.wordWrap = 'break-word';
-    p.appendChild(document.createTextNode(messageOutput.username + ": " + messageOutput.text));
-    response.appendChild(p);
+    return(
+      <>
+        {
+          messageOutput.map(item => {
+            return (
+              <div className="msg left-msg">
+                <div className="msg-img"></div>
+                <div className="msg-bubble">
+                  <div className="msg-info">
+                    <div className="msg-info-name">{item.from}</div>
+                    <div className="msg-info-time">{item.time}</div>
+                  </div>
+                  <div className="msg-text">
+                    {item.text}
+                  </div>
+                </div>
+              </div>
+            )
+          })
+        }
+      </>
+    )
   }
 
   handleSubmit = () => {
-      var account = window.localStorage.getItem('account');
-      var username = JSON.parse(account).username;
-      this.setState({
-        username: username
-      })
+      var username = this.state.username;
       var text = document.getElementById('text').value;
       var json = {'username':username, 'text':text};
       client.publish({destination: '/app/greetings', body: JSON.stringify(json)});
+      document.getElementById('text').value = '';
   }
 
   render() {
+    console.log("this.state.listMessage", this.state.listMessage);
     return (
-      <div className="App">
-        <div>
-          <input type="text" id="from" placeholder="Choose a nickname"/>
-        </div>
-        <br />
-        <div>
-            <button id="connect">Connect</button>
-            <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
-        </div>
-        <br />
-        <div id="conversationDiv">
-            <input type="text" id="text" placeholder="Write a message..."/>
-            <button id="sendMessage" onClick={this.handleSubmit}>Send</button>
-            <p id="response"></p>
+      <div className="chatbox">
+        <div id="chat">
+          <div className="msger-chat">
+            <div className="message" id="chat">
+              {
+                (this.state.textMessage !== "") ? this.showMessageOutput(this.state.listMessage) : ""
+              }
+            </div>
+          </div>
+          <div id="conversationDiv" className="msger-inputarea">
+            <input type="text" className="msger-input" id="text" placeholder="Write a message..."/>
+            <button id="sendMessage" className="msger-send-btn" onClick={this.handleSubmit}>Send</button>
+          </div>
         </div>
       </div>
     );

@@ -65,7 +65,6 @@ class EditStudent extends React.Component {
     })
     .then((response) => response.json())
     .then((data) => {
-      console.log('Success:', data);
       if(data.status === "OK"){
         window.location.href = "/admin/student";
       }else {
