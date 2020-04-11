@@ -46,6 +46,11 @@
         width: 260px;
         z-index: 4;
         padding-bottom: 30px;
+        .nav {
+            li {
+                width: 100%;
+            }
+        }
     }
 
     .sidebar-background{
