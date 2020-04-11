@@ -10,4 +10,6 @@ public interface UserService {
     User createOrUpdate(User json);
     void delete(Long id);
     User findById(Long id);
+    User findByUsername(String username);
+    User findByEmail(String email);
 }

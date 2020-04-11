@@ -25,8 +25,7 @@ public class ChatController {
     @MessageMapping("/chat")
     @SendTo("/topic/messages")
     public synchronized OutputMessage send(final Message message) throws Exception {
-        Long userId = Long.valueOf(message.getFrom());
-        User user = userService.findById(userId);
+        User user = userService.findByUsername(message.getFrom());
         if (user == null)
             return new OutputMessage();
 
