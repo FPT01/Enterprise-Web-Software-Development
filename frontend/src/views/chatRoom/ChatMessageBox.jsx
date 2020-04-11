@@ -1,115 +1,62 @@
 import React, { Component } from "react";
-import Websocket from 'react-websocket';
+
+import { Client } from '@stomp/stompjs';
  
-var stompClient = null;
-var ws = new WebSocket('ws://localhost:8080/ws');
-
 class ChatMessageBox extends Component {
-  constructor(props) {
-    super(props);
-    this.state =
-      {
-        username: 'tutor1',
-        channelConnected: false,
-        chatMessage: '',
-        roomNotification: [],
-        broadcastMessage: [],
-        error: '',
-        bottom: false,
-        curTime: '',
-        openNotifications: false,
-        bellRing: false,
-        count: 90,
-        isWS: false,
-        message: '',
-      };
-      this.handleInputChange = this.handleInputChange.bind(this);
-      this.handleChange = this.handleChange.bind(this)
-      this.handleSubmit = this.handleSubmit.bind(this)
+  
+  state = {
+    serverTime: null,
   }
 
-  showGreeting(message) {
-    console.log("message", message);
-    const newMessage = this.state;
-    this.setState({
-      newMessage : message
-    });
-    console.log(this.state.message);
-  } 
+  componentDidMount() {
+    console.log('Component did mount');
+    // The compat mode syntax is totally different, converting to v5 syntax
+    // Client is imported from '@stomp/stompjs'
+    this.client = new Client();
 
-  handleInputChange(event){
-    
-  }
+    this.client.configure({
+      brokerURL: 'wss://http://localhost:8080/chat/info',
+      onConnect: () => {
+        console.log('onConnect');
 
-  handleData(data) {
-    let result = JSON.parse(data);
-    this.setState({count: this.state.count + result.movement});
-  }
+        this.client.subscribe('/queue/now', message => {
+          console.log(message);
+          this.setState({serverTime: message.body});
+        });
 
-  connect(){
-    ws.onopen = function(data){
-      console.log("connect roi nha");
-      console.log(data);
-      if(data.length){
-        this.state.isWS = true
+        this.client.subscribe('/topic/greetings', message => {
+          alert(message.body);
+        });
+      },
+      // Helps during debugging, remove in production
+      debug: (str) => {
+        console.log(new Date(), str);
       }
-    }
-    ws.onmessage = function(data){
-      console.log("data", data);
-      this.showGreeting("Hello lala");
-    }
-    this.setState({
-      isWS: this.state.isWS
-    })
-  }
-
-  handleChange(e) {
-    this.setState({
-      message: e.target.value
-    })
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    console.log(this.state.message);
-    var data = JSON.stringify({'userId': '1', 'msg': this.state.message});
-    ws.send(data);
-    this.setState({
-      message: this.state.message
     });
 
+    this.client.activate();
   }
 
-  componentDidMount(){
-    this.connect();
+  clickHandler = () => {
+    this.client.publish({destination: '/app/greetings', body: 'Hello world'});
   }
 
   render() {
     return (
-      <div id="chat-container">
-         <div className="chat-header">
-            <div className="user-container">
-               <span id="username"></span>
-            </div>
-            <h3>CHAT</h3>
-         </div>
-         <hr/>
-         {this.state.isWS ? <div id="connecting">Connecting...</div> : ""}
-         
-         <ul id="messageArea">
-          {(this.state.newMessage !== undefined) ? this.state.newMessage : ""}
-         </ul>
-
-         <form onSubmit={this.handleSubmit} className="send-message-form">
-            <input
-              onChange={this.handleChange}
-              value={this.state.message}
-              placeholder="Type your message and hit ENTER"
-              type="text" />
-            <button type="submit" >Send</button>
-          </form>
+      <div className="App">
+        <header className="App-header">
+          <p>
+            Edit <code>src/App.js</code> and save to reload.
+          </p>
+          <p>
+            Server time: {this.state.serverTime ? this.state.serverTime : 'no data'}
+          </p>
+          <p>
+            <button onClick={this.clickHandler}>Click me</button>
+          </p>
+        </header>
       </div>
-    )
+    );
   }
 }
 
