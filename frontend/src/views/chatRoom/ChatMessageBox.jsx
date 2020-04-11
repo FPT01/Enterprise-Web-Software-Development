@@ -9,7 +9,7 @@ class ChatMessageBox extends Component {
     super(props);
     this.state =
       {
-        username: 'tutor1',
+        username: "",
         textMessage: "",
       };
       this.handleSubmit = this.handleSubmit.bind(this)
@@ -27,8 +27,8 @@ class ChatMessageBox extends Component {
 
         client.subscribe('/topic/greetings', message => {
           this.setState({textMessage: message.body});
-          console.log(message);
-          this.showMessageOutput(JSON.stringify(message.body));
+          var response = JSON.parse(message.body);
+          this.showMessageOutput(response);
         });
       },
       // Helps during debugging, remove in production
@@ -46,19 +46,19 @@ class ChatMessageBox extends Component {
     var response = document.getElementById('response');
     var p = document.createElement('p');
     p.style.wordWrap = 'break-word';
-    p.appendChild(document.createTextNode(messageOutput));
+    p.appendChild(document.createTextNode(messageOutput.username + ": " + messageOutput.text));
     response.appendChild(p);
   }
 
   handleSubmit = () => {
-      var username = "hello";
-      console.log(window.localStorage.getItem('account').username);
+      var account = window.localStorage.getItem('account');
+      var username = JSON.parse(account).username;
+      this.setState({
+        username: username
+      })
       var text = document.getElementById('text').value;
       var json = {'username':username, 'text':text};
-      // this.client.send("/app/greetings", {}, JSON.stringify({'from':from, 'text':text}));
-      console.log("this.client", client);
-      client.publish({destination: '/app/greetings', body: json});
-
+      client.publish({destination: '/app/greetings', body: JSON.stringify(json)});
   }
 
   render() {
