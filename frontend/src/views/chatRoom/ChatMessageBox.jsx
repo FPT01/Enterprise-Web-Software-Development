@@ -72,7 +72,7 @@ class ChatMessageBox extends Component {
   handleSubmit(e) {
     e.preventDefault();
     console.log(this.state.message);
-    var data = JSON.stringify({'userId': 1, 'msg': this.state.message})
+    var data = JSON.stringify({'userId': '1', 'msg': this.state.message});
     ws.send(data);
     this.setState({
       message: this.state.message

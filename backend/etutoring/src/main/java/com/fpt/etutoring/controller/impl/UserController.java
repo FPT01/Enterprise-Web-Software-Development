@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(Constant.PATH_USER)
 public class UserController extends ResponseController implements BaseController<UserDTO, Long> {
 //    @Autowired
