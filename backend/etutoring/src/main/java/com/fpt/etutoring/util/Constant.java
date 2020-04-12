@@ -36,8 +36,8 @@ public class Constant {
     public static final String PATH_BLOG_POST = PATH_API + "/blogpost";
     public static final String PATH_BLOG_COMMENT = PATH_API + "/blogcomment";
     public static final String PATH_STATISTIC = PATH_API + "/statistic";
-    public static final String PATH_LAST_SEVEN_DAYS = PATH_API + "/lastsevendays";
-    public static final String PATH_AVG_MSG = PATH_API + "/avgmsg";
+    public static final String PATH_LAST_SEVEN_DAYS = "/lastsevendays";
+    public static final String PATH_AVG_MSG = "/avgmsg";
     public static final String PATH_SEND_MSG = "/sendMessage";
     public static final String PATH_TOPIC_PUBLIC = "/topic/pubic";
     public static final String PATH_ADD_USER = "/addUser";
