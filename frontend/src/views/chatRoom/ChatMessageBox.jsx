@@ -12,12 +12,22 @@ class ChatMessageBox extends Component {
         username: "",
         textMessage: null,
         listMessage: [],
+        listHistoryMessage: [],
       };
       this.handleSubmit = this.handleSubmit.bind(this)
   }
   componentDidMount() {
     // The compat mode syntax is totally different, converting to v5 syntax
     // Client is imported from '@stomp/stompjs';
+    fetch(`http://localhost:8080/api/message/`, {
+      method: "GET",
+    })
+    .then(response =>  response.json() )
+    .then(data => {
+      console.log(data);
+      this.state.listHistoryMessage = data;
+    });
+
     var account = window.localStorage.getItem('account');
     var username = JSON.parse(account).username;
     this.setState({
