@@ -49,4 +49,8 @@ public class Constant {
     public static final String PATH_LOAD_FILE = "/loadfile";
     public static final String PATH_RESET_PASSWORD = PATH_API + "/resetpassword";
     public static final String EMAIL_TITLE = "New password";
+    public static final String CHAT_GREETINGS = "/greetings";
+    public static final String CHAT_TOPIC_GREETINGS = "/topic/greetings";
+    public static final String CHAT_GET_ALL = "/getall";
+    public static final String CHAT_TOPIC_GETALL = "/topic/getall";
 }
