@@ -12,12 +12,21 @@ class ChatMessageBox extends Component {
         username: "",
         textMessage: null,
         listMessage: [],
+        listHistoryMessage: [],
       };
       this.handleSubmit = this.handleSubmit.bind(this)
   }
   componentDidMount() {
     // The compat mode syntax is totally different, converting to v5 syntax
     // Client is imported from '@stomp/stompjs';
+    fetch(`http://localhost:8080/api/message/`, {
+      method: "GET",
+    })
+    .then(response =>  response.json() )
+    .then(data => {
+      this.setState({ listHistoryMessage: data });
+    });
+
     var account = window.localStorage.getItem('account');
     var username = JSON.parse(account).username;
     this.setState({
@@ -26,23 +35,16 @@ class ChatMessageBox extends Component {
     client.configure({
       brokerURL: 'ws://localhost:8080/stomp',
       onConnect: () => {
-        console.log('onConnect');
         client.subscribe('/queue/now', message => {
           this.setState({textMessage: message.body});
         });
 
         client.subscribe('/topic/greetings', message => {
           var response = JSON.parse(message.body);
-          var oldMessage = this.state.textMessage;
-          console.log("oldMessage", oldMessage);
-          var newListMessage = [];
-          if(oldMessage !== null){
-            newListMessage.push(oldMessage);
-          }
-          newListMessage.push(response);
+          this.state.listMessage.push(response);
           this.setState({
             textMessage: response,
-            listMessage: newListMessage
+            listMessage: this.state.listMessage
           });
         });
       },
@@ -63,7 +65,7 @@ class ChatMessageBox extends Component {
         {
           messageOutput.map(item => {
             return (
-              <div className="msg left-msg">
+              <div className={(item.from !== this.state.username) ? "msg left-msg" : "msg right-msg"}>
                 <div className="msg-img"></div>
                 <div className="msg-bubble">
                   <div className="msg-info">
@@ -91,12 +93,12 @@ class ChatMessageBox extends Component {
   }
 
   render() {
-    console.log("this.state.listMessage", this.state.listMessage);
     return (
       <div className="chatbox">
         <div id="chat">
           <div className="msger-chat">
             <div className="message" id="chat">
+              {this.showMessageOutput(this.state.listHistoryMessage)};
               {
                 (this.state.textMessage !== "") ? this.showMessageOutput(this.state.listMessage) : ""
               }
