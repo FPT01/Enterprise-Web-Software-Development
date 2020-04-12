@@ -34,8 +34,8 @@ public class MessageController extends ResponseController implements BaseControl
             messages.forEach(m -> {
                 if (m.getUser() != null) {
                     MessageDTO messageDTO = new MessageDTO();
-                    messageDTO.setContent(m.getContent());
-                    messageDTO.setUsername(m.getUser().getUsername());
+                    messageDTO.setText(m.getContent());
+                    messageDTO.setFrom(m.getUser().getUsername());
                     messageDTO.setTime(m.getTime());
                     messageDTOS.add(messageDTO);
                 }

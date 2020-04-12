@@ -9,8 +9,8 @@ import java.util.Date;
 @Getter
 @Setter
 public class MessageDTO {
-    private String content;
+    private String text;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-M-yyyy hh:mm:ss")
     private Date time;
-    private String username;
+    private String from;
 }
