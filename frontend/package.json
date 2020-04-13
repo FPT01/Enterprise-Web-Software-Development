@@ -3,6 +3,7 @@
   "version": "1.3.0",
   "private": true,
   "dependencies": {
+    "@stomp/stompjs": "^5.4.4",
     "bootstrap": "^4.4.1",
     "chartist": "^0.10.1",
     "moment": "^2.24.0",
@@ -22,7 +23,8 @@
     "react-stomp-client": "^1.2.0",
     "react-toggle": "^4.0.2",
     "react-websocket": "^2.1.0",
-    "sockjs-client": "^1.4.0"
+    "sockjs-client": "^1.4.0",
+    "stompjs": "^2.3.3"
   },
   "devDependencies": {
     "@types/googlemaps": "3.30.19",

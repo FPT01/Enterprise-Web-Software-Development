@@ -24,7 +24,7 @@ public class Constant {
     public static final String PATH_MESSAGE = PATH_API + "/message";
     public static final String PATH_DOCUMENT = PATH_API + "/document";
     public static final String PATH_COMMENT = PATH_API + "/comment";
-//    public static final String PATH_DASHBOARD_INFO = PATH_API + "/dashboardinfo";
+    public static final String PATH_DASHBOARD_INFO = PATH_API + "/dashboardinfo";
     public static final String PATH_NOTIFICATION = PATH_API + "/notification";
     public static final String PATH_ROOM = PATH_API + "/room";
     public static final String ERROR_INSERT = "Insert Error";
@@ -38,10 +38,9 @@ public class Constant {
     public static final String PATH_STATISTIC = PATH_API + "/statistic";
     public static final String PATH_LAST_SEVEN_DAYS = "/lastsevendays";
     public static final String PATH_AVG_MSG = "/avgmsg";
-//    public static final String PATH_SEND_MSG = "/sendMessage";
-//    public static final String PATH_TOPIC_PUBLIC = "/topic/pubic";
-//    public static final String PATH_ADD_USER = "/addUser";
-
+    public static final String PATH_SEND_MSG = "/sendMessage";
+    public static final String PATH_TOPIC_PUBLIC = "/topic/pubic";
+    public static final String PATH_ADD_USER = "/addUser";
     public static final String PATH_EXPORT = "/export";
     public static final String PATH_STUDENT_WITHOUT_TUTOR = PATH_EXPORT + "/studentwithouttutor";
     public static final String PATH_STUDENT_WITH_NO_INTERACTION = PATH_EXPORT + "/studentwithnointeraction";
@@ -50,9 +49,8 @@ public class Constant {
     public static final String PATH_LOAD_FILE = "/loadfile";
     public static final String PATH_RESET_PASSWORD = PATH_API + "/resetpassword";
     public static final String EMAIL_TITLE = "New password";
-
     public static final String CHAT_GREETINGS = "/greetings";
     public static final String CHAT_TOPIC_GREETINGS = "/topic/greetings";
-//    public static final String CHAT_GET_ALL = "/getall";
-//    public static final String CHAT_TOPIC_GETALL = "/topic/getall";
+    public static final String CHAT_GET_ALL = "/getall";
+    public static final String CHAT_TOPIC_GETALL = "/topic/getall";
 }

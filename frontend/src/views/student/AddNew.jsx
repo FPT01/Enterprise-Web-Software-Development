@@ -12,7 +12,7 @@ import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import { UserCard } from "components/UserCard/UserCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 
-import avatar from "assets/img/faces/face-3.jpg";
+
 
 class AddNewStudent extends React.Component {
   constructor() {
@@ -64,9 +64,8 @@ class AddNewStudent extends React.Component {
     })
     .then((response) => response.json())
     .then((data) => {
-      console.log('Success:', data);
       if(data.status === "OK"){
-        // window.location.href = "/admin/student/";
+        window.location.href = "/admin/student/";
       }else {
         console.log("error"); 
       }

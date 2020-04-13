@@ -32,8 +32,13 @@ public class MessageController extends ResponseController implements BaseControl
         List<MessageDTO> messageDTOS = new ArrayList<>();
         if (!StringUtils.isEmpty(messages)) {
             messages.forEach(m -> {
-                MessageDTO messageDTO = ResponseDTO.accepted().getObject(m, MessageDTO.class);
-                messageDTOS.add(messageDTO);
+                if (m.getUser() != null) {
+                    MessageDTO messageDTO = new MessageDTO();
+                    messageDTO.setText(m.getContent());
+                    messageDTO.setFrom(m.getUser().getUsername());
+                    messageDTO.setTime(m.getTime());
+                    messageDTOS.add(messageDTO);
+                }
             });
         }
         return messageDTOS;
@@ -42,16 +47,17 @@ public class MessageController extends ResponseController implements BaseControl
     @Override
     @PostMapping(value = Constant.PATH_SAVE, consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createOrUpdate(@RequestBody MessageDTO json) {
-        try {
-            Message from = ResponseDTO.accepted().getObject(json, Message.class);
-            messageService.createOrUpdate(from);
-            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
-        } catch (Exception ex) {
-            if (json.getId() == null)
-                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_INSERT));
-            else
-                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_UPDATE));
-        }
+//        try {
+//            Message from = ResponseDTO.accepted().getObject(json, Message.class);
+//            messageService.createOrUpdate(from);
+//            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
+//        } catch (Exception ex) {
+//            if (json.getId() == null)
+//                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_INSERT));
+//            else
+//                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_UPDATE));
+//        }
+        return null;
     }
 
     @Override

@@ -1,115 +1,116 @@
 import React, { Component } from "react";
-import Websocket from 'react-websocket';
+
+import { Client } from '@stomp/stompjs';
  
-var stompClient = null;
-var ws = new WebSocket('ws://localhost:8080/ws');
+var client = new Client();
 
 class ChatMessageBox extends Component {
   constructor(props) {
     super(props);
     this.state =
       {
-        username: 'tutor1',
-        channelConnected: false,
-        chatMessage: '',
-        roomNotification: [],
-        broadcastMessage: [],
-        error: '',
-        bottom: false,
-        curTime: '',
-        openNotifications: false,
-        bellRing: false,
-        count: 90,
-        isWS: false,
-        message: '',
+        username: "",
+        textMessage: null,
+        listMessage: [],
+        listHistoryMessage: [],
       };
-      this.handleInputChange = this.handleInputChange.bind(this);
-      this.handleChange = this.handleChange.bind(this)
       this.handleSubmit = this.handleSubmit.bind(this)
   }
-
-  showGreeting(message) {
-    console.log("message", message);
-    const newMessage = this.state;
-    this.setState({
-      newMessage : message
+  componentDidMount() {
+    // The compat mode syntax is totally different, converting to v5 syntax
+    // Client is imported from '@stomp/stompjs';
+    fetch(`http://localhost:8080/api/message/`, {
+      method: "GET",
+    })
+    .then(response =>  response.json() )
+    .then(data => {
+      this.setState({ listHistoryMessage: data });
     });
-    console.log(this.state.message);
-  } 
 
-  handleInputChange(event){
-    
-  }
+    var account = window.localStorage.getItem('account');
+    var username = JSON.parse(account).username;
+    this.setState({
+      username: username
+    })
+    client.configure({
+      brokerURL: 'ws://localhost:8080/stomp',
+      onConnect: () => {
+        client.subscribe('/queue/now', message => {
+          this.setState({textMessage: message.body});
+        });
 
-  handleData(data) {
-    let result = JSON.parse(data);
-    this.setState({count: this.state.count + result.movement});
-  }
-
-  connect(){
-    ws.onopen = function(data){
-      console.log("connect roi nha");
-      console.log(data);
-      if(data.length){
-        this.state.isWS = true
+        client.subscribe('/topic/greetings', message => {
+          var response = JSON.parse(message.body);
+          this.state.listMessage.push(response);
+          this.setState({
+            textMessage: response,
+            listMessage: this.state.listMessage
+          });
+        });
+      },
+      // Helps during debugging, remove in production
+      debug: (str) => {
+        console.log(new Date(), str);
       }
-    }
-    ws.onmessage = function(data){
-      console.log("data", data);
-      this.showGreeting("Hello lala");
-    }
-    this.setState({
-      isWS: this.state.isWS
-    })
-  }
-
-  handleChange(e) {
-    this.setState({
-      message: e.target.value
-    })
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    console.log(this.state.message);
-    var data = JSON.stringify({'userId': '1', 'msg': this.state.message});
-    ws.send(data);
-    this.setState({
-      message: this.state.message
     });
 
+    client.activate();
   }
 
-  componentDidMount(){
-    this.connect();
+
+
+  showMessageOutput(messageOutput) {
+    return(
+      <>
+        {
+          messageOutput.map(item => {
+            return (
+              <div className={(item.from !== this.state.username) ? "msg left-msg" : "msg right-msg"}>
+                <div className="msg-img"></div>
+                <div className="msg-bubble">
+                  <div className="msg-info">
+                    <div className="msg-info-name">{item.from}</div>
+                    <div className="msg-info-time">{item.time}</div>
+                  </div>
+                  <div className="msg-text">
+                    {item.text}
+                  </div>
+                </div>
+              </div>
+            )
+          })
+        }
+      </>
+    )
+  }
+
+  handleSubmit = () => {
+      var username = this.state.username;
+      var text = document.getElementById('text').value;
+      var json = {'username':username, 'text':text};
+      client.publish({destination: '/app/greetings', body: JSON.stringify(json)});
+      document.getElementById('text').value = '';
   }
 
   render() {
     return (
-      <div id="chat-container">
-         <div className="chat-header">
-            <div className="user-container">
-               <span id="username"></span>
+      <div className="chatbox">
+        <div id="chat">
+          <div className="msger-chat">
+            <div className="message" id="chat">
+              {this.showMessageOutput(this.state.listHistoryMessage)};
+              {
+                (this.state.textMessage !== "") ? this.showMessageOutput(this.state.listMessage) : ""
+              }
             </div>
-            <h3>CHAT</h3>
-         </div>
-         <hr/>
-         {this.state.isWS ? <div id="connecting">Connecting...</div> : ""}
-         
-         <ul id="messageArea">
-          {(this.state.newMessage !== undefined) ? this.state.newMessage : ""}
-         </ul>
-
-         <form onSubmit={this.handleSubmit} className="send-message-form">
-            <input
-              onChange={this.handleChange}
-              value={this.state.message}
-              placeholder="Type your message and hit ENTER"
-              type="text" />
-            <button type="submit" >Send</button>
-          </form>
+          </div>
+          <div id="conversationDiv" className="msger-inputarea">
+            <input type="text" className="msger-input" id="text" placeholder="Write a message..."/>
+            <button id="sendMessage" className="msger-send-btn" onClick={this.handleSubmit}>Send</button>
+          </div>
+        </div>
       </div>
-    )
+    );
   }
 }
 
