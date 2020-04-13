@@ -65,7 +65,9 @@ class BlogPosts extends Component {
   }
 
   onSubmit = (commenttext) => {
-    console.log(JSON.stringify({ content: commenttext, user : { id : 1}, blogPost: { id: this.state.id} }));
+    const account = window.localStorage.getItem('account');
+    const userid = JSON.parse(account).userid;
+    console.log(JSON.stringify({ content: commenttext, user : { id : userid}, blogPost: { id: this.state.id} }));
     return fetch(`http://localhost:8080/api/blogcomment/save`, {
       method: "POST",
       headers: {
