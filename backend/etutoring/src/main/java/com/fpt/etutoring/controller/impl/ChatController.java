@@ -3,13 +3,11 @@ package com.fpt.etutoring.controller.impl;
 import com.fpt.etutoring.entity.impl.User;
 import com.fpt.etutoring.service.MessageService;
 import com.fpt.etutoring.service.UserService;
-import com.fpt.etutoring.util.Constant;
+import com.fpt.etutoring.websocket.Message;
 import com.fpt.etutoring.websocket.OutputMessage;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -24,28 +22,22 @@ public class ChatController {
     @Autowired
     private MessageService messageService;
 
-    private final SimpMessagingTemplate simpMessagingTemplate;
+    @MessageMapping("/chat")
+    @SendTo("/topic/messages")
+    public synchronized OutputMessage send(final Message message) throws Exception {
+        Long userId = Long.valueOf(message.getFrom());
+        User user = userService.findById(userId);
+        if (user == null)
+            return new OutputMessage();
 
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-
-    public ChatController(SimpMessagingTemplate simpMessagingTemplate) {
-        this.simpMessagingTemplate = simpMessagingTemplate;
-    }
-
-    @MessageMapping(Constant.CHAT_GREETINGS)
-    public void send(String message) throws Exception {
-        JsonObject convertedObject = new Gson().fromJson(message, JsonObject.class);
-        User user = userService.findByUsername(convertedObject.get("username").getAsString());
         Date date = new Date();
-        final String time = dateFormat.format(date);
+        final String time = new SimpleDateFormat("HH:mm").format(date);
 
         com.fpt.etutoring.entity.impl.Message msg = new com.fpt.etutoring.entity.impl.Message();
         msg.setUser(user);
-        msg.setContent(convertedObject.get("text").getAsString());
+        msg.setContent(message.getText());
         msg.setTime(date);
         messageService.createOrUpdate(msg);
-        OutputMessage output = new OutputMessage(convertedObject.get("username").getAsString(),
-                convertedObject.get("text").getAsString(), time);
-        this.simpMessagingTemplate.convertAndSend(Constant.CHAT_TOPIC_GREETINGS, output);
+        return new OutputMessage(message.getFrom(), message.getText(), time);
     }
 }

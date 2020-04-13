@@ -13,7 +13,7 @@ import { UserCard } from "components/UserCard/UserCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import queryString from 'query-string';
 
-
+import avatar from "assets/img/faces/face-3.jpg";
 
 class EditStudent extends React.Component {
   constructor() {
@@ -65,6 +65,7 @@ class EditStudent extends React.Component {
     })
     .then((response) => response.json())
     .then((data) => {
+      console.log('Success:', data);
       if(data.status === "OK"){
         window.location.href = "/admin/student";
       }else {

@@ -1,6 +1,7 @@
 package com.fpt.etutoring.dto.impl;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fpt.etutoring.dto.BaseDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,9 +9,9 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class MessageDTO {
-    private String text;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-M-yyyy hh:mm:ss")
+public class MessageDTO extends BaseDTO {
+    private String content;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
     private Date time;
-    private String from;
+    private UserDTO user;
 }

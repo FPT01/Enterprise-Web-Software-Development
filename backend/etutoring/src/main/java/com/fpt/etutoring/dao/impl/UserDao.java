@@ -12,6 +12,4 @@ public interface UserDao extends JpaRepository<User, Long> {
     public User getUserByUsername(String username);
 
     public User getUserByUsernameAndPassword(String username, String password);
-
-    public User getUserByEmail(String email);
 }

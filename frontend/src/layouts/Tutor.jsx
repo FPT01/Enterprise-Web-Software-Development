@@ -166,6 +166,7 @@ class Tutor extends Component {
             brandText={this.getBrandText(this.props.location.pathname)}
           />
           <Switch>{this.getRoutes(routes)}</Switch>
+          <Footer />
         </div>
       </div>
     );
