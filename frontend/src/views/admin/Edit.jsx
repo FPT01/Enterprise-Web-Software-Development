@@ -13,8 +13,6 @@ import { UserCard } from "components/UserCard/UserCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import queryString from 'query-string';
 
-import avatar from "assets/img/faces/face-3.jpg";
-
 class EditRole extends React.Component {
   constructor() {
     super();

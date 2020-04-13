@@ -13,7 +13,7 @@ import { NavLink } from "react-router-dom";
 
 import AdminNavbarLinks from "../Navbars/AdminNavbarLinks.jsx";
 
-import logo from "assets/img/reactlogo.png";
+import logo from "assets/img/greenwich-logo.png";
 
 class Sidebar extends Component {
   constructor(props) {
