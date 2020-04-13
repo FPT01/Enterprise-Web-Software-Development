@@ -29,7 +29,7 @@ class ReportLastSevenDays extends Component {
     })
     .then(response =>  response.json() )
     .then(data => {
-      this.setState({ reportLastSevenDays: data });
+      this.setState({ reportLastSevenDays: [] });
     });
 
     fetch(`http://localhost:8080/api/statistic/avgmsg`, {
@@ -37,12 +37,12 @@ class ReportLastSevenDays extends Component {
     })
     .then(response =>  response.json() )
     .then(data => {
-      this.setState({ reportAvgMessage: data });
+      this.setState({ reportAvgMessage: [] });
     });
   }
 
   render() {
-    var reportLastSevenDays = this.state.reportLastSevenDays;
+    const tutorList = this.state.tutorList;
     return (
       <>
         <div className="content">
@@ -108,10 +108,15 @@ class ReportLastSevenDays extends Component {
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td className="id">1</td>
-                            <td className="fullname">{(reportLastSevenDays.lastSevenDays !== null) ? reportLastSevenDays.lastSevenDays : ""}</td>
-                          </tr>
+                          {this.state.reportLastSevenDays.map((item, key) => {
+                            console.log(item);
+                            return(
+                              <tr>
+                                <td className="id">{key + 1}</td>
+                                <td className="fullname">{(item.lastSevenDays !== null) ? item.lastSevenDays : ""}</td>
+                              </tr>
+                            )
+                          })}
                         </tbody>
                       </Table>
                     </>

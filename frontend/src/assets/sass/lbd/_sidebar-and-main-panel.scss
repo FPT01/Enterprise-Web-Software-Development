@@ -46,11 +46,6 @@
         width: 260px;
         z-index: 4;
         padding-bottom: 30px;
-        .nav {
-            li {
-                width: 100%;
-            }
-        }
     }
 
     .sidebar-background{
@@ -83,19 +78,19 @@
         a.logo-mini{
             float: left;
             text-align: center;
-            width: 35px;
-            margin-right: 10px;
+            width: 30px;
+            margin-right: 15px;
 
             img{
-                width: 100%;
+                width: 40px;
                 margin-left: -3px;
                 display: block;
+                margin-top: 2px;
             }
         }
 
         a.logo-normal{
             display: block;
-            font-weight: bold;
         }
 
         .logo-img{

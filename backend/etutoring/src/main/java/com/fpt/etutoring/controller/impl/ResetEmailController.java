@@ -24,7 +24,7 @@ public class ResetEmailController extends ResponseController {
 
     @PostMapping(value = Constant.PATH_SAVE, consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createOrUpdate(@RequestBody EmailDTO json) {
-        User user = userService.findByEmail(json.getEmail());
+        User user = userService.findById(json.getUserId());
         if (user == null)
             return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
 

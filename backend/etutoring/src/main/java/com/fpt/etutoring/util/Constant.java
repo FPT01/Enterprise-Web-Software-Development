@@ -41,6 +41,7 @@ public class Constant {
 //    public static final String PATH_SEND_MSG = "/sendMessage";
 //    public static final String PATH_TOPIC_PUBLIC = "/topic/pubic";
 //    public static final String PATH_ADD_USER = "/addUser";
+
     public static final String PATH_EXPORT = "/export";
     public static final String PATH_STUDENT_WITHOUT_TUTOR = PATH_EXPORT + "/studentwithouttutor";
     public static final String PATH_STUDENT_WITH_NO_INTERACTION = PATH_EXPORT + "/studentwithnointeraction";
@@ -49,6 +50,7 @@ public class Constant {
     public static final String PATH_LOAD_FILE = "/loadfile";
     public static final String PATH_RESET_PASSWORD = PATH_API + "/resetpassword";
     public static final String EMAIL_TITLE = "New password";
+
     public static final String CHAT_GREETINGS = "/greetings";
     public static final String CHAT_TOPIC_GREETINGS = "/topic/greetings";
 //    public static final String CHAT_GET_ALL = "/getall";

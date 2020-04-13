@@ -9,6 +9,7 @@
 */
 
 import Dashboard from "views/Dashboard.jsx";
+import UserProfile from "views/UserProfile.jsx";
 import Maps from "views/Maps.jsx";
 import Notifications from "views/Notifications.jsx";
 import ChangePassword from "views/ChangePassword.jsx";
@@ -50,6 +51,14 @@ const dashboardRoutes = [
     name: "Dashboard",
     icon: "pe-7s-graph",
     component: Dashboard,
+    layout: "/admin",
+    subNav: false,
+  },
+  {
+    path: "/user-profile",
+    name: "User Profile",
+    icon: "pe-7s-user",
+    component: UserProfile,
     layout: "/admin",
     subNav: false,
   },
