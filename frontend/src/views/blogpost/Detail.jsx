@@ -65,13 +65,13 @@ class BlogPosts extends Component {
   }
 
   onSubmit = (commenttext) => {
-    console.log(JSON.stringify({ content: commenttext, user : { id : 1}, postDTO: { id: this.state.id} }));
+    console.log(JSON.stringify({ content: commenttext, user : { id : 1}, blogPost: { id: this.state.id} }));
     return fetch(`http://localhost:8080/api/blogcomment/save`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ content: commenttext, user : { id : 1}, postDTO: { id: this.state.id} })
+      body: JSON.stringify({ content: commenttext, user : { id : 1}, blogPost: { id: this.state.id} })
     })
       .then((response) => response.json())
       .then((data) => {
@@ -137,28 +137,6 @@ class BlogPosts extends Component {
                               />
                             </Col>
                           </Row>
-                          <Row>
-                            <Col md={12} className="padding-bot">
-                              <Card
-                                title=""
-                                category=""
-                                ctTableFullWidth
-                                ctTableResponsive
-                                content={
-                                  <>
-                                    <i>
-                                      <div className="blog-comment-creator">{item.user?.username} said at :
-                                      <Moment format="YYYY/MM/DD">{item.creationTime}</Moment>
-                                      </div>
-                                    </i>
-                                    <div className="blog-comment-content" >{item.content}</div>
-                                  </>
-                                }
-                              />
-                            </Col>
-                          </Row>
-
-
                         </Grid>
                       )
                     })}
