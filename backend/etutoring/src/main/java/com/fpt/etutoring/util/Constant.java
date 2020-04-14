@@ -47,6 +47,7 @@ public class Constant {
     public static final String EXCEL_STUDENT_WITHOUT_TUTOR = "StudentWithoutTutor.xlsx";
     public static final String EXCEL_STUDENT_WITH_NO_INTERACTION = "StudentWithNoInteraction.xlsx";
     public static final String PATH_LOAD_FILE = "/loadfile";
+    public static final String PATH_SAVE_FILE = "/savefile";
     public static final String PATH_RESET_PASSWORD = PATH_API + "/resetpassword";
     public static final String EMAIL_TITLE = "New password";
     public static final String CHAT_GREETINGS = "/greetings";

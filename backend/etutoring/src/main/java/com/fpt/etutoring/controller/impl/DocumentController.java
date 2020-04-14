@@ -7,23 +7,46 @@ import com.fpt.etutoring.dto.impl.DocumentDTO;
 import com.fpt.etutoring.entity.impl.Document;
 import com.fpt.etutoring.error.ApiMessage;
 import com.fpt.etutoring.service.DocumentService;
+import com.fpt.etutoring.storage.StorageService;
 import com.fpt.etutoring.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping(Constant.PATH_DOCUMENT)
-@CrossOrigin
+@CrossOrigin(value = {"*"}, exposedHeaders = {"Content-Disposition"})
 public class DocumentController extends ResponseController implements BaseController<DocumentDTO, Long> {
 
     @Autowired
     private DocumentService documentService;
+    @Autowired
+    private StorageService storageService;
+
+    @PostMapping(value = Constant.PATH_SAVE_FILE)
+    public ResponseEntity<?> upload(@NotNull @RequestParam("file") MultipartFile file) throws IOException {
+        storageService.store(file);
+        return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
+    }
+
+    @GetMapping(value = Constant.PATH_LOAD_FILE)
+    public ResponseEntity<?> donwload(@NotNull @RequestParam("filename") String filename) throws IOException {
+        Resource file = storageService.loadAsResource(filename);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + file.getFilename() + "\"")
+                .body(file);
+    }
 
     @Override
     @GetMapping(Constant.PATH)
@@ -72,10 +95,5 @@ public class DocumentController extends ResponseController implements BaseContro
         if (document == null)
             return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.accepted().getObject(document, DocumentDTO.class));
-    }
-
-    @Override
-    public ResponseEntity<?> buildResponseEntity(ApiMessage apiMessage) {
-        return new ResponseEntity<>(apiMessage, apiMessage.getStatus());
     }
 }
