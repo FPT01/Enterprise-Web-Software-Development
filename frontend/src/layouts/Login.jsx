@@ -57,6 +57,7 @@ class Login extends React.Component {
       let account = {};
       account.username = data.username;
       account.role = data.roleDTO.roleName;
+      account.userid = data.id;
       window.localStorage.setItem('account', JSON.stringify(account));
         if( data.roleDTO.roleName === "Admin"){
           window.location.href = "/admin/dashboard";
