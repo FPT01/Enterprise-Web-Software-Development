@@ -80,6 +80,10 @@ public class AllocationController extends ResponseController implements BaseCont
     @PostMapping(value = Constant.PATH_SAVE, consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createOrUpdate(@RequestBody  AllocationDTO json) {
         try {
+            List<Allocation> allocations = allocationService.findByRoomId(json.getRoom().getId());
+            if (!CollectionUtils.isEmpty(allocations))
+                allocationService.deleteList(allocations);
+
             allocationService.createOrUpdate(convertDtoToEntity(json));
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
         } catch (Exception ex) {
