@@ -19,9 +19,9 @@ public class Student implements Serializable {
     @Column(name = "id", nullable = false, columnDefinition = "BIGINT")
     private  long id;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "allocation_id", referencedColumnName = "id")
-    private Allocation allocation;
+//    @ManyToOne(cascade = CascadeType.REMOVE)
+//    @JoinColumn(name = "allocation_id", referencedColumnName = "id")
+//    private Allocation allocation;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "meeting_id", referencedColumnName = "id")

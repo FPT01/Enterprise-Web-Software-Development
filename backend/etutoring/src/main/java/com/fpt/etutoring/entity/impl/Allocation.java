@@ -22,17 +22,21 @@ public class Allocation implements Serializable {
     @Column(name = "id", nullable = false, columnDefinition = "BIGINT")
     private  long id;
 
-    @Basic
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "start_time")
-    private Date startTime;
+//    @OneToMany(mappedBy = "allocation")
+//    private Set<Student> students = new HashSet<>(0);
+//
+//    @OneToMany(mappedBy = "allocation")
+//    private Set<Tutor> tutors = new HashSet<>(0);
 
-    @Basic
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "end_time")
-    private Date endTime;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", referencedColumnName = "id")
+    private Student student;
 
-    @OneToMany(mappedBy = "allocation")
-    private Set<Student> students = new HashSet<>(0);
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tutor_id", referencedColumnName = "id")
+    private Tutor tutor;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id", referencedColumnName = "id")
+    private Room room;
 }

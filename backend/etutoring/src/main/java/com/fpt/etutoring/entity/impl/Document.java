@@ -54,8 +54,4 @@ public class Document implements Serializable {
     private void preUpdate() {
         modifiedTime = new Date();
     }
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "comment_id", referencedColumnName = "id")
-    private Comment comment;
 }

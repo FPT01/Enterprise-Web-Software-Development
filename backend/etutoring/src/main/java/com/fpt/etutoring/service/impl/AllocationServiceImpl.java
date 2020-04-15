@@ -14,13 +14,8 @@ public class AllocationServiceImpl implements AllocationService {
     private AllocationDao allocationDao;
 
     @Override
-    public List<Allocation> list() {
-        return allocationDao.findAll();
-    }
-
-    @Override
-    public Allocation createOrUpdate(Allocation json) {
-        return allocationDao.save(json);
+    public void createOrUpdate(List<Allocation> allocations) {
+        allocationDao.saveAll(allocations);
     }
 
     @Override
@@ -29,7 +24,12 @@ public class AllocationServiceImpl implements AllocationService {
     }
 
     @Override
-    public Allocation findById(Long id) {
-        return allocationDao.findById(id).get();
+    public List<Allocation> findByRoomId(Long id) {
+        return allocationDao.findAllByRoomId(id);
+    }
+
+    @Override
+    public void deleteList(List<Allocation> allocations) {
+        allocationDao.deleteAll(allocations);
     }
 }

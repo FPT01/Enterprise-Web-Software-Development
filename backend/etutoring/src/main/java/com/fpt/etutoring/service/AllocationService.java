@@ -5,8 +5,8 @@ import com.fpt.etutoring.entity.impl.Allocation;
 import java.util.List;
 
 public interface AllocationService {
-    List<Allocation> list();
-    Allocation createOrUpdate(Allocation json);
+    void createOrUpdate(List<Allocation> allocations);
     void delete(Long id);
-    Allocation findById(Long id);
+    List<Allocation> findByRoomId(Long id);
+    void deleteList(List<Allocation> allocations);
 }

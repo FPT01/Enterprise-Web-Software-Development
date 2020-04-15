@@ -18,5 +18,4 @@ public class DocumentDTO extends BaseDTO {
     private Date creationTime;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
     private Date modifiedTime;
-    private CommentDTO comment;
 }

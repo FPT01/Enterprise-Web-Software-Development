@@ -20,7 +20,9 @@ public class Constant {
     public static final String PATH = "/";
     public static final String PATH_SAVE = "/save";
     public static final String PATH_DELETE = "/delete" + PATH + PATH_VARIABLE_ID;
+    public static final String PATH_DELETE_BY_ROOM_ID = "/deleteByRoomId" + PATH + PATH_VARIABLE_ID;
     public static final String PATH_FIND_BY_ID = "/findById" + PATH + PATH_VARIABLE_ID;
+    public static final String PATH_FIND_BY_ROOM_ID = "/findByRoomId" + PATH + PATH_VARIABLE_ID;
     public static final String PATH_MESSAGE = PATH_API + "/message";
     public static final String PATH_DOCUMENT = PATH_API + "/document";
     public static final String PATH_COMMENT = PATH_API + "/comment";

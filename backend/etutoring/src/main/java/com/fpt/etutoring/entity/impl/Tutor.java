@@ -26,9 +26,9 @@ public class Tutor implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "allocation_id", referencedColumnName = "id")
-    private Allocation allocation;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "allocation_id", referencedColumnName = "id")
+//    private Allocation allocation;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "meeting_id", referencedColumnName = "id")
