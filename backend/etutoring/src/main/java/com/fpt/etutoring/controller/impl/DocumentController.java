@@ -4,9 +4,12 @@ import com.fpt.etutoring.controller.BaseController;
 import com.fpt.etutoring.controller.ResponseController;
 import com.fpt.etutoring.dto.ResponseDTO;
 import com.fpt.etutoring.dto.impl.DocumentDTO;
+import com.fpt.etutoring.dto.impl.UserDTO;
 import com.fpt.etutoring.entity.impl.Document;
+import com.fpt.etutoring.entity.impl.User;
 import com.fpt.etutoring.error.ApiMessage;
 import com.fpt.etutoring.service.DocumentService;
+import com.fpt.etutoring.service.UserService;
 import com.fpt.etutoring.storage.StorageService;
 import com.fpt.etutoring.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +35,8 @@ public class DocumentController extends ResponseController implements BaseContro
     private DocumentService documentService;
     @Autowired
     private StorageService storageService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping(value = Constant.PATH_SAVE_FILE)
     public ResponseEntity<?> upload(@NotNull @RequestParam("file") MultipartFile file) throws IOException {
@@ -56,6 +61,9 @@ public class DocumentController extends ResponseController implements BaseContro
         if (!CollectionUtils.isEmpty(documents)) {
             documents.forEach(d -> {
                 DocumentDTO documentDTO = ResponseDTO.accepted().getObject(d, DocumentDTO.class);
+                UserDTO user = documentDTO.getOwner();
+                user.setRole(null);
+                documentDTO.setOwner(user);
                 documentDTOS.add(documentDTO);
             });
         }
@@ -67,6 +75,10 @@ public class DocumentController extends ResponseController implements BaseContro
     public ResponseEntity<?> createOrUpdate(@RequestBody DocumentDTO json) {
         try {
             Document from = ResponseDTO.accepted().getObject(json, Document.class);
+            if (json.getOwner() != null) {
+                User user = userService.findById(json.getOwner().getId());
+                from.setOwner(user);
+            }
             documentService.createOrUpdate(from);
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
         } catch (Exception ex) {
@@ -81,6 +93,10 @@ public class DocumentController extends ResponseController implements BaseContro
     @DeleteMapping(value = Constant.PATH_DELETE, consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
+            Document document = documentService.findById(id);
+            if (document != null && document.getUrl() != null) {
+                storageService.deleteByFilename(document.getUrl());
+            }
             documentService.delete(id);
         } catch (Exception ex) {
             return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, ex));
@@ -94,6 +110,10 @@ public class DocumentController extends ResponseController implements BaseContro
         Document document = documentService.findById(id);
         if (document == null)
             return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
+
+        User user = document.getOwner();
+        user.setRole(null);
+        document.setOwner(user);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.accepted().getObject(document, DocumentDTO.class));
     }
 }
