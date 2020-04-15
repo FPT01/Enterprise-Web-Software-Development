@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 public class TutorDTO extends BaseDTO {
     private UserDTO user;
-    private AllocationDTO allocation;
+//    private AllocationDTO allocation;
     private MeetingDTO meeting;
 }
