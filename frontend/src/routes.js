@@ -35,6 +35,10 @@ import BlogPosts from "views/blogpost/List.jsx";
 import BlogDetail from "views/blogpost/Detail.jsx";
 import AddNewBlog from "views/blogpost/AddNew.jsx";
 
+import AllocateList from "views/allocate/List.jsx";
+import EditAllocate from "views/allocate/Edit.jsx";
+import AddAllocate from "views/allocate/AddNew.jsx";
+
 import Rooms from "views/room/List.jsx";
 import AddNewRoom from "views/room/AddNew.jsx";
 import EditRoom from "views/room/Edit.jsx";
@@ -197,6 +201,29 @@ const dashboardRoutes = [
     component: AddNewBlog,
     layout: "/admin",
     subNav: true,
+  },
+  {
+    path: "/allocate",
+    name: "All Allocate",
+    icon: "pe-7s-note2",
+    component: AllocateList,
+    layout: "/admin"
+  },
+  {
+    path: "/edit-allocate",
+    name: "Edit Allocate",
+    icon: "pe-7s-note2",
+    component: EditAllocate,
+    layout: "/admin",
+    subNav:true
+  },
+  {
+    path: "/add-allocate",
+    name: "Allocate Tutor and Student for class",
+    icon: "pe-7s-note2",
+    component: AddAllocate,
+    layout: "/admin",
+    subNav:true
   },
   {
     path: "/edit-room",
