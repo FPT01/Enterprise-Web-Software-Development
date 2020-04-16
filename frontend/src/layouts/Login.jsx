@@ -145,6 +145,7 @@ class Login extends React.Component {
                         placeholder="Username" required
                         value={this.state.username} onChange={this.updateState('username')} />
                     </fieldset>
+
                     <fieldset className="form-group">
                       <label htmlFor="password">Password<span>*</span></label>
                       <input
@@ -153,15 +154,12 @@ class Login extends React.Component {
                         placeholder="Password" required
                         value={this.state.password} onChange={this.updateState('password')} />
                     </fieldset>
-
                     <button
                       className="btn btn-primary login-btn"
                       type="submit" >
                       Sign in
                     </button>
-                    <div className="forgot-password-link">
-                      <a href="/forgot-password">Forgot Password ?</a>
-                    </div>
+
                   </fieldset>
                 </form>
               </div>

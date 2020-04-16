@@ -22,7 +22,6 @@ import AdminLayout from "layouts/Admin.jsx";
 import TutorLayout from "layouts/Tutor.jsx";
 import StudentLayout from "layouts/Student.jsx";
 import Login from "layouts/Login.jsx";
-import ForgotPassword from "layouts/ForgotPassword.jsx";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -31,7 +30,6 @@ ReactDOM.render(
       <Route path="/admin" render={props => <AdminLayout {...props} />} />
       <Route path="/tutor" render={props => <TutorLayout {...props} />} />
       <Route path="/student" render={props => <StudentLayout {...props} />} />
-      <Route path="/forgot-password"  component={ForgotPassword} />
       <Redirect from="/" to="/login" />
     </Switch>
   </BrowserRouter>,
