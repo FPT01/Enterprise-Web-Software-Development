@@ -14,13 +14,12 @@ import Logo from "../logo.jpg";
 
 const recaptchaRef = React.createRef();
 
-class Login extends React.Component {
+class ForgotPassword extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      username: '',
-      password: '',
+      email: '',
       error: false,
     };
 
@@ -30,10 +29,10 @@ class Login extends React.Component {
       this.setState(newState);
     };
 
-    this.submitForm = (username, password) => ev => {
+    this.submitForm = (email) => ev => {
       ev.preventDefault();
       // const recaptcha = recaptchaRef.current.getValue();
-      this.onSubmit(username, password);
+      this.onSubmit(email);
       // recaptchaRef.current.reset();
     };
   }
@@ -44,13 +43,13 @@ class Login extends React.Component {
     });
   }
 
-  onSubmit = (username, password) => {
-    return this.fetch(`http://localhost:8080/api/user/login/`, {
+  onSubmit = (email) => {
+    return this.fetch(`http://localhost:3000/reset-password`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username: username, password: password })
+      body: JSON.stringify({ email: email})
     })
     .then((response) => response.json())
     .then((data) => {
@@ -130,37 +129,25 @@ class Login extends React.Component {
                 <div className="heading-title text-xs-center">
                   <div className="fpt-greenwich-logo"><img src={Logo} /></div>
                   <div className="heading-title">
-                    <h2 className="active">Login</h2>
+                    <h2 className="active">Forgot Password</h2>
                   </div>
                 </div>
                 {(this.state.error) ? "Incorrect username or password." : ""}
-                <form onSubmit={this.submitForm(this.state.username, this.state.password)}>
+                <form onSubmit={this.submitForm(this.state.email)}>
                   <fieldset>
                     <fieldset className="form-group">
-                      <label htmlFor="username">Username<span>*</span></label>
+                      <label htmlFor="email">Email<span>*</span></label>
                       <input
                         className="form-control form-control-lg"
                         type="text"
-                        placeholder="Username" required
-                        value={this.state.username} onChange={this.updateState('username')} />
+                        placeholder="Email" required
+                        value={this.state.email} onChange={this.updateState('email')} />
                     </fieldset>
-                    <fieldset className="form-group">
-                      <label htmlFor="password">Password<span>*</span></label>
-                      <input
-                        className="form-control form-control-lg"
-                        type="password"
-                        placeholder="Password" required
-                        value={this.state.password} onChange={this.updateState('password')} />
-                    </fieldset>
-
                     <button
                       className="btn btn-primary login-btn"
                       type="submit" >
-                      Sign in
+                      Submit
                     </button>
-                    <div className="forgot-password-link">
-                      <a href="/forgot-password">Forgot Password ?</a>
-                    </div>
                   </fieldset>
                 </form>
               </div>
@@ -172,4 +159,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login
+export default ForgotPassword
