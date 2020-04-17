@@ -142,4 +142,14 @@ public class AllocationController extends ResponseController implements BaseCont
         dto.setStudents(studentDTOS);
         return dto;
     }
+
+    @GetMapping(value = Constant.PATH_CHECK_STUDENT_EXIST, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<RoomDTO> checkStudentExist(@PathVariable Long id) {
+        Allocation allocation = allocationService.findByStudentId(id);
+        if (allocation == null)
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+
+        RoomDTO dto = ResponseDTO.accepted().getObject(allocation.getRoom(), RoomDTO.class);
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.accepted().getObject(dto, RoomDTO.class));
+    }
 }

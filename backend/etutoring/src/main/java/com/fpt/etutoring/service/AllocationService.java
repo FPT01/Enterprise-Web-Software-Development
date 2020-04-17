@@ -9,4 +9,5 @@ public interface AllocationService {
     void delete(Long id);
     List<Allocation> findByRoomId(Long id);
     void deleteList(List<Allocation> allocations);
+    Allocation findByStudentId(Long id);
 }

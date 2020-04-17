@@ -5,6 +5,7 @@ import com.fpt.etutoring.entity.impl.Allocation;
 import com.fpt.etutoring.service.AllocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -31,5 +32,13 @@ public class AllocationServiceImpl implements AllocationService {
     @Override
     public void deleteList(List<Allocation> allocations) {
         allocationDao.deleteAll(allocations);
+    }
+
+    @Override
+    public Allocation findByStudentId(Long id) {
+        List<Allocation> allocations = allocationDao.findByStudentId(id);
+        if (!CollectionUtils.isEmpty(allocations))
+            return allocations.get(0);
+        return null;
     }
 }
