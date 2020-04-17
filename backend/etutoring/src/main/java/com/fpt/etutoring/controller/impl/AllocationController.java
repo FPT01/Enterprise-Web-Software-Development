@@ -147,7 +147,7 @@ public class AllocationController extends ResponseController implements BaseCont
     public ResponseEntity<RoomDTO> checkStudentExist(@PathVariable Long id) {
         Allocation allocation = allocationService.findByStudentId(id);
         if (allocation == null)
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
 
         RoomDTO dto = ResponseDTO.accepted().getObject(allocation.getRoom(), RoomDTO.class);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.accepted().getObject(dto, RoomDTO.class));

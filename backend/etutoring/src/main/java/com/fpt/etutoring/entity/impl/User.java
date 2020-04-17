@@ -39,8 +39,8 @@ public class User implements Serializable {
     @Column(name="gender")
     private Short gender;
 
-    @Column(name="avatar")
-    private String avatar;
+//    @Column(name="avatar")
+//    private String avatar;
 
     @Column(name="email")
     private String email;
