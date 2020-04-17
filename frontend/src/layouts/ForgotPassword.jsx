@@ -44,7 +44,7 @@ class ForgotPassword extends React.Component {
   }
 
   onSubmit = (email) => {
-    return this.fetch(`http://localhost:3000/reset-password`, {
+    return this.fetch(`http://localhost:8080/api/resetpassword/save`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -53,21 +53,11 @@ class ForgotPassword extends React.Component {
     })
     .then((response) => response.json())
     .then((data) => {
-      let account = {};
-      account.username = data.username;
-      account.role = data.roleDTO.roleName;
-      window.localStorage.setItem('account', JSON.stringify(account));
-        if( data.roleDTO.roleName === "Admin"){
-          window.location.href = "/admin/dashboard";
-        }else if(data.roleDTO.roleName === "Tutor"){
-          window.location.href = "/tutor/dashboard";
-        }else if (data.roleDTO.roleName==="Student"){
-          window.location.href = "/student/dashboard";
-        }else if(data.roleDTO.roleName === "Staff"){
-          window.location.href = "/admin/dashboard";
-        }else {
-          window.location.href = "/admin/dashboard";
-        }
+      if(data.status === "OK"){
+        window.location.href = "/";
+      }else {
+        window.location.href = "/forgot-password";
+      }
     })
     .catch(function(err) {
       console.log('Request failed', err);

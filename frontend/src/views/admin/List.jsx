@@ -64,7 +64,7 @@ class UserRole extends Component {
                 content={
                   <>
                     <div>
-                      <a href="/admin/addnewrole">
+                      <a style={{margin: "10px"}} className="ui green button" href="/admin/addnewrole">
                         <i className="fa fa-plus" /> Add new Role
                       </a>
                     </div>
@@ -86,12 +86,12 @@ class UserRole extends Component {
                               <td className="role-desc">{item.roleDescription}</td>
                               <td>
                                 <span>
-                                  <a href={"/admin/editrole?id=" + item.id}>
+                                  <a className="ui yellow button" href={"/admin/editrole?id=" + item.id}>
                                     <i className="fa fa-edit" />
                                   </a>
                                 </span>
                                 <span>
-                                  <Button onClick={() => this.fnDeleteRole(item.id)}>
+                                  <Button className="ui red button" onClick={() => this.fnDeleteRole(item.id)}>
                                     <i className="fa fa-trash" />
                                   </Button>
                                 </span>

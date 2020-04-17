@@ -64,7 +64,7 @@ class Rooms extends Component {
                 content={
                   <>
                     <div>
-                      <a href="/admin/add-new-room">
+                      <a style={{margin: "10px"}} className="ui green button" href="/admin/add-new-room">
                         <i className="fa fa-plus" /> Add new Room
                       </a>
                     </div>
@@ -84,12 +84,12 @@ class Rooms extends Component {
                               <td className="room-name">{item.name}</td>
                               <td>
                                 <span>
-                                  <a href={"/admin/edit-room?id=" + item.id}>
+                                  <a className="ui yellow button" href={"/admin/edit-room?id=" + item.id}>
                                     <i className="fa fa-edit" />
                                   </a>
                                 </span>
                                 <span>
-                                  <Button onClick={() => this.fnDeleteRoom(item.id)}>
+                                  <Button className="ui red button" onClick={() => this.fnDeleteRoom(item.id)}>
                                     <i className="fa fa-trash" />
                                   </Button>
                                 </span>

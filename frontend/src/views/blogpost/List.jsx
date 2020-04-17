@@ -36,7 +36,7 @@ class BlogPosts extends Component {
   }
 
   cutContentText(str) {
-    return str.replace(/^(.{400}[^\s]*).*/, "$1");
+    return str?.replace(/^(.{400}[^\s]*).*/, "$1");
   }
 
   render() {
@@ -59,7 +59,7 @@ class BlogPosts extends Component {
                   ctTableResponsive
                   content={
                     <>
-                      <i><div className="blog-creator">Written By: {item.user.fullname} - At <Moment format="YYYY/MM/DD">
+                      <i><div className="blog-creator">Written By: {item.user?.fullname} - At <Moment format="YYYY/MM/DD">
                         {item.creationTime}
                       </Moment></div>
                       </i>

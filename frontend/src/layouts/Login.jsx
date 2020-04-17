@@ -60,17 +60,17 @@ class Login extends React.Component {
       account.role = data.roleDTO.roleName;
       account.userid = data.id;
       window.localStorage.setItem('account', JSON.stringify(account));
-      // if( data.roleDTO.roleName === "Admin"){
-      //   window.location.href = "/admin/dashboard";
-      // }else if(data.roleDTO.roleName === "Tutor"){
-      //   window.location.href = "/tutor/dashboard";
-      // }else if (data.roleDTO.roleName==="Student"){
-      //   window.location.href = "/student/dashboard";
-      // }else if(data.roleDTO.roleName === "Staff"){
-      //   window.location.href = "/admin/dashboard";
-      // }else {
-      //   window.location.href = "/admin/dashboard";
-      // }
+      if( data.roleDTO.roleName === "Admin"){
+        window.location.href = "/admin/dashboard";
+      }else if(data.roleDTO.roleName === "Tutor"){
+        window.location.href = "/tutor/dashboard";
+      }else if (data.roleDTO.roleName==="Student"){
+        window.location.href = "/student/dashboard";
+      }else if(data.roleDTO.roleName === "Staff"){
+        window.location.href = "/admin/dashboard";
+      }else {
+        window.location.href = "/admin/dashboard";
+      }
     })
     .catch(function(err) {
       console.log('Request failed', err);

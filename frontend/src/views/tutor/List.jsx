@@ -77,7 +77,7 @@ class Tutors extends Component {
                 content={
                   <>
                     <div>
-                      <a href="/admin/add-new-tutor">
+                      <a style={{margin: "10px"}} className="ui green button" href="/admin/add-new-tutor">
                         <i className="fa fa-plus" /> Add new Tutor
                       </a>
                     </div>
@@ -103,12 +103,12 @@ class Tutors extends Component {
                               <td className="password">{(item.user !== null) ? ((item.user.enabled == 1) ? "active" : "unactive") : ""}</td>
                               <td>
                                 <span>
-                                  <a href={`/admin/edit-tutor/?id=${item.id}&userId=${item.user.id}&roleId=${item.user.roleDTO.id}`}>
+                                  <a className="ui yellow button" href={`/admin/edit-tutor/?id=${item.id}&userId=${item.user.id}&roleId=${item.user.roleDTO.id}`}>
                                     <i className="fa fa-edit" />
                                   </a>
                                 </span>
                                 <span>
-                                  <Button onClick={() => this.fnDeleteTutor(item.id)}>
+                                  <Button className="ui red button" onClick={() => this.fnDeleteTutor(item.id)}>
                                     <i className="fa fa-trash" />
                                   </Button>
                                 </span>

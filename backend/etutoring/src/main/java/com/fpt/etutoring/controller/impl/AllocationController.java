@@ -108,7 +108,7 @@ public class AllocationController extends ResponseController implements BaseCont
     public ResponseEntity<?> findById(@PathVariable Long id) {
         List<Allocation> allocations = allocationService.findByRoomId(id);
         if (allocations == null)
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
 
         AllocationDTO dto = convertEntityToDto(allocations);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.accepted().getObject(dto, AllocationDTO.class));
@@ -141,5 +141,15 @@ public class AllocationController extends ResponseController implements BaseCont
         dto.setTutors(tutorDTOS);
         dto.setStudents(studentDTOS);
         return dto;
+    }
+
+    @GetMapping(value = Constant.PATH_CHECK_STUDENT_EXIST, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<RoomDTO> checkStudentExist(@PathVariable Long id) {
+        Allocation allocation = allocationService.findByStudentId(id);
+        if (allocation == null)
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+
+        RoomDTO dto = ResponseDTO.accepted().getObject(allocation.getRoom(), RoomDTO.class);
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.accepted().getObject(dto, RoomDTO.class));
     }
 }

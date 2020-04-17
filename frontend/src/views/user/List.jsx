@@ -64,7 +64,7 @@ class Users extends Component {
                 content={
                   <>
                   <div>
-                    <a href="/admin/add-new-user">
+                    <a style={{margin: "10px"}} className="ui green button" href="/admin/add-new-user">
                       <i className="fa fa-plus" /> Add new User
                     </a>
                   </div>
@@ -96,12 +96,12 @@ class Users extends Component {
                               <td className="password">{(item.enabled !== null) ? ((item.enabled == 1) ? "active" : "unactive") : ""}</td>
                             <td>
                               <span>
-                                  <a href={"/admin/edit-user?id=" + item.id}>
+                                  <a className="ui yellow button" href={"/admin/edit-user?id=" + item.id}>
                                     <i className="fa fa-edit" />
                                   </a>
                                 </span>
                               <span>
-                                <Button onClick={() => this.fnDeleteUser(item.id)}>
+                                <Button className="ui red button" onClick={() => this.fnDeleteUser(item.id)}>
                                   <i className="fa fa-trash" />
                                 </Button>
                               </span>
