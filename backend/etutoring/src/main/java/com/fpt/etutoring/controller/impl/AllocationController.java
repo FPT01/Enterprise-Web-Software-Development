@@ -108,7 +108,7 @@ public class AllocationController extends ResponseController implements BaseCont
     public ResponseEntity<?> findById(@PathVariable Long id) {
         List<Allocation> allocations = allocationService.findByRoomId(id);
         if (allocations == null)
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
 
         AllocationDTO dto = convertEntityToDto(allocations);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.accepted().getObject(dto, AllocationDTO.class));
