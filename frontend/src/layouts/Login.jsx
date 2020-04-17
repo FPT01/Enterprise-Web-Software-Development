@@ -156,7 +156,7 @@ class Login extends React.Component {
                     </fieldset>
 
                     <button
-                      className="btn btn-primary login-btn"
+                      className="ui blue button"
                       type="submit" >
                       Sign in
                     </button>

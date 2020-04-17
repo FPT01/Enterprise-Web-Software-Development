@@ -152,7 +152,7 @@ class EditUser extends React.Component {
                           value={this.state.status} onChange={this.updateState('status')} required />
                       </fieldset>
                       <button
-                        className="btn btn-primary login-btn"
+                        className="ui blue button"
                         type="submit" >
                         Save
                       </button>
