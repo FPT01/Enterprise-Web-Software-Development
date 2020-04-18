@@ -16,8 +16,6 @@ import com.fpt.etutoring.service.UserService;
 import com.fpt.etutoring.storage.StorageService;
 import com.fpt.etutoring.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
@@ -161,7 +159,6 @@ public class UserController extends ResponseController implements BaseController
         if (u == null)
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
         u.setPassword(null);
-        u.setRole(null);
         return ResponseEntity.status(HttpStatus.OK).body(getUserWithRole(u));
     }
 }

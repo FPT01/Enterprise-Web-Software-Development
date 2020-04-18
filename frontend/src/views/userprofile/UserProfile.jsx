@@ -29,9 +29,55 @@ class UserProfile extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      userProfile: null
+      userProfile: null,
+      fullname: '',
+      username: '',
+      password: '',
+      gender: '',
+      status: '',
+      selectValue: "",
+      isSuccessful: false,
+      roleId: "",
+      roleName: "",
+      roleList: [],
     }
+
+    this.updateState = field => ev => {
+      const state = this.state;
+      const newState = Object.assign({}, state, { [field]: ev.target.value });
+      this.setState(newState);
+    };
+
+    this.submitEditForm = (roleId, fullname, username, email, gender) => ev => {
+      ev.preventDefault();
+      // const recaptcha = recaptchaRef.current.getValue();
+      this.onSubmitEditProfile(roleId, fullname, username, email, gender);
+      // recaptchaRef.current.reset();
+    };
   }
+
+  onSubmitEditProfile = (roleId, fullname, username, email, gender) => {
+    const userObj= this.state.userProfile;
+    const newRoleId = roleId;
+    const newGender = (gender === "male") ? 1 : 0
+    return fetch(`http://localhost:8080/api/user/save`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({id: userObj.id, fullname: fullname, username: username, email: email, gender:newGender, roleDTO:{id: newRoleId}})
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Success:', data);
+      if(data.status === "OK"){
+        // window.location.href = "/admin/user";
+      }else {
+        console.log("error"); 
+      }
+    })
+  }
+
 
   componentDidMount(){
     const currentUser = JSON.parse(window.localStorage.getItem('account'));
@@ -44,7 +90,14 @@ class UserProfile extends Component {
     })
     .then(response =>  response.json() )
     .then(data => {
-      this.setState({ userProfile: data });
+      this.setState({ 
+        userProfile: data,
+        fullname: data.fullname,
+        username: data.username,
+        gender: (data.gender === 0) ? 'female' : "male",
+        email: data.email,
+        roleName: data.roleDTO.roleName
+      });
     });
   }
 
@@ -53,68 +106,66 @@ class UserProfile extends Component {
       return <></>
     }
     var data = this.state.userProfile;
-    const gender = (data.gender === 0) ? "female" : "male";
+    var roleId = data.roleDTO.id;
     return (
       <div className="content">
         <Grid fluid>
           <Row>
             <Col md={8}>
               <Card
-                title="Edit Profile"
+                title="Edit User Profile"
+                className="change-password"
                 content={
-                  <form>
-                    <FormInputs
-                      ncols={["col-md-12"]}
-                      properties={[
-                        {
-                          label: "Full Name",
-                          type: "text",
-                          bsClass: "form-control",
-                          placeholder: "",
-                          defaultValue: `${data.fullname}`
-                        }
-                      ]}
-                    />
-                    <FormInputs
-                      ncols={["col-md-12"]}
-                      properties={[
-                        {
-                          label: "Username",
-                          type: "text",
-                          bsClass: "form-control",
-                          placeholder: "",
-                          defaultValue: `${data.username}`
-                        }
-                      ]}
-                    />
-                    <FormInputs
-                      ncols={["col-md-12"]}
-                      properties={[
-                        {
-                          label: "Email address",
-                          type: "email",
-                          bsClass: "form-control",
-                          placeholder: "",
-                          defaultValue: `${data.email}`
-                        }
-                      ]}
-                    />
-                    <FormInputs
-                      ncols={["col-md-12"]}
-                      properties={[
-                        {
-                          label: "Gender",
-                          type: "text",
-                          bsClass: "form-control",
-                          placeholder: "",
-                          defaultValue: `${gender}`
-                        }
-                      ]}
-                    />
-                    <Button bsStyle="info" pullRight fill type="submit">
-                      Update Profile
-                    </Button>
-                    <div className="clearfix" />
+                  <form onSubmit={this.submitEditForm(roleId, this.state.fullname, this.state.username, this.state.email, this.state.gender)}>
+                    <fieldset>
+                      <fieldset className="form-group">
+                        <label>Role</label>
+                        <input
+                          className="form-control form-control-lg"
+                          type="text"
+                          placeholder="Role"
+                          disabled
+                          value={this.state.roleName} />
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <label>Fullname<span>*</span></label>
+                        <input
+                          className="form-control form-control-lg"
+                          type="text"
+                          placeholder="Fullname"
+                          value={this.state.fullname} onChange={this.updateState('fullname')} required />
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <label>Gender<span>*</span></label>
+                        <input
+                          className="form-control form-control-lg"
+                          type="text"
+                          placeholder="Gender"
+                          value={this.state.gender} onChange={this.updateState('gender')} required />
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <label>Username<span>*</span></label>
+                        <input
+                          className="form-control form-control-lg"
+                          type="text"
+                          placeholder="Username"
+                          value={this.state.username} onChange={this.updateState('username')} required />
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <label>Email<span>*</span></label>
+                        <input
+                          className="form-control form-control-lg"
+                          type="text"
+                          placeholder="Email"
+                          value={this.state.email} onChange={this.updateState('email')} required />
+                      </fieldset>
+                      <button
+                        className="ui blue button"
+                        type="submit" >
+                        Update Profile
+                      </button>
+
+                    </fieldset>
                   </form>
                 }
               />
