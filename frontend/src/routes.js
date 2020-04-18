@@ -108,7 +108,7 @@ const dashboardRoutes = [
     subNav: true,
   },
   {
-    path: "/userprofile",
+    path: "/profile-user",
     name: "User Profile",
     icon: "pe-7s-user",
     component: UserProfile,

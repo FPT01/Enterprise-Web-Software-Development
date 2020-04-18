@@ -26,20 +26,34 @@ import Button from "components/CustomButton/CustomButton.jsx";
 
 
 class UserProfile extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { 
+      userProfile: null
+    }
+  }
 
   componentDidMount(){
     const currentUser = JSON.parse(window.localStorage.getItem('account'));
 
     fetch(`http://localhost:8080/api/user/findByUsername/${currentUser.username}`, {
       method: "GET",
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
     .then(response =>  response.json() )
     .then(data => {
-      this.setState({ userList: data });
+      this.setState({ userProfile: data });
     });
   }
 
   render() {
+    if(this.state.userProfile === null){
+      return <></>
+    }
+    var data = this.state.userProfile;
+    const gender = (data.gender === 0) ? "female" : "male";
     return (
       <div className="content">
         <Grid fluid>
@@ -53,23 +67,11 @@ class UserProfile extends Component {
                       ncols={["col-md-12"]}
                       properties={[
                         {
-                          label: "Username",
-                          type: "text",
-                          bsClass: "form-control",
-                          placeholder: "Username",
-                          defaultValue: "michael23"
-                        }
-                      ]}
-                    />
-                    <FormInputs
-                      ncols={["col-md-12"]}
-                      properties={[
-                        {
                           label: "Full Name",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "First name",
-                          defaultValue: "Mike"
+                          placeholder: "",
+                          defaultValue: `${data.fullname}`
                         }
                       ]}
                     />
@@ -77,11 +79,11 @@ class UserProfile extends Component {
                       ncols={["col-md-12"]}
                       properties={[
                         {
-                          label: "Gender",
+                          label: "Username",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "First name",
-                          defaultValue: "Mike"
+                          placeholder: "",
+                          defaultValue: `${data.username}`
                         }
                       ]}
                     />
@@ -92,24 +94,23 @@ class UserProfile extends Component {
                           label: "Email address",
                           type: "email",
                           bsClass: "form-control",
-                          placeholder: "Email"
+                          placeholder: "",
+                          defaultValue: `${data.email}`
                         }
                       ]}
                     />
-                    <Row>
-                      <Col md={12}>
-                        <FormGroup controlId="formControlsTextarea">
-                          <ControlLabel>About Me</ControlLabel>
-                          <FormControl
-                            rows="5"
-                            componentClass="textarea"
-                            bsClass="form-control"
-                            placeholder="Here can be your description"
-                            defaultValue="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
+                    <FormInputs
+                      ncols={["col-md-12"]}
+                      properties={[
+                        {
+                          label: "Gender",
+                          type: "text",
+                          bsClass: "form-control",
+                          placeholder: "",
+                          defaultValue: `${gender}`
+                        }
+                      ]}
+                    />
                     <Button bsStyle="info" pullRight fill type="submit">
                       Update Profile
                     </Button>

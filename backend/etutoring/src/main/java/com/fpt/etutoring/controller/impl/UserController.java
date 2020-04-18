@@ -160,6 +160,8 @@ public class UserController extends ResponseController implements BaseController
         User u = userService.findByUsername(username);
         if (u == null)
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
+        u.setPassword(null);
+        u.setRole(null);
         return ResponseEntity.status(HttpStatus.OK).body(getUserWithRole(u));
     }
 }
