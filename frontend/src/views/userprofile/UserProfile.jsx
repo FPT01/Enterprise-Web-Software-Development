@@ -71,6 +71,7 @@ class UserProfile extends Component {
     .then((data) => {
       console.log('Success:', data);
       if(data.status === "OK"){
+        alert(data.message);
         // window.location.href = "/admin/user";
       }else {
         console.log("error"); 

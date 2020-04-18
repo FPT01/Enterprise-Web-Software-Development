@@ -21,6 +21,7 @@ public class Constant {
     public static final String PATH_ALLOCATE = PATH_API + "/allocate";
     public static final String PATH = "/";
     public static final String PATH_SAVE = "/save";
+    public static final String PATH_CHANGE_PROFILE = "/changeprofile";
     public static final String PATH_DELETE = "/delete" + PATH + PATH_VARIABLE_ID;
     public static final String PATH_DELETE_BY_ROOM_ID = "/deleteByRoomId" + PATH + PATH_VARIABLE_ID;
     public static final String PATH_FIND_BY_ID = "/findById" + PATH + PATH_VARIABLE_ID;
