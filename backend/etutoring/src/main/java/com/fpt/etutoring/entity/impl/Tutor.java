@@ -1,19 +1,17 @@
 package com.fpt.etutoring.entity.impl;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "tutor")
 @Getter
 @Setter
-@EqualsAndHashCode
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Tutor implements Serializable {
 
     @Id
@@ -30,8 +28,7 @@ public class Tutor implements Serializable {
 //    @JoinColumn(name = "allocation_id", referencedColumnName = "id")
 //    private Allocation allocation;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "meeting_id", referencedColumnName = "id")
-    private Meeting meeting;
+    @ManyToMany(mappedBy = "tutors", fetch = FetchType.LAZY)
+    private Set<Meeting> meetings = new HashSet<>(0);
 
 }
