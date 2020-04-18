@@ -12,6 +12,7 @@ public class Constant {
     public static final String PATH_VARIABLE_ID =  "{id}";
     public static final String PATH_VARIABLE_USERNAME =  "{username}";
     public static final String PATH_LOGIN = "/login";
+    public static final String PATH_CHANGE_PASSWORD = "/changepassword";
     public static final String PATH_USER = PATH_API + "/user";
     public static final String PATH_ROLE = PATH_API + "/role";
     public static final String PATH_TUTOR = PATH_API +  "/tutor";
@@ -37,6 +38,7 @@ public class Constant {
     public static final String ERROR_NOT_FOUND = "Data not found";
     public static final String MSG_SUCCESS = "Success";
     public static final String ERROR_LOGIN = "Username or password is invalid";
+    public static final String ERROR_CHANGE_PASSWORD = "Password does not match";
     public static final String ERROR_DELETE = "Delete Error";
     public static final String PATH_BLOG_POST = PATH_API + "/blogpost";
     public static final String PATH_BLOG_COMMENT = PATH_API + "/blogcomment";
