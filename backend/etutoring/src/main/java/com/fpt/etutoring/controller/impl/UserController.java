@@ -118,11 +118,28 @@ public class UserController extends ResponseController implements BaseController
         return createOrUpdate(source);
     }*/
 
+    // fullname, username, email, gender
+    @PostMapping(value = Constant.PATH_CHANGE_PROFILE, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> changeProfile(@RequestBody UserDTO json) {
+            User newUser = userService.findById(json.getId());
+            if (newUser != null) {
+                newUser.setFullname(json.getFullname());
+                newUser.setUsername(json.getUsername().trim());
+                newUser.setEmail(json.getEmail());
+                newUser.setGender(json.getGender());
+                userService.createOrUpdate(newUser);
+                return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
+            }
+        return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
+    }
+
     @Override
     @PostMapping(value = Constant.PATH_SAVE, consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createOrUpdate(@RequestBody UserDTO json) {
         try {
             User from = ResponseDTO.accepted().getObject(json, User.class);
+            String newUsername = from.getUsername().trim();
+            from.setUsername(newUsername);
             if (json.getRoleDTO() != null) {
                 Role role = roleService.findById(json.getRoleDTO().getId());
                 if (role != null)
