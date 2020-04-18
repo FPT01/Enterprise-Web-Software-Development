@@ -47,7 +47,7 @@ public class UserController extends ResponseController implements BaseController
             userService.createOrUpdate(u);
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
         }
-        return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_CHANGE_PASSWORD));
+        return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
     }
 
     @PostMapping(value = Constant.PATH_LOGIN)

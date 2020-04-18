@@ -39,12 +39,6 @@ class EditRole extends React.Component {
     };
   }
 
-  updateInputValue(evt) {
-    this.setState({
-      inputValue: evt.target.value
-    });
-  }
-
   onSubmitEdit = (roleName, roleDescription) => {
     const roleId=queryString.parse(this.props.location.search);
     return fetch(`http://localhost:8080/api/role/save`, {

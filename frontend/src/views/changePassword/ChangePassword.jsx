@@ -39,12 +39,6 @@ class ChangePassword extends React.Component {
     };
   }
 
-  updateInputValue(evt) {
-    this.setState({
-      inputValue: evt.target.value
-    });
-  }
-
   onSubmit = (username, oldPassword, newPassword) => {
     return this.fetch(`http://localhost:8080/api/user/changepassword`, {
       method: "POST",
@@ -56,7 +50,9 @@ class ChangePassword extends React.Component {
     .then((response) => response.json())
     .then((data) => {
       if(data.status === "OK"){
+        alert(data.message);
       }else {
+        console.log("error");
       }
     })
     .catch(function(err) {
@@ -75,20 +71,6 @@ class ChangePassword extends React.Component {
       ...options
     })
     .then(this.checkStatus)
-  };
-
-  getToken = () => {
-    // Retrieves the user token from localStorage
-    return localStorage.getItem("id_token");
-  };
-
-  setToken = (userRole, username, idToken) => {
-    // Saves user token to localStorage
-    var account = {};
-    account.role = userRole;
-    account.email = username;
-    account.token = idToken;
-    localStorage.setItem('account', JSON.stringify(account));
   };
 
   checkStatus = response => {
@@ -111,10 +93,10 @@ class ChangePassword extends React.Component {
                 title="Change Password"
                 className="change-password"
                 content={
-                  <form onSubmit={this.submitForm(this.state.username)}>
+                  <form onSubmit={this.submitForm(this.state.username, this.state.oldPassword, this.state.newPassword)}>
                     <fieldset>
                       <fieldset className="form-group">
-                        <label htmlFor="username">Username<span>*</span></label>
+                        <label htmlFor="username">Email<span>*</span></label>
                         <input
                           className="form-control form-control-lg"
                           type="text"
