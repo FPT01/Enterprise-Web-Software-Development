@@ -1,8 +1,19 @@
-import React from "react";
+/*!
+
+ =========================================================
+ * Enterprise Web Software Development
+ * Based on Light Bootstrap Dashboard React - v1.3.0
+ * Based on Light Bootstrap Dashboard - v1.3.0
+ =========================================================
+
+*/
+
+import React, { Component } from "react";
 import {
   Grid,
   Row,
   Col,
+  FormGroup,
   ControlLabel,
   FormControl
 } from "react-bootstrap";
@@ -14,20 +25,22 @@ import Button from "components/CustomButton/CustomButton.jsx";
 
 
 
-class AddNewUser extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
+class UserProfile extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { 
+      userProfile: null,
       fullname: '',
       username: '',
       password: '',
-      roleId: '',
-      status: 1,
+      gender: '',
+      status: '',
       selectValue: "",
       isSuccessful: false,
+      roleId: "",
+      roleName: "",
       roleList: [],
-    };
+    }
 
     this.updateState = field => ev => {
       const state = this.state;
@@ -35,78 +48,84 @@ class AddNewUser extends React.Component {
       this.setState(newState);
     };
 
-    this.submitForm = (roleId, fullname, username, password, status, email, gender) => ev => {
+    this.submitEditForm = (roleId, fullname, username, email, gender) => ev => {
       ev.preventDefault();
       // const recaptcha = recaptchaRef.current.getValue();
-      this.onSubmit(roleId, fullname, username, password, status);
+      this.onSubmitEditProfile(roleId, fullname, username, email, gender);
       // recaptchaRef.current.reset();
     };
   }
 
-  updateInputValue(evt) {
-    this.setState({
-      inputValue: evt.target.value
-    });
-  }
-
-  onSubmit = (roleId, fullname, username, password, status, email, gender) => {
-    var roleId = null;
-    this.state.roleList.map(itm => {
-      if(itm.roleName === "Tutor"){
-        roleId = itm.id
-      }
-    });
-    console.log("status", status);
+  onSubmitEditProfile = (roleId, fullname, username, email, gender) => {
+    const userObj= this.state.userProfile;
+    const newRoleId = roleId;
+    const newGender = (gender === "male") ? 1 : 0
     return fetch(`http://localhost:8080/api/user/save`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({fullname: fullname, username: username, password: password, enabled: status, email: email, gender:gender, roleDTO:{id: roleId}})
+      body: JSON.stringify({id: userObj.id, fullname: fullname, username: username, email: email, gender:newGender, roleDTO:{id: newRoleId}})
     })
     .then((response) => response.json())
     .then((data) => {
       console.log('Success:', data);
       if(data.status === "OK"){
-        window.location.href = "/admin/user/";
+        // window.location.href = "/admin/user";
       }else {
         console.log("error"); 
       }
     })
   }
 
-  componentDidMount(){    
-    fetch(`http://localhost:8080/api/role/`, {
+
+  componentDidMount(){
+    const currentUser = JSON.parse(window.localStorage.getItem('account'));
+
+    fetch(`http://localhost:8080/api/user/findByUsername/${currentUser.username}`, {
       method: "GET",
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
     .then(response =>  response.json() )
     .then(data => {
-      this.setState({ roleList: data });
+      this.setState({ 
+        userProfile: data,
+        fullname: data.fullname,
+        username: data.username,
+        gender: (data.gender === 0) ? 'female' : "male",
+        email: data.email,
+        roleName: data.roleDTO.roleName
+      });
     });
   }
 
   render() {
-    const selectOptions = () => {
-      return this.state.roleList.map(item => {
-        return <option value={item.id}>{item.roleName}</option>
-      })
+    if(this.state.userProfile === null){
+      return <></>
     }
+    var data = this.state.userProfile;
+    var roleId = data.roleDTO.id;
     return (
       <div className="content">
         <Grid fluid>
           <Row>
-            <Card
-                title="Add New User"
+            <Col md={8}>
+              <Card
+                title="Edit User Profile"
                 className="change-password"
                 content={
-                  <form onSubmit={this.submitForm(this.state.selectValue, this.state.fullname, this.state.username, this.state.password, this.state.status, this.state.email, this.state.gender)}>
+                  <form onSubmit={this.submitEditForm(roleId, this.state.fullname, this.state.username, this.state.email, this.state.gender)}>
                     <fieldset>
                       <fieldset className="form-group">
-                        <label>Roles Name<span>*</span></label>
-                        <select className="form-control" value={this.state.selectValue} onChange={this.updateState('selectValue')} required >
-                          <option value="">Please choose role</option>
-                          {selectOptions()}
-                        </select>
+                        <label>Role</label>
+                        <input
+                          className="form-control form-control-lg"
+                          type="text"
+                          placeholder="Role"
+                          disabled
+                          value={this.state.roleName} />
                       </fieldset>
                       <fieldset className="form-group">
                         <label>Fullname<span>*</span></label>
@@ -133,14 +152,6 @@ class AddNewUser extends React.Component {
                           value={this.state.username} onChange={this.updateState('username')} required />
                       </fieldset>
                       <fieldset className="form-group">
-                        <label>Password<span>*</span></label>
-                        <input
-                          className="form-control form-control-lg"
-                          type="password"
-                          placeholder="Password"
-                          value={this.state.password} onChange={this.updateState('password')} required />
-                      </fieldset>
-                      <fieldset className="form-group">
                         <label>Email<span>*</span></label>
                         <input
                           className="form-control form-control-lg"
@@ -148,24 +159,34 @@ class AddNewUser extends React.Component {
                           placeholder="Email"
                           value={this.state.email} onChange={this.updateState('email')} required />
                       </fieldset>
-                      <fieldset className="form-group">
-                        <label>Status<span>*</span></label>
-                        <input
-                          className="form-control form-control-lg"
-                          type="text"
-                          placeholder="text"
-                          value={this.state.status} onChange={this.updateState('status')} required />
-                      </fieldset>
                       <button
                         className="ui blue button"
                         type="submit" >
-                        Save
+                        Update Profile
                       </button>
 
                     </fieldset>
                   </form>
                 }
               />
+            </Col>
+            <Col md={4}>
+              <UserCard
+                bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
+                avatar=""
+                name="Mike Andrew"
+                userName="michael24"
+                description={
+                  <span>
+                    "Lamborghini Mercy
+                    <br />
+                    Your chick she so thirsty
+                    <br />
+                    I'm in that two seat Lambo"
+                  </span>
+                }
+              />
+            </Col>
           </Row>
         </Grid>
       </div>
@@ -173,4 +194,4 @@ class AddNewUser extends React.Component {
   }
 }
 
-export default AddNewUser
+export default UserProfile;
