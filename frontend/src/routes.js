@@ -24,6 +24,7 @@ import AddNewUser from "views/user/AddNew.jsx";
 import EditUser from "views/user/Edit.jsx";
 
 import UserProfile from "views/userprofile/UserProfile.jsx";
+import Documents from "views/document/Documents.jsx";
 
 import Tutors from "views/tutor/List.jsx";
 import AddNewTutor from "views/tutor/AddNew.jsx";
@@ -108,10 +109,10 @@ const dashboardRoutes = [
     subNav: true,
   },
   {
-    path: "/profile-user",
-    name: "User Profile",
+    path: "/documents",
+    name: "Management Documents",
     icon: "pe-7s-user",
-    component: UserProfile,
+    component: Documents,
     layout: "/admin",
     subNav: false,
   },
