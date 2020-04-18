@@ -27,20 +27,9 @@ class Documents extends Component {
   onFileUpload = () => { 
     // Create an object of formData 
     var formData = new FormData(); 
-   
-    // Update the formData object 
-    // formData.append( 
-    //   "myFile", 
-    //   this.state.selectedFile, 
-    //   this.state.selectedFile.name 
-    // ); 
 
     formData.append("file", this.state.selectedFile);
-   
-    // Details of the uploaded file 
-    // Request made to the backend api 
-    // Send formData object 
-    // axios.post("api/uploadfile", formData); 
+
     return fetch(`http://localhost:8080/api/document/savefile`, {
       method: "POST",
       body: formData
@@ -92,6 +81,19 @@ class Documents extends Component {
       ); 
     } 
   }; 
+
+  componentDidMount(){
+    fetch(`http://localhost:8080/api/document/`, {
+      method: "GET",
+    })
+    .then(response =>  response.json() )
+    .then(data => {
+      console.log(data);
+      this.setState({ 
+        listDocuments: data 
+      });
+    });
+  }
 
   render() { 
     var fileName = "";

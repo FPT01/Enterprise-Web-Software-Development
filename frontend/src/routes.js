@@ -11,7 +11,7 @@
 import Dashboard from "views/Dashboard.jsx";
 import Maps from "views/Maps.jsx";
 import Notifications from "views/Notifications.jsx";
-import ChangePassword from "views/ChangePassword.jsx";
+import ForgotPassword from "views/ForgotPassword.jsx";
 import TutorList from "views/tutor/List.jsx";
 import StudentList from "views/student/List.jsx";
 
@@ -25,6 +25,7 @@ import EditUser from "views/user/Edit.jsx";
 
 import UserProfile from "views/userprofile/UserProfile.jsx";
 import Documents from "views/document/Documents.jsx";
+import ChangePassword from "views/changePassword/ChangePassword.jsx";
 
 import Tutors from "views/tutor/List.jsx";
 import AddNewTutor from "views/tutor/AddNew.jsx";
@@ -113,6 +114,14 @@ const dashboardRoutes = [
     name: "User Profile",
     icon: "pe-7s-user",
     component: UserProfile,
+    layout: "/admin",
+    subNav: false,
+  },
+  {
+    path: "/change-password",
+    name: "Change Password",
+    icon: "pe-7s-user",
+    component: ChangePassword,
     layout: "/admin",
     subNav: false,
   },

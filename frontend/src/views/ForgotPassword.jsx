@@ -12,7 +12,7 @@ import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import { UserCard } from "components/UserCard/UserCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 
-class ChangePassword extends React.Component {
+class ForgotPassword extends React.Component {
   render() {
     return (
       <div className="content">
@@ -62,4 +62,4 @@ class ChangePassword extends React.Component {
   }
 }
 
-export default ChangePassword
+export default ForgotPassword
