@@ -66,7 +66,7 @@ public class MessageController extends ResponseController implements BaseControl
         try {
             messageService.delete(id);
         } catch (Exception ex) {
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, ex));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, ex));
         }
         return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
     }
@@ -76,12 +76,8 @@ public class MessageController extends ResponseController implements BaseControl
     public ResponseEntity<?> findById(@PathVariable Long id) {
         Message message = messageService.findById(id);
         if (message == null)
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.accepted().getObject(message, MessageDTO.class));
     }
 
-    @Override
-    public ResponseEntity<?> buildResponseEntity(ApiMessage apiMessage) {
-        return new ResponseEntity<>(apiMessage, apiMessage.getStatus());
-    }
 }

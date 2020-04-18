@@ -83,9 +83,9 @@ public class DocumentController extends ResponseController implements BaseContro
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
         } catch (Exception ex) {
             if (json.getId() == null)
-                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_INSERT));
+                return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_INSERT));
             else
-                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_UPDATE));
+                return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_UPDATE));
         }
     }
 
@@ -99,7 +99,7 @@ public class DocumentController extends ResponseController implements BaseContro
             }
             documentService.delete(id);
         } catch (Exception ex) {
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, ex));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, ex));
         }
         return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
     }
@@ -109,7 +109,7 @@ public class DocumentController extends ResponseController implements BaseContro
     public ResponseEntity<?> findById(@PathVariable Long id) {
         Document document = documentService.findById(id);
         if (document == null)
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
 
         User user = document.getOwner();
         user.setRole(null);

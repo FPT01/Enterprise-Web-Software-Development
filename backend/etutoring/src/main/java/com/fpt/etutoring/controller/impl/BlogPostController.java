@@ -75,9 +75,9 @@ public class BlogPostController extends ResponseController implements BaseContro
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
         } catch (Exception ex) {
             if (json.getId() == null)
-                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_INSERT));
+                return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_INSERT));
             else
-                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_UPDATE));
+                return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_UPDATE));
         }
     }
 
@@ -87,7 +87,7 @@ public class BlogPostController extends ResponseController implements BaseContro
         try {
             blogPostService.delete(id);
         } catch (Exception ex) {
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, ex));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, ex));
         }
         return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
     }
@@ -97,7 +97,7 @@ public class BlogPostController extends ResponseController implements BaseContro
     public ResponseEntity<?> findById(@PathVariable Long id) {
         BlogPost blogPost = blogPostService.findById(id);
         if (blogPost == null)
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
         BlogPostDTO dto = ResponseDTO.accepted().getObject(blogPost, BlogPostDTO.class);
         if (blogPost.getUser() != null) {
             User u = blogPost.getUser();

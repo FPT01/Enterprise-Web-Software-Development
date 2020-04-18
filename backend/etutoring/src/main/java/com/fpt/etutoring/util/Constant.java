@@ -22,6 +22,7 @@ public class Constant {
     public static final String PATH_DELETE = "/delete" + PATH + PATH_VARIABLE_ID;
     public static final String PATH_DELETE_BY_ROOM_ID = "/deleteByRoomId" + PATH + PATH_VARIABLE_ID;
     public static final String PATH_FIND_BY_ID = "/findById" + PATH + PATH_VARIABLE_ID;
+    public static final String PATH_FIND_BY_USERNAME = "/findByUsername" + PATH + PATH_VARIABLE_ID;
     public static final String PATH_FIND_BY_ROOM_ID = "/findByRoomId" + PATH + PATH_VARIABLE_ID;
     public static final String PATH_CHECK_STUDENT_EXIST = "/checkStudentExist" + PATH + PATH_VARIABLE_ID;
     public static final String PATH_MESSAGE = PATH_API + "/message";
