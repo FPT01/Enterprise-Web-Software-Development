@@ -26,7 +26,7 @@ public class ResetEmailController extends ResponseController {
     public ResponseEntity<?> createOrUpdate(@RequestBody EmailDTO json) {
         User user = userService.findByEmail(json.getEmail());
         if (user == null)
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
 
         String newpass = StringUtil.generateCommonLangPassword();
         user.setPassword(newpass);

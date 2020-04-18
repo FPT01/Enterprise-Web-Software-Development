@@ -52,7 +52,7 @@ public class UserController extends ResponseController implements BaseController
             userDTO.setPassword(null);
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }
-        return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_LOGIN));
+        return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_LOGIN));
     }
 
     private UserDTO getUserWithRole(User u) {
@@ -125,9 +125,9 @@ public class UserController extends ResponseController implements BaseController
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
         } catch (Exception ex) {
             if (json.getId() == null)
-                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_INSERT));
+                return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_INSERT));
             else
-                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_UPDATE));
+                return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_UPDATE));
         }
     }
 
@@ -141,7 +141,7 @@ public class UserController extends ResponseController implements BaseController
                 userService.createOrUpdate(user);
             }
         } catch (Exception ex) {
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, ex));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, ex));
         }
         return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
     }
@@ -151,23 +151,15 @@ public class UserController extends ResponseController implements BaseController
     public ResponseEntity<?> findById(@PathVariable Long id) {
         User u = userService.findById(id);
         if (u == null)
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
         return ResponseEntity.status(HttpStatus.OK).body(getUserWithRole(u));
     }
 
-    @GetMapping(value = Constant.PATH_LOAD_FILE)
-    @ResponseBody
-    public ResponseEntity<?> upload(@RequestParam(value = "filename") String filename) {
-        if (filename == null)
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
-
-        Resource file = storageService.loadAsResource(filename);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }
-
-    @Override
-    public ResponseEntity<?> buildResponseEntity(ApiMessage apiMessage) {
-        return new ResponseEntity<>(apiMessage, apiMessage.getStatus());
+    @GetMapping(value = Constant.PATH_FIND_BY_USERNAME, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> findByUsername(@PathVariable String username) {
+        User u = userService.findByUsername(username);
+        if (u == null)
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
+        return ResponseEntity.status(HttpStatus.OK).body(getUserWithRole(u));
     }
 }

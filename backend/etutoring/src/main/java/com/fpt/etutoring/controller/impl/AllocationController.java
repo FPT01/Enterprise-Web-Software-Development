@@ -87,7 +87,7 @@ public class AllocationController extends ResponseController implements BaseCont
             allocationService.createOrUpdate(convertDtoToEntity(json));
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
         } catch (Exception ex) {
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_INSERT));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_INSERT));
         }
     }
 
@@ -98,7 +98,7 @@ public class AllocationController extends ResponseController implements BaseCont
             List<Allocation> allocations = allocationService.findByRoomId(id);
             allocationService.deleteList(allocations);
         } catch (Exception ex) {
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, ex));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, ex));
         }
         return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
     }
