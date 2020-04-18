@@ -41,13 +41,13 @@ public class UserController extends ResponseController implements BaseController
 
     @PostMapping(value = Constant.PATH_CHANGE_PASSWORD)
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordDTO json) {
-        User u = userService.getUserByUsernameAndPassword(json.getUsername(), json.getOldPassword());
+        User u = userService.findByUsername(json.getUsername());
         if (u != null) {
             u.setPassword(json.getNewPassword());
             userService.createOrUpdate(u);
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
         }
-        return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_CHANGE_PASSWORD));
+        return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
     }
 
     @PostMapping(value = Constant.PATH_LOGIN)
