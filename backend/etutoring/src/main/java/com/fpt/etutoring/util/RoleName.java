@@ -1,7 +1,7 @@
 package com.fpt.etutoring.util;
 
 public enum RoleName {
-    ADMIN("Admin"), STUDENT("Student"), TUTOR("Tutor"), STAFF("Staff");
+    ADMIN("admin"), STUDENT("student"), TUTOR("tutor"), STAFF("staff");
 
     private String value = null;
 

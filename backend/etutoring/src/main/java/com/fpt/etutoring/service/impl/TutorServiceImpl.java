@@ -35,4 +35,9 @@ public class TutorServiceImpl implements TutorService {
     public Tutor findById(Long id) {
         return tutorDao.findById(id).get();
     }
+
+    @Override
+    public void saveAll(List<Tutor> tutors) {
+        tutorDao.saveAll(tutors);
+    }
 }

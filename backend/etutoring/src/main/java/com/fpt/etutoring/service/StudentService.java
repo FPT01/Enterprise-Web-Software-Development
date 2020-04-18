@@ -13,4 +13,5 @@ public interface StudentService {
     Student findById(Long id);
     List<StudentExcel> findStudentsWithoutTutor();
     List<StudentExcel> getStudentsSevenToTwentyEight(Date from, Date to);
+    void saveAll(List<Student> students);
 }
