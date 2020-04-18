@@ -41,7 +41,7 @@ public class UserController extends ResponseController implements BaseController
 
     @PostMapping(value = Constant.PATH_CHANGE_PASSWORD)
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordDTO json) {
-        User u = userService.findByUsername(json.getUsername());
+        User u = userService.getUserByUsernameAndPassword(json.getUsername(), json.getOldPassword());
         if (u != null) {
             u.setPassword(json.getNewPassword());
             userService.createOrUpdate(u);
