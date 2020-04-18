@@ -23,6 +23,8 @@ import Users from "views/user/List.jsx";
 import AddNewUser from "views/user/AddNew.jsx";
 import EditUser from "views/user/Edit.jsx";
 
+import UserProfile from "views/userprofile/UserProfile.jsx";
+
 import Tutors from "views/tutor/List.jsx";
 import AddNewTutor from "views/tutor/AddNew.jsx";
 import EditTutor from "views/tutor/Edit.jsx";
@@ -104,6 +106,14 @@ const dashboardRoutes = [
     component: EditUser,
     layout: "/admin",
     subNav: true,
+  },
+  {
+    path: "/userprofile",
+    name: "User Profile",
+    icon: "pe-7s-user",
+    component: UserProfile,
+    layout: "/admin",
+    subNav: false,
   },
   {
     path: "/tutor",
