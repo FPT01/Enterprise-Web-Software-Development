@@ -3,8 +3,8 @@ package com.fpt.etutoring.controller.impl;
 
 import com.fpt.etutoring.controller.BaseController;
 import com.fpt.etutoring.controller.ResponseController;
-import com.fpt.etutoring.converter.StringToUserDTOConverter;
 import com.fpt.etutoring.dto.ResponseDTO;
+import com.fpt.etutoring.dto.impl.ChangePasswordDTO;
 import com.fpt.etutoring.dto.impl.LoginDTO;
 import com.fpt.etutoring.dto.impl.RoleDTO;
 import com.fpt.etutoring.dto.impl.UserDTO;
@@ -13,7 +13,6 @@ import com.fpt.etutoring.entity.impl.User;
 import com.fpt.etutoring.error.ApiMessage;
 import com.fpt.etutoring.service.RoleService;
 import com.fpt.etutoring.service.UserService;
-import com.fpt.etutoring.storage.StorageService;
 import com.fpt.etutoring.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,11 +34,21 @@ public class UserController extends ResponseController implements BaseController
     private UserService userService;
     @Autowired
     private RoleService roleService;
-    @Autowired
-    private StorageService storageService;
-    @Autowired
-    private StringToUserDTOConverter converter;
+//    @Autowired
+//    private StorageService storageService;
+//    @Autowired
+//    private StringToUserDTOConverter converter;
 
+    @PostMapping(value = Constant.PATH_CHANGE_PASSWORD)
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordDTO json) {
+        User u = userService.getUserByUsernameAndPassword(json.getUsername(), json.getOldPassword());
+        if (u != null) {
+            u.setPassword(json.getNewPassword());
+            userService.createOrUpdate(u);
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
+        }
+        return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_CHANGE_PASSWORD));
+    }
 
     @PostMapping(value = Constant.PATH_LOGIN)
     public ResponseEntity<?> login(@RequestBody LoginDTO json) {
