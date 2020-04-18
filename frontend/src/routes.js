@@ -109,6 +109,14 @@ const dashboardRoutes = [
     subNav: true,
   },
   {
+    path: "/profile-user",
+    name: "User Profile",
+    icon: "pe-7s-user",
+    component: UserProfile,
+    layout: "/admin",
+    subNav: false,
+  },
+  {
     path: "/documents",
     name: "Management Documents",
     icon: "pe-7s-user",

@@ -60,7 +60,7 @@ class UserProfile extends Component {
     const userObj= this.state.userProfile;
     const newRoleId = roleId;
     const newGender = (gender === "male") ? 1 : 0
-    return fetch(`http://localhost:8080/api/user/save`, {
+    return fetch(`http://localhost:8080/api/user/changeprofile`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',

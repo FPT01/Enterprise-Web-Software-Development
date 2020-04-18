@@ -11,7 +11,8 @@ class Documents extends Component {
         textMessage: null,
         listMessage: [],
         listHistoryMessage: [],
-        selectedFile: null
+        selectedFile: null,
+        listDocuments: []
       };
   }
      
@@ -34,10 +35,9 @@ class Documents extends Component {
     //   this.state.selectedFile.name 
     // ); 
 
-    formData.append("file", this.state.selectedFile.name);
+    formData.append("file", this.state.selectedFile);
    
     // Details of the uploaded file 
-    console.log(this.state.selectedFile, formData); 
     // Request made to the backend api 
     // Send formData object 
     // axios.post("api/uploadfile", formData); 
@@ -47,9 +47,30 @@ class Documents extends Component {
     })
     .then((response) => response.json())
     .then((data) => {
-      
+      if(data.status === "OK"){
+        alert(data.message);
+      }else {
+        console.log("error"); 
+      }
     })
   }; 
+
+  downloadFile = (name) => {
+    console.log("name", name);
+    return fetch(`http://localhost:8080/api/document/loadfile?filename=${name}`, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((data) => {
+      if(data.status === "OK"){
+        alert(data.message);
+      }else {
+        console.log("error"); 
+      }
+    })
+  }
      
   // File content to be displayed after 
   // file upload is complete 
@@ -57,13 +78,12 @@ class Documents extends Component {
     if (this.state.selectedFile) { 
       return ( 
         <div> 
-          <h2>File Details:</h2> 
           <p>File Name: {this.state.selectedFile.name}</p> 
-          <p>File Type: {this.state.selectedFile.type}</p> 
           <p> 
             Last Modified:{" "} 
             {this.state.selectedFile.lastModifiedDate.toDateString()} 
           </p> 
+
         </div> 
       ); 
     } else { 
@@ -74,6 +94,10 @@ class Documents extends Component {
   }; 
 
   render() { 
+    var fileName = "";
+    if(this.state.selectedFile){
+      fileName = this.state.selectedFile.name;
+    }
     return ( 
       <div> 
           <div> 
@@ -83,6 +107,7 @@ class Documents extends Component {
               </button> 
           </div> 
         {this.fileData()} 
+        <a href={`http://localhost:8080/api/document/loadfile?filename=${fileName}`} className="ui blue button">Download</a>
       </div> 
     ); 
   } 
