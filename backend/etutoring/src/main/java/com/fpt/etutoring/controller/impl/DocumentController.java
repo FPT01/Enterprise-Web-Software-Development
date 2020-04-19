@@ -62,8 +62,10 @@ public class DocumentController extends ResponseController implements BaseContro
             documents.forEach(d -> {
                 DocumentDTO documentDTO = ResponseDTO.accepted().getObject(d, DocumentDTO.class);
                 UserDTO user = documentDTO.getOwner();
-                user.setRole(null);
-                documentDTO.setOwner(user);
+                if (user != null) {
+                    user.setRole(null);
+                    documentDTO.setOwner(user);
+                }
                 documentDTOS.add(documentDTO);
             });
         }

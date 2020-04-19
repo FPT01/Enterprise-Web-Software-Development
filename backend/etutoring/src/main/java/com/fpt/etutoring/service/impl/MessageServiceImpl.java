@@ -6,7 +6,6 @@ import com.fpt.etutoring.entity.impl.Message;
 import com.fpt.etutoring.entity.impl.User;
 import com.fpt.etutoring.service.MessageService;
 import com.fpt.etutoring.util.DateUtil;
-import com.fpt.etutoring.util.RoleName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -46,21 +45,22 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public List<StatisticDTO> getAverageMsg() {
         List<StatisticDTO> dtos = new ArrayList<>();
-        List<Message> messages = messageDao.getMessageByRoleName(RoleName.TUTOR.getValue());
+        List<Message> messages = null;
+                //messageDao.getMessageByRoleName(RoleName.TUTOR.getValue());
         Map<User,List<Message>> msgGroupByUsers = new HashMap<>();
         if (!CollectionUtils.isEmpty(messages)) {
             messages.forEach(m -> {
-                if (m.getUser() != null) {
-                    List<Message> messageList;
-                    if(msgGroupByUsers.containsKey(m.getUser())) {
-                        messageList = msgGroupByUsers.get(m.getUser());
-                        messageList.add(m);
-                    } else {
-                        messageList = new ArrayList<>();
-                        messageList.add(m);
-                        msgGroupByUsers.put(m.getUser(), messageList);
-                    }
-                }
+//                if (m.getUser() != null) {
+//                    List<Message> messageList;
+//                    if(msgGroupByUsers.containsKey(m.getUser())) {
+//                        messageList = msgGroupByUsers.get(m.getUser());
+//                        messageList.add(m);
+//                    } else {
+//                        messageList = new ArrayList<>();
+//                        messageList.add(m);
+//                        msgGroupByUsers.put(m.getUser(), messageList);
+//                    }
+//                }
             });
         }
 

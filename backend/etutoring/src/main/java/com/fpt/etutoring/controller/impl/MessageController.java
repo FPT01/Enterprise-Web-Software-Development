@@ -31,15 +31,15 @@ public class MessageController extends ResponseController implements BaseControl
         List<Message> messages = messageService.list();
         List<MessageDTO> messageDTOS = new ArrayList<>();
         if (!StringUtils.isEmpty(messages)) {
-            messages.forEach(m -> {
-                if (m.getUser() != null) {
-                    MessageDTO messageDTO = new MessageDTO();
-                    messageDTO.setText(m.getContent());
-                    messageDTO.setFrom(m.getUser().getUsername());
-                    messageDTO.setTime(m.getTime());
-                    messageDTOS.add(messageDTO);
-                }
-            });
+//            messages.forEach(m -> {
+//                if (m.getUser() != null) {
+//                    MessageDTO messageDTO = new MessageDTO();
+//                    messageDTO.setText(m.getContent());
+//                    messageDTO.setFrom(m.getUser().getUsername());
+//                    messageDTO.setTime(m.getTime());
+//                    messageDTOS.add(messageDTO);
+//                }
+//            });
         }
         return messageDTOS;
     }

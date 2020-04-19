@@ -44,7 +44,7 @@ public class ChatController {
         final String time = dateFormat.format(date);
 
         com.fpt.etutoring.entity.impl.Message msg = new com.fpt.etutoring.entity.impl.Message();
-        msg.setUser(user);
+//        msg.setUser(user);
         msg.setContent(convertedObject.get("text").getAsString());
         msg.setTime(date);
         messageService.createOrUpdate(msg);
