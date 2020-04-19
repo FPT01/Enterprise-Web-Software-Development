@@ -31,8 +31,12 @@ public class Message implements Serializable {
     private Date time;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @JoinColumn(name = "sender_id", referencedColumnName = "id")
+    private User sender;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "receiver_id", referencedColumnName = "id")
+    private User receiver;
 
     @PrePersist
     private void prePersist() {
