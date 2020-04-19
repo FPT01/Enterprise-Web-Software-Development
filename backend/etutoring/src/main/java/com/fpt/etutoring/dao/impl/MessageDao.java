@@ -18,4 +18,7 @@ public interface MessageDao extends JpaRepository<Message, Long> {
     @Query("SELECT m FROM Message m WHERE m.user.role.roleName = :roleName")
     List<Message> getMessageByRoleName(@Param("roleName") String roleName);
 
+    @Query("SELECT count(m) FROM Message m WHERE m.user.id = :userId")
+    Long getTotalMessageByUserId(@Param("userId") Long userId);
+
 }

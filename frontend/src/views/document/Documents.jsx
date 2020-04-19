@@ -29,6 +29,7 @@ class Documents extends Component {
         docTitle: "",
         urlFile: "",
         contents: "",
+        ownerName: "",
       };
 
     this.updateState = field => ev => {
@@ -37,10 +38,10 @@ class Documents extends Component {
       this.setState(newState);
     };
 
-    this.submitForm = (title, url, content, ownerId) => ev => {
+    this.submitForm = (title, url, content) => ev => {
       ev.preventDefault();
       // const recaptcha = recaptchaRef.current.getValue();
-      this.onSubmit(title, url, content, ownerId);
+      this.onSubmit(title, url, content);
       // recaptchaRef.current.reset();
     };
   }
@@ -90,13 +91,14 @@ class Documents extends Component {
     })
   }
 
-  onSubmit = (title, url, content, ownerId) => {
+  onSubmit = (title, url, content) => {
+    const currentUser = JSON.parse(window.localStorage.getItem('account'));
     return fetch(`http://localhost:8080/api/document/save`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title: title, url: url, content: content,})
+      body: JSON.stringify({ title: title, url: url, content: content, owner:{username: currentUser.username}})
     })
     .then((response) => response.json())
     .then((data) => {
@@ -128,13 +130,13 @@ class Documents extends Component {
   componentDidMount(){
     fetch(`http://localhost:8080/api/document/`, {
       method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
     .then(response =>  response.json() )
     .then(data => {
       console.log(data);
-      this.setState({ 
-        listDocuments: data 
-      });
     });
   }
 
@@ -151,7 +153,7 @@ class Documents extends Component {
                 title="Add New Document"
                 content={
                   <div className="container">
-                    <form onSubmit={this.submitForm(this.state.docTitle, this.state.urlFile, this.state.contents, "")}>
+                    <form onSubmit={this.submitForm(this.state.docTitle, this.state.urlFile, this.state.contents)}>
                       <div>
                         <div className="row uploadDoc">
                           <div className="col-sm-4">

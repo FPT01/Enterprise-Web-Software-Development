@@ -35,6 +35,16 @@ public class Meeting implements Serializable {
 
     @Basic
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "start_time")
+    private Date startTime;
+
+    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "end_time")
+    private Date endTime;
+
+    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_time")
     private Date creationTime;
 
@@ -53,6 +63,19 @@ public class Meeting implements Serializable {
         modifiedTime = new Date();
     }
 
-    @OneToMany(mappedBy = "meeting")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "meetings_students",
+            joinColumns = {
+                    @JoinColumn(name = "student_id", referencedColumnName = "id")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "meeting_id", referencedColumnName = "id")})
     private Set<Student> students = new HashSet<>(0);
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "meetings_tutors",
+            joinColumns = {
+                    @JoinColumn(name = "tutor_id", referencedColumnName = "id")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "meeting_id", referencedColumnName = "id")})
+    private Set<Tutor> tutors = new HashSet<>(0);
 }

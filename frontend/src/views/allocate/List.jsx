@@ -19,18 +19,19 @@ class UserRole extends Component {
     super(props);
     this.state = {
       listRoomAllocated: [],
-      isExistRoomForAllocate: true
+      listStudentAllocated: [],
+      isExistRoomForAllocate: true,
+      isExistStudentForAllocate: true,
     }
   }
 
   componentDidMount() {
     this.getRoom()
-
+    this.getStudents()
   }
 
   getRoom = async () => {
     const listRoomAllocated = []
-    //const listRoomAvaialable = false
     await fetch(`http://localhost:8080/api/room/`, {
       method: "GET",
       headers: {
@@ -39,20 +40,38 @@ class UserRole extends Component {
     })
       .then(response => response.json())
       .then(data => data.forEach(async ({ id, name }) => {
-        let r = false
-        console.log(`id = $Ơ`)
         await fetch(`http://localhost:8080/api/allocate/findByRoomId/${id}`, {
           method: "GET",
           headers: {
             'Content-Type': 'application/json'
           }
         }).then(response => {
-          const r = response.status == 200 ? listRoomAllocated.push({ id, name, }) : this.setState({isExistRoomForAllocate: false})
-          this.setState({ listRoomAllocated: listRoomAllocated})
+          const r = response.status == 200 ? listRoomAllocated.push({ id, name, }) : this.setState({ isExistRoomForAllocate: false })
+          this.setState({ listRoomAllocated: listRoomAllocated })
         })
       }))
   }
 
+  getStudents = async () => {
+    let listStudentAllocated = []
+    await fetch(`http://localhost:8080/api/student/`, {
+      method: "GET",
+    })
+      .then(response => response.json())
+      .then(data => data.forEach(async ({ id, user }) => {
+        await fetch(`http://localhost:8080/api/allocate/checkStudentExist/${id}`, {
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+          .then(response => response.text())
+          .then(data => {
+            const r = data != '' ? listStudentAllocated.push({ id }) : this.setState({ listStudentAllocated: false })
+          })
+
+      }))
+  }
 
 
   fnDeleteAllocate = (id) => {
@@ -75,6 +94,8 @@ class UserRole extends Component {
 
   render() {
     const listRoom = this.state.listRoomAllocated;
+    console.log('1', this.state.isExistRoomForAllocate)
+    console.log('1', this.state.isExistStudentForAllocate)
     return (
       <div className="content" >
         <Grid fluid>
@@ -89,7 +110,7 @@ class UserRole extends Component {
                   <>
                     <div className="allocate-content">
                       <div>
-                        <Button color="green" onClick={() => window.location.href = "/admin/add-allocate"} disabled={this.state.isExistRoomForAllocate}>
+                        <Button color="green" onClick={() => window.location.href = "/admin/add-allocate"} disabled={this.state.isExistStudentForAllocate && this.state.isExistRoomForAllocate}>
                           <i className="fa fa-plus" /> New allocation
                         </Button>
                       </div>

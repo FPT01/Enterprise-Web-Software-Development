@@ -50,14 +50,15 @@ class Allocate extends Component {
     })
       .then(response => response.json())
       .then(data => data.forEach(async ({ id, name }) => {
-        let r = false
         console.log(`id = $Ơ`)
         await fetch(`http://localhost:8080/api/allocate/findByRoomId/${id}`, {
           method: "GET",
           headers: {
             'Content-Type': 'application/json'
           }
-        }).then(response => {
+        }).then(response => response.text())
+        
+        .then(response => {
           const r = response.status != 200 ? listRoom.push({ key: id, text: name, value: id }) : false
           this.setState({ listRoom: listRoom })
         })
@@ -75,14 +76,23 @@ class Allocate extends Component {
       });
   }
   getStudents = async () => {
+    let listStudent = []
     await fetch(`http://localhost:8080/api/student/`, {
       method: "GET",
     })
       .then(response => response.json())
-      .then(data => data.map(({ id, user }) => ({ key: id, text: user.fullname, value: id })))
-      .then(data => {
-        this.setState({ listStudent: data });
-      });
+      .then(data => data.forEach(async ({ id, user }) => {
+        await fetch(`http://localhost:8080/api/allocate/checkStudentExist/${id}`, {
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(response => {
+          const r = response.status == 404 ? listStudent.push({ key: id, text: user.fullname, value: id }) : false
+          this.setState({ listStudent: listStudent })
+        })
+
+      }))
   }
   resetAllField = () => {
 
@@ -95,8 +105,8 @@ class Allocate extends Component {
   saveAllocate = () => {
     const room = { id: this.state.selectedRoom }
     const tutors = this.state.selectedTutors.map(i => ({ id: i }))
-    const students = this.state.selectedTutors.map(i => ({ id: i }))
-
+    const students = this.state.selectedStudents.map(i => ({ id: i }))
+    console.log(JSON.stringify({ room: room, tutors: tutors, students: students }))
     return fetch(`http://localhost:8080/api/allocate/save`, {
       method: "POST",
       headers: {

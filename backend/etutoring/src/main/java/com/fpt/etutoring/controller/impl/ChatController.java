@@ -4,11 +4,15 @@ import com.fpt.etutoring.entity.impl.User;
 import com.fpt.etutoring.service.MessageService;
 import com.fpt.etutoring.service.UserService;
 import com.fpt.etutoring.util.Constant;
+import com.fpt.etutoring.websocket.ChatMessage;
 import com.fpt.etutoring.websocket.OutputMessage;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -47,5 +51,19 @@ public class ChatController {
         OutputMessage output = new OutputMessage(convertedObject.get("username").getAsString(),
                 convertedObject.get("text").getAsString(), time);
         this.simpMessagingTemplate.convertAndSend(Constant.CHAT_TOPIC_GREETINGS, output);
+    }
+
+    @MessageMapping("/sendPrivateMessage")
+    public void sendPrivateMessage(@Payload ChatMessage chatMessage) {
+        simpMessagingTemplate.convertAndSendToUser(
+                chatMessage.getReceiver().trim(), "/reply", chatMessage);
+    }
+
+    @MessageMapping("/addPrivateUser")
+    @SendTo("/queue/reply")
+    public ChatMessage addPrivateUser(@Payload ChatMessage chatMessage,
+                                      SimpMessageHeaderAccessor headerAccessor) {
+        headerAccessor.getSessionAttributes().put("private-username", chatMessage.getSender());
+        return chatMessage;
     }
 }
