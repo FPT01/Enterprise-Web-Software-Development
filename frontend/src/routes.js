@@ -38,6 +38,8 @@ import AddNewBlog from "views/blogpost/AddNew.jsx";
 import AllocateList from "views/allocate/List.jsx";
 import EditAllocate from "views/allocate/Edit.jsx";
 import AddAllocate from "views/allocate/AddNew.jsx";
+import Meeting from "views/meeting/List.jsx";
+import Import from "views/meeting/List.jsx";
 
 import Rooms from "views/room/List.jsx";
 import AddNewRoom from "views/room/AddNew.jsx";
@@ -215,7 +217,7 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: EditAllocate,
     layout: "/admin",
-    subNav:true
+    subNav: true
   },
   {
     path: "/add-allocate",
@@ -223,7 +225,21 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: AddAllocate,
     layout: "/admin",
-    subNav:true
+    subNav: true
+  },
+  {
+    path: "/meeting",
+    name: "Meeting",
+    icon: "pe-7s-note2",
+    component: Meeting,
+    layout: "/admin",
+  },
+  {
+    path: "/import",
+    name: "Import",
+    icon: "pe-7s-note2",
+    component: Import,
+    layout: "/admin",
   },
   {
     path: "/edit-room",
