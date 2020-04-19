@@ -13,11 +13,9 @@ class ChatMessageBox extends Component {
         textMessage: null,
         listMessage: [],
         listHistoryMessage: [],
-        otherUser: "tutor1"
       };
       this.handleSubmit = this.handleSubmit.bind(this)
   }
-
   componentDidMount() {
     // The compat mode syntax is totally different, converting to v5 syntax
     // Client is imported from '@stomp/stompjs';
@@ -37,11 +35,11 @@ class ChatMessageBox extends Component {
     client.configure({
       brokerURL: 'ws://localhost:8080/stomp',
       onConnect: () => {
-        client.subscribe('/user/' + this.props.otherUser + '/reply', message => {
+        client.subscribe('/queue/now', message => {
           this.setState({textMessage: message.body});
         });
 
-        client.subscribe('/app/addPrivateUser', message => {
+        client.subscribe('/topic/greetings', message => {
           var response = JSON.parse(message.body);
           this.state.listMessage.push(response);
           this.setState({
@@ -58,6 +56,8 @@ class ChatMessageBox extends Component {
 
     client.activate();
   }
+
+
 
   showMessageOutput(messageOutput) {
     return(
@@ -88,7 +88,7 @@ class ChatMessageBox extends Component {
       var username = this.state.username;
       var text = document.getElementById('text').value;
       var json = {'username':username, 'text':text};
-      client.publish({destination: '/app/sendPrivateMessage', body: JSON.stringify(json)});
+      client.publish({destination: '/app/greetings', body: JSON.stringify(json)});
       document.getElementById('text').value = '';
   }
 

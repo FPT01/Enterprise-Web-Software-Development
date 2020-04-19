@@ -93,12 +93,13 @@ class Documents extends Component {
 
   onSubmit = (title, url, content) => {
     const currentUser = JSON.parse(window.localStorage.getItem('account'));
+    const newUrl = this.state.selectedFile.name;
     return fetch(`http://localhost:8080/api/document/save`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title: title, url: url, content: content, owner:{username: currentUser.username}})
+      body: JSON.stringify({ title: title, url: newUrl, content: content, owner:{username: currentUser.username}})
     })
     .then((response) => response.json())
     .then((data) => {
