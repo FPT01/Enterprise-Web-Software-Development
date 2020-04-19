@@ -55,6 +55,15 @@ public class ChatController {
 
     @MessageMapping("/sendPrivateMessage")
     public void sendPrivateMessage(@Payload ChatMessage chatMessage) {
+        User sender = userService.findByUsername(chatMessage.getSender());
+        User receiver = userService.findByUsername(chatMessage.getReceiver());
+
+        com.fpt.etutoring.entity.impl.Message msg = new com.fpt.etutoring.entity.impl.Message();
+        msg.setContent(chatMessage.getContent());
+        msg.setTime(new Date());
+        msg.setReceiver(receiver);
+        msg.setSender(sender);
+        messageService.createOrUpdate(msg);
         simpMessagingTemplate.convertAndSendToUser(
                 chatMessage.getReceiver().trim(), "/reply", chatMessage);
     }

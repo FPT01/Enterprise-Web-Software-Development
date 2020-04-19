@@ -8,6 +8,7 @@ import com.fpt.etutoring.entity.impl.Message;
 import com.fpt.etutoring.error.ApiMessage;
 import com.fpt.etutoring.service.MessageService;
 import com.fpt.etutoring.util.Constant;
+import com.fpt.etutoring.websocket.ChatMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,15 +32,15 @@ public class MessageController extends ResponseController implements BaseControl
         List<Message> messages = messageService.list();
         List<MessageDTO> messageDTOS = new ArrayList<>();
         if (!StringUtils.isEmpty(messages)) {
-//            messages.forEach(m -> {
-//                if (m.getUser() != null) {
-//                    MessageDTO messageDTO = new MessageDTO();
-//                    messageDTO.setText(m.getContent());
-//                    messageDTO.setFrom(m.getUser().getUsername());
-//                    messageDTO.setTime(m.getTime());
-//                    messageDTOS.add(messageDTO);
-//                }
-//            });
+            messages.forEach(m -> {
+                MessageDTO messageDTO = new MessageDTO();
+                messageDTO.setSender(m.getSender().getUsername());
+                messageDTO.setReceiver(m.getReceiver().getUsername());
+                messageDTO.setType(ChatMessage.MessageType.CHAT);
+                messageDTO.setContent(m.getContent());
+                messageDTO.setDateTime(m.getTime());
+                messageDTOS.add(messageDTO);
+            });
         }
         return messageDTOS;
     }

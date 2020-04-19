@@ -47,7 +47,7 @@ class ChatMessageBox extends Component {
         client.publish({destination: '/app/addPrivateUser', body: JSON.stringify({ sender: this.state.username, type: 'JOIN' }) });
 
         // '/user/' + this.props.otherUser.toString().toLowerCase() + '/reply'
-        client.subscribe('/user/student/reply', message => {
+        client.subscribe('/user/' + this.state.username + '/reply', message => {
           var response = JSON.parse(message.body);
           this.state.listMessage.push(response);
           this.setState({
@@ -103,7 +103,11 @@ class ChatMessageBox extends Component {
       content: text,
       type: 'CHAT'
     };
-    
+    this.state.listMessage.push(chatMessage);
+    this.setState({
+      textMessage: chatMessage,
+      listMessage: this.state.listMessage
+    });
     client.publish({destination: '/app/sendPrivateMessage', body: JSON.stringify(chatMessage)});
   }
 
