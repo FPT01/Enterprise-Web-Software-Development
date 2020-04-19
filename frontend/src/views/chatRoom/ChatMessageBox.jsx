@@ -71,7 +71,7 @@ class ChatMessageBox extends Component {
         {
           messageOutput.map(item => {
             return (
-              <div className={(item.from !== this.state.username) ? "msg left-msg" : "msg right-msg"}>
+              <div className={(item.sender !== this.state.username) ? "msg left-msg" : "msg right-msg"}>
                 <div className="msg-img"></div>
                 <div className="msg-bubble">
                   <div className="msg-info">
@@ -109,6 +109,7 @@ class ChatMessageBox extends Component {
       listMessage: this.state.listMessage
     });
     client.publish({destination: '/app/sendPrivateMessage', body: JSON.stringify(chatMessage)});
+    document.getElementById('text').value = '';
   }
 
   render() {
