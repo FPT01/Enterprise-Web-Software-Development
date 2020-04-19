@@ -106,7 +106,7 @@ class ChatRoom extends React.Component {
             </Row>
           </Grid>
         </div>
-      );
+      )
     }else {
       return (
         <ChatMessageBox receiverName={this.state.receiverName} />

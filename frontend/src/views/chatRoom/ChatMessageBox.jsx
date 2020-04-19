@@ -50,7 +50,6 @@ class ChatMessageBox extends Component {
         client.subscribe('/user/student/reply', message => {
           var response = JSON.parse(message.body);
           this.state.listMessage.push(response);
-          console.log(response);
           this.setState({
             textMessage: response,
             listMessage: this.state.listMessage
@@ -93,23 +92,23 @@ class ChatMessageBox extends Component {
 
   handleSubmit = () => {
     console.log("this.state.receiver", this.state.receiver);
-      var username = this.state.username;
-      var text = document.getElementById('text').value;
-      var json = {'username':username, 'text':text};
-      console.log(this.state.username, this.state.receiver);
-      // test
-      var chatMessage = {
-        sender: this.state.username,
-        receiver: this.state.receiver,
-        content: text,
-        type: 'CHAT'
-
-      };
-      client.publish({destination: '/app/sendPrivateMessage', body: JSON.stringify(chatMessage)});
-      document.getElementById('text').value = '';
+    var username = this.state.username;
+    var text = document.getElementById('text').value;
+    var json = {'username':username, 'text':text};
+    console.log(this.state.username, this.state.receiver);
+    // test
+    var chatMessage = {
+      sender: this.state.username,
+      receiver: this.state.receiver,
+      content: text,
+      type: 'CHAT'
+    };
+    
+    client.publish({destination: '/app/sendPrivateMessage', body: JSON.stringify(chatMessage)});
   }
 
   render() {
+    console.log("this.state.textMessage", this.state.textMessage);
     return (
       <div className="chatbox">
         <div id="chat">
