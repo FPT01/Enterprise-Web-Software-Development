@@ -25,6 +25,10 @@ class EditUser extends React.Component {
       password: '',
       status: '',
       selectValue: "",
+      selectStatusOptions: "",
+      selectGenderOptions: "",
+      gender: [{id: 0, gender: 1}, {id:1, gender: 0}],
+      enabled: [{id: 0, enabled: 1}, {id:1, enabled: 0}],
       isSuccessful: false,
       roleList: [],
     };
@@ -61,9 +65,11 @@ class EditUser extends React.Component {
     })
     .then((response) => response.json())
     .then((data) => {
-      console.log('Success:', data);
       if(data.status === "OK"){
-        // window.location.href = "/admin/user";
+        alert(data.message);
+        setTimeout(function(){ 
+          window.location.href = "/admin/user"; 
+        }, 700);
       }else {
         console.log("error"); 
       }
@@ -86,6 +92,16 @@ class EditUser extends React.Component {
         return <option value={item.id}>{item.roleName}</option>
       })
     }
+    const selectStatusOptions = () => {
+      return this.state.enabled.map(item => {
+        return <option value={item.enabled}>{(item.enabled === 1) ? "active" : "unactive"}</option>
+      })
+    }
+    const selectGenderOptions = () => {
+      return this.state.gender.map(item => {
+        return <option value={item.id}>{(item.gender === 1) ? "male" : "female"}</option>
+      })
+    }
     return (
       <div className="content">
         <Grid fluid>
@@ -94,7 +110,7 @@ class EditUser extends React.Component {
                 title="Edit User"
                 className="change-password"
                 content={
-                  <form onSubmit={this.submitEditForm(this.state.selectValue, this.state.fullname, this.state.username, this.state.password, this.state.status, this.state.email, this.state.gender)}>
+                  <form onSubmit={this.submitEditForm(this.state.selectValue, this.state.fullname, this.state.username, this.state.password, this.state.selectStatusOptions, this.state.email, this.state.selectGenderOptions)}>
                     <fieldset>
                       <fieldset className="form-group">
                         <label>Roles Name<span>*</span></label>
@@ -113,11 +129,10 @@ class EditUser extends React.Component {
                       </fieldset>
                       <fieldset className="form-group">
                         <label>Gender<span>*</span></label>
-                        <input
-                          className="form-control form-control-lg"
-                          type="text"
-                          placeholder="Gender"
-                          value={this.state.gender} onChange={this.updateState('gender')} required />
+                        <select className="form-control" value={this.state.selectGenderOptions} onChange={this.updateState('selectGenderOptions')} required >
+                          <option value="">Gender</option>
+                          {selectGenderOptions()}
+                        </select>
                       </fieldset>
                       <fieldset className="form-group">
                         <label>Username<span>*</span></label>
@@ -145,11 +160,10 @@ class EditUser extends React.Component {
                       </fieldset>
                       <fieldset className="form-group">
                         <label>Status<span>*</span></label>
-                        <input
-                          className="form-control form-control-lg"
-                          type="text"
-                          placeholder="text"
-                          value={this.state.status} onChange={this.updateState('status')} required />
+                        <select className="form-control" value={this.state.selectStatusOptions} onChange={this.updateState('selectStatusOptions')} required >
+                          <option value="">Please choose status</option>
+                          {selectStatusOptions()}
+                        </select>
                       </fieldset>
                       <button
                         className="ui blue button"

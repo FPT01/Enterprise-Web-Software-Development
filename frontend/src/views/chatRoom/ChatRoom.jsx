@@ -25,6 +25,7 @@ class ChatRoom extends React.Component {
       userChatList: [],
       selectValue: "",
       receiverName: '',
+      sender: ''
     };
 
     this.updateState = field => ev => {
@@ -62,7 +63,10 @@ class ChatRoom extends React.Component {
     .then(response =>  response.json() )
     .then(data => {
       var dataWithoutSender = data.filter(item => item.username !== username);
-      this.setState({ userChatList: dataWithoutSender});
+      this.setState({ 
+        userChatList: dataWithoutSender,
+        sender: username
+      });
     });
   }
 

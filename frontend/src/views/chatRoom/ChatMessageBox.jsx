@@ -17,6 +17,8 @@ class ChatMessageBox extends Component {
       };
       this.handleSubmit = this.handleSubmit.bind(this)
   }
+
+
   componentDidMount() {
     // The compat mode syntax is totally different, converting to v5 syntax
     // Client is imported from '@stomp/stompjs';
@@ -39,7 +41,7 @@ class ChatMessageBox extends Component {
         client.subscribe('/queue/now', message => {
           this.setState({textMessage: message.body});
         });
-
+        console.log("client", client);
         // test
         //stompClient.send('/app/addPrivateUser', {}, JSON.stringify({ sender: this.props.otherUser, type: 'JOIN' }))
         client.publish({destination: '/app/addPrivateUser', body: JSON.stringify({ sender: this.state.username, type: 'JOIN' }) });
