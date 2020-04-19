@@ -76,7 +76,7 @@ public class DocumentController extends ResponseController implements BaseContro
         try {
             Document from = ResponseDTO.accepted().getObject(json, Document.class);
             if (json.getOwner() != null) {
-                User user = userService.findById(json.getOwner().getId());
+                User user = userService.findByUsername(json.getOwner().getUsername());
                 from.setOwner(user);
             }
             documentService.createOrUpdate(from);
