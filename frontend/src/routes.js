@@ -11,7 +11,7 @@
 import Dashboard from "views/Dashboard.jsx";
 import Maps from "views/Maps.jsx";
 import Notifications from "views/Notifications.jsx";
-import ChangePassword from "views/ChangePassword.jsx";
+import ForgotPassword from "views/ForgotPassword.jsx";
 import TutorList from "views/tutor/List.jsx";
 import StudentList from "views/student/List.jsx";
 
@@ -22,6 +22,10 @@ import EditRole from "views/role/Edit.jsx";
 import Users from "views/user/List.jsx";
 import AddNewUser from "views/user/AddNew.jsx";
 import EditUser from "views/user/Edit.jsx";
+
+import UserProfile from "views/userprofile/UserProfile.jsx";
+import Documents from "views/document/Documents.jsx";
+import ChangePassword from "views/changePassword/ChangePassword.jsx";
 
 import Tutors from "views/tutor/List.jsx";
 import AddNewTutor from "views/tutor/AddNew.jsx";
@@ -106,6 +110,30 @@ const dashboardRoutes = [
     component: EditUser,
     layout: "/admin",
     subNav: true,
+  },
+  {
+    path: "/profile-user",
+    name: "User Profile",
+    icon: "pe-7s-user",
+    component: UserProfile,
+    layout: "/admin",
+    subNav: false,
+  },
+  {
+    path: "/change-password",
+    name: "Change Password",
+    icon: "pe-7s-user",
+    component: ChangePassword,
+    layout: "/admin",
+    subNav: false,
+  },
+  {
+    path: "/documents",
+    name: "Management Documents",
+    icon: "pe-7s-user",
+    component: Documents,
+    layout: "/admin",
+    subNav: false,
   },
   {
     path: "/tutor",

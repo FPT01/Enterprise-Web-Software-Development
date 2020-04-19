@@ -9,4 +9,6 @@ public interface TutorService {
     Tutor createOrUpdate(Tutor json);
     void delete(Long id);
     Tutor findById(Long id);
+    void saveAll(List<Tutor> tutors);
+    List<Tutor> findByMeetingId(Long id);
 }

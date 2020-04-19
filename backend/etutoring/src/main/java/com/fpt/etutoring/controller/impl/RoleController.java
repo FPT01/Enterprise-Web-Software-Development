@@ -49,9 +49,9 @@ public class RoleController extends ResponseController implements BaseController
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
         } catch (Exception ex) {
             if (json.getId() == null)
-                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_INSERT));
+                return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_INSERT));
             else
-                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_UPDATE));
+                return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_UPDATE));
         }
     }
 
@@ -61,7 +61,7 @@ public class RoleController extends ResponseController implements BaseController
         try {
             roleService.delete(id);
         } catch (Exception ex) {
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_DELETE));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_DELETE));
         }
         return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
     }
@@ -71,7 +71,7 @@ public class RoleController extends ResponseController implements BaseController
     public ResponseEntity<?> findById(@PathVariable Long id) {
         Role r = roleService.findById(id);
         if (r == null)
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.accepted().getObject(r, RoleDTO.class));
     }
 

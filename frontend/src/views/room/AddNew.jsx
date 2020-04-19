@@ -82,7 +82,7 @@ class AddNewRoom extends React.Component {
                           value={this.state.roomName} onChange={this.updateState('roomName')} required />
                       </fieldset>
                       <button
-                        className="btn btn-primary login-btn"
+                        className="ui blue button"
                         type="submit" >
                         Save
                       </button>

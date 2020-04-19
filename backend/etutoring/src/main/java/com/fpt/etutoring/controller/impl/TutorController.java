@@ -74,9 +74,9 @@ public class TutorController extends ResponseController implements BaseControlle
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
         } catch (Exception ex) {
             if (json.getId() == null)
-                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_INSERT));
+                return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_INSERT));
             else
-                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_UPDATE));
+                return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_UPDATE));
         }
     }
 
@@ -90,7 +90,7 @@ public class TutorController extends ResponseController implements BaseControlle
 //            }
             tutorService.delete(id);
         } catch (Exception ex) {
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, ex));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, ex));
         }
         return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
     }
@@ -100,7 +100,7 @@ public class TutorController extends ResponseController implements BaseControlle
     public ResponseEntity<?> findById(@PathVariable Long id) {
         Tutor tutor = tutorService.findById(id);
         if (tutor == null)
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.accepted().getObject(tutor, TutorDTO.class));
     }
 

@@ -3,8 +3,8 @@ package com.fpt.etutoring.controller.impl;
 
 import com.fpt.etutoring.controller.BaseController;
 import com.fpt.etutoring.controller.ResponseController;
-import com.fpt.etutoring.converter.StringToUserDTOConverter;
 import com.fpt.etutoring.dto.ResponseDTO;
+import com.fpt.etutoring.dto.impl.ChangePasswordDTO;
 import com.fpt.etutoring.dto.impl.LoginDTO;
 import com.fpt.etutoring.dto.impl.RoleDTO;
 import com.fpt.etutoring.dto.impl.UserDTO;
@@ -13,11 +13,8 @@ import com.fpt.etutoring.entity.impl.User;
 import com.fpt.etutoring.error.ApiMessage;
 import com.fpt.etutoring.service.RoleService;
 import com.fpt.etutoring.service.UserService;
-import com.fpt.etutoring.storage.StorageService;
 import com.fpt.etutoring.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
@@ -37,11 +34,21 @@ public class UserController extends ResponseController implements BaseController
     private UserService userService;
     @Autowired
     private RoleService roleService;
-    @Autowired
-    private StorageService storageService;
-    @Autowired
-    private StringToUserDTOConverter converter;
+//    @Autowired
+//    private StorageService storageService;
+//    @Autowired
+//    private StringToUserDTOConverter converter;
 
+    @PostMapping(value = Constant.PATH_CHANGE_PASSWORD)
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordDTO json) {
+        User u = userService.getUserByUsernameAndPassword(json.getUsername(), json.getOldPassword());
+        if (u != null) {
+            u.setPassword(json.getNewPassword());
+            userService.createOrUpdate(u);
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
+        }
+        return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
+    }
 
     @PostMapping(value = Constant.PATH_LOGIN)
     public ResponseEntity<?> login(@RequestBody LoginDTO json) {
@@ -52,7 +59,7 @@ public class UserController extends ResponseController implements BaseController
             userDTO.setPassword(null);
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }
-        return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_LOGIN));
+        return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_LOGIN));
     }
 
     private UserDTO getUserWithRole(User u) {
@@ -111,11 +118,28 @@ public class UserController extends ResponseController implements BaseController
         return createOrUpdate(source);
     }*/
 
+    // fullname, username, email, gender
+    @PostMapping(value = Constant.PATH_CHANGE_PROFILE, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> changeProfile(@RequestBody UserDTO json) {
+            User newUser = userService.findById(json.getId());
+            if (newUser != null) {
+                newUser.setFullname(json.getFullname());
+                newUser.setUsername(json.getUsername().trim());
+                newUser.setEmail(json.getEmail());
+                newUser.setGender(json.getGender());
+                userService.createOrUpdate(newUser);
+                return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
+            }
+        return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
+    }
+
     @Override
     @PostMapping(value = Constant.PATH_SAVE, consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createOrUpdate(@RequestBody UserDTO json) {
         try {
             User from = ResponseDTO.accepted().getObject(json, User.class);
+            String newUsername = from.getUsername().trim();
+            from.setUsername(newUsername);
             if (json.getRoleDTO() != null) {
                 Role role = roleService.findById(json.getRoleDTO().getId());
                 if (role != null)
@@ -125,9 +149,9 @@ public class UserController extends ResponseController implements BaseController
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
         } catch (Exception ex) {
             if (json.getId() == null)
-                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_INSERT));
+                return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_INSERT));
             else
-                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_UPDATE));
+                return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_UPDATE));
         }
     }
 
@@ -141,7 +165,7 @@ public class UserController extends ResponseController implements BaseController
                 userService.createOrUpdate(user);
             }
         } catch (Exception ex) {
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, ex));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, ex));
         }
         return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
     }
@@ -151,23 +175,16 @@ public class UserController extends ResponseController implements BaseController
     public ResponseEntity<?> findById(@PathVariable Long id) {
         User u = userService.findById(id);
         if (u == null)
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
         return ResponseEntity.status(HttpStatus.OK).body(getUserWithRole(u));
     }
 
-    @GetMapping(value = Constant.PATH_LOAD_FILE)
-    @ResponseBody
-    public ResponseEntity<?> upload(@RequestParam(value = "filename") String filename) {
-        if (filename == null)
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
-
-        Resource file = storageService.loadAsResource(filename);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }
-
-    @Override
-    public ResponseEntity<?> buildResponseEntity(ApiMessage apiMessage) {
-        return new ResponseEntity<>(apiMessage, apiMessage.getStatus());
+    @GetMapping(value = Constant.PATH_FIND_BY_USERNAME, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> findByUsername(@PathVariable String username) {
+        User u = userService.findByUsername(username);
+        if (u == null)
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
+        u.setPassword(null);
+        return ResponseEntity.status(HttpStatus.OK).body(getUserWithRole(u));
     }
 }

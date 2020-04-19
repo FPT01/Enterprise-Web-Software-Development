@@ -77,9 +77,9 @@ public class BlogCommentController extends ResponseController implements BaseCon
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
         } catch (Exception ex) {
             if (json.getId() == null)
-                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_INSERT));
+                return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_INSERT));
             else
-                return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_UPDATE));
+                return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_UPDATE));
         }
     }
 
@@ -89,7 +89,7 @@ public class BlogCommentController extends ResponseController implements BaseCon
         try {
             blogCommentService.delete(id);
         } catch (Exception ex) {
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, ex));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, ex));
         }
         return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
     }
@@ -99,7 +99,7 @@ public class BlogCommentController extends ResponseController implements BaseCon
     public ResponseEntity<?> findById(@PathVariable Long id) {
         BlogComment blogComment = blogCommentService.findById(id);
         if (blogComment == null)
-            return buildResponseEntity(new ApiMessage(HttpStatus.BAD_REQUEST, Constant.ERROR_NOT_FOUND));
+            return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
         BlogCommentDTO dto = ResponseDTO.accepted().getObject(blogComment, BlogCommentDTO.class);
         if (blogComment.getUser() != null) {
             User u = blogComment.getUser();

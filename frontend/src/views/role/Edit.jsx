@@ -39,12 +39,6 @@ class EditRole extends React.Component {
     };
   }
 
-  updateInputValue(evt) {
-    this.setState({
-      inputValue: evt.target.value
-    });
-  }
-
   onSubmitEdit = (roleName, roleDescription) => {
     const roleId=queryString.parse(this.props.location.search);
     return fetch(`http://localhost:8080/api/role/save`, {
@@ -94,7 +88,7 @@ class EditRole extends React.Component {
                           value={this.state.roleDescription} onChange={this.updateState('roleDescription')} required />
                       </fieldset>
                       <button
-                        className="btn btn-primary login-btn"
+                        className="ui blue button"
                         type="submit" >
                         Save
                       </button>

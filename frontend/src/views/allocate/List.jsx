@@ -131,13 +131,13 @@ class UserRole extends Component {
                                 <td className="role-name">{item.name}</td>
                                 <td>
                                   <span>
-                                    <Button onClick={() => window.location.href = "/admin/edit-allocate?id=" + item.id}>
+                                    <Button className="ui yellow button" onClick={() => window.location.href = "/admin/edit-allocate?id=" + item.id}>
                                       Edit
                                     </Button>
 
                                   </span>
                                   <span>
-                                    <Button onClick={() => this.fnDeleteAllocate(item.id)}>
+                                    <Button className="ui red button" onClick={() => this.fnDeleteAllocate(item.id)}>
                                       <i className="fa fa-trash" />
                                     </Button>
                                   </span>

@@ -9,4 +9,5 @@ public interface RoleService {
     Role createOrUpdate(Role json);
     void delete(Long id);
     Role findById(Long id);
+    Role findByName(String rolename);
 }

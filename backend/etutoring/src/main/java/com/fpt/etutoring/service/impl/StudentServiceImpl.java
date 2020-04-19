@@ -47,6 +47,16 @@ public class StudentServiceImpl implements StudentService {
         return getStudentExcels(studentDao.getStudentsSevenToTwentyEight(from, to));
     }
 
+    @Override
+    public void saveAll(List<Student> students) {
+        studentDao.saveAll(students);
+    }
+
+    @Override
+    public List<Student> findByMeetingId(Long id) {
+        return null;
+    }
+
     private List<StudentExcel> getStudentExcels(List<Student> students) {
         List<StudentExcel> studentExcels = new ArrayList<>();
         if (!CollectionUtils.isEmpty(students)) {

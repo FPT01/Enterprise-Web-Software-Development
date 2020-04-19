@@ -1,17 +1,17 @@
 package com.fpt.etutoring.entity.impl;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "student")
 @Getter
 @Setter
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Student implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,9 +23,8 @@ public class Student implements Serializable {
 //    @JoinColumn(name = "allocation_id", referencedColumnName = "id")
 //    private Allocation allocation;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "meeting_id", referencedColumnName = "id")
-    private Meeting meeting;
+    @ManyToMany(mappedBy = "students", fetch = FetchType.LAZY)
+    private Set<Meeting> meetings = new HashSet<>(0);
 
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
