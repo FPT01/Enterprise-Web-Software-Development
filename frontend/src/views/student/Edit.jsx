@@ -24,7 +24,8 @@ class EditStudent extends React.Component {
       username: '',
       password: '',
       roleId: '',
-      status: '',
+      selectStatusOptions: "",
+      enabled: [{id: 0, enabled: 1}, {id:1, enabled: 0}],
       isSuccessful: false,
     };
 
@@ -74,6 +75,11 @@ class EditStudent extends React.Component {
   }
 
   render() {
+    const selectStatusOptions = () => {
+      return this.state.enabled.map(item => {
+        return <option value={item.enabled}>{(item.enabled === 1) ? "active" : "unactive"}</option>
+      })
+    }
     return (
       <div className="content">
         <Grid fluid>
@@ -82,7 +88,7 @@ class EditStudent extends React.Component {
                 title="Edit Student"
                 className="change-password"
                 content={
-                  <form onSubmit={this.submitEditForm(this.state.fullname, this.state.username, this.state.password, this.state.status)}>
+                  <form onSubmit={this.submitEditForm(this.state.fullname, this.state.username, this.state.password, this.state.selectStatusOptions)}>
                     <fieldset>
                       <fieldset className="form-group">
                         <label>Fullname<span>*</span></label>
@@ -111,11 +117,10 @@ class EditStudent extends React.Component {
                       </fieldset>
                       <fieldset className="form-group">
                         <label>Status<span>*</span></label>
-                        <input
-                          className="form-control form-control-lg"
-                          type="text"
-                          placeholder="text"
-                          value={this.state.status} onChange={this.updateState('status')} required />
+                        <select className="form-control" value={this.state.selectStatusOptions} onChange={this.updateState('selectStatusOptions')} required >
+                          <option value="">Please choose status</option>
+                          {selectStatusOptions()}
+                        </select>
                       </fieldset>
                       <button
                         className="ui blue button"

@@ -40,11 +40,13 @@ class UserRole extends Component {
     })
     .then((response) => response.json())
     .then((data) => {
-      console.log('Success:', data);
       if(data.status === "OK"){
-        window.location.reload();
+        alert(data.message);
+        setTimeout(function(){ 
+          window.location.reload();
+        }, 500);
       }else {
-        console.log("error");
+        console.log("error"); 
       }
     })
   }
