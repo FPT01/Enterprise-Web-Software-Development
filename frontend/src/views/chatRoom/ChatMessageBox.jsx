@@ -13,11 +13,10 @@ class ChatMessageBox extends Component {
         textMessage: null,
         listMessage: [],
         listHistoryMessage: [],
-        otherUser: "tutor1"
+        receiver: props.receiverName,
       };
       this.handleSubmit = this.handleSubmit.bind(this)
   }
-
   componentDidMount() {
     // The compat mode syntax is totally different, converting to v5 syntax
     // Client is imported from '@stomp/stompjs';
@@ -37,13 +36,19 @@ class ChatMessageBox extends Component {
     client.configure({
       brokerURL: 'ws://localhost:8080/stomp',
       onConnect: () => {
-        client.subscribe('/user/' + this.props.otherUser + '/reply', message => {
+        client.subscribe('/queue/now', message => {
           this.setState({textMessage: message.body});
         });
 
-        client.subscribe('/app/addPrivateUser', message => {
+        // test
+        //stompClient.send('/app/addPrivateUser', {}, JSON.stringify({ sender: this.props.otherUser, type: 'JOIN' }))
+        client.publish({destination: '/app/addPrivateUser', body: JSON.stringify({ sender: this.state.username, type: 'JOIN' }) });
+
+        // '/user/' + this.props.otherUser.toString().toLowerCase() + '/reply'
+        client.subscribe('/user/student/reply', message => {
           var response = JSON.parse(message.body);
           this.state.listMessage.push(response);
+          console.log(response);
           this.setState({
             textMessage: response,
             listMessage: this.state.listMessage
@@ -69,11 +74,11 @@ class ChatMessageBox extends Component {
                 <div className="msg-img"></div>
                 <div className="msg-bubble">
                   <div className="msg-info">
-                    <div className="msg-info-name">{item.from}</div>
-                    <div className="msg-info-time">{item.time}</div>
+                    <div className="msg-info-name">{item.sender}</div>
+                    <div className="msg-info-time">{item.dateTime}</div>
                   </div>
                   <div className="msg-text">
-                    {item.text}
+                    {item.content}
                   </div>
                 </div>
               </div>
@@ -85,10 +90,20 @@ class ChatMessageBox extends Component {
   }
 
   handleSubmit = () => {
+    console.log("this.state.receiver", this.state.receiver);
       var username = this.state.username;
       var text = document.getElementById('text').value;
       var json = {'username':username, 'text':text};
-      client.publish({destination: '/app/sendPrivateMessage', body: JSON.stringify(json)});
+      console.log(this.state.username, this.state.receiver);
+      // test
+      var chatMessage = {
+        sender: this.state.username,
+        receiver: this.state.receiver,
+        content: text,
+        type: 'CHAT'
+
+      };
+      client.publish({destination: '/app/sendPrivateMessage', body: JSON.stringify(chatMessage)});
       document.getElementById('text').value = '';
   }
 

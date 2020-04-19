@@ -50,6 +50,7 @@ import AddNewRoom from "views/room/AddNew.jsx";
 import EditRoom from "views/room/Edit.jsx";
 
 import ChatMessageBox from "views/chatRoom/ChatMessageBox.jsx";
+import ChatRoom from "views/chatRoom/ChatRoom.jsx";
 
 import ReportLastSevenDays from "views/report/ReportLastSevenDays.jsx";
 
@@ -185,12 +186,21 @@ const dashboardRoutes = [
   },
 
   {
+    path: "/chat-room",
+    name: "Chat Box",
+    icon: "pe-7s-note2",
+    component: ChatRoom,
+    layout: "/admin",
+    subNav: false,
+  },
+
+  {
     path: "/chat-message-box",
     name: "Chat Box",
     icon: "pe-7s-note2",
     component: ChatMessageBox,
     layout: "/admin",
-    subNav: false,
+    subNav: true,
   },
 
   {
