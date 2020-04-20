@@ -14,4 +14,7 @@ public class StudentExcel implements Serializable {
 
     @ExcelCell(value = "Full Name")
     private String fullname;
+
+    @ExcelCell(value = "User Name")
+    private String username;
 }

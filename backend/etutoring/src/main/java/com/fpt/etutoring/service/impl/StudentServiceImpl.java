@@ -64,6 +64,7 @@ public class StudentServiceImpl implements StudentService {
                 StudentExcel studentExcel = new StudentExcel();
                 studentExcel.setId(s.getId());
                 studentExcel.setFullname(s.getUser().getFullname());
+                studentExcel.setUsername(s.getUser().getUsername());
                 studentExcels.add(studentExcel);
             });
         }
