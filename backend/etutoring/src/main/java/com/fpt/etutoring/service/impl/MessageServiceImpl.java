@@ -44,26 +44,27 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<StatisticDTO> getAverageMsg() {
-        List<StatisticDTO> dtos = new ArrayList<>();
-        List<Message> messages = null;
-                //messageDao.getMessageByRoleName(RoleName.TUTOR.getValue());
-        Map<User,List<Message>> msgGroupByUsers = new HashMap<>();
+        List<Message> messages = messageDao.findAll();
+        Map<User,List<Message>> msgSenders = new HashMap<>();
         if (!CollectionUtils.isEmpty(messages)) {
             messages.forEach(m -> {
-//                if (m.getUser() != null) {
-//                    List<Message> messageList;
-//                    if(msgGroupByUsers.containsKey(m.getUser())) {
-//                        messageList = msgGroupByUsers.get(m.getUser());
-//                        messageList.add(m);
-//                    } else {
-//                        messageList = new ArrayList<>();
-//                        messageList.add(m);
-//                        msgGroupByUsers.put(m.getUser(), messageList);
-//                    }
-//                }
+                List<Message> messageSenders;
+                if(msgSenders.containsKey(m.getSender())) {
+                    messageSenders = msgSenders.get(m.getSender());
+                    messageSenders.add(m);
+                } else {
+                    messageSenders = new ArrayList<>();
+                    messageSenders.add(m);
+                    msgSenders.put(m.getSender(), messageSenders);
+                }
             });
         }
+        List<StatisticDTO> dtos = calculateData(msgSenders);
+        return dtos;
+    }
 
+    private List<StatisticDTO> calculateData(Map<User,List<Message>> msgGroupByUsers) {
+        List<StatisticDTO> dtos = new ArrayList<>();
         Map<User, Float> mapAverageMsg = new HashMap<>();
         msgGroupByUsers.forEach((k,v) -> {
             List<Message> msgs = v;

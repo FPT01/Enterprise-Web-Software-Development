@@ -12,8 +12,8 @@ import com.fpt.etutoring.error.ApiMessage;
 import com.fpt.etutoring.service.RoleService;
 import com.fpt.etutoring.service.TutorService;
 import com.fpt.etutoring.service.UserService;
-import com.fpt.etutoring.storage.StorageService;
 import com.fpt.etutoring.util.Constant;
+import com.fpt.etutoring.util.RoleName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +34,8 @@ public class TutorController extends ResponseController implements BaseControlle
     private UserService userService;
     @Autowired
     private RoleService roleService;
-    @Autowired
-    private StorageService storageService;
+//    @Autowired
+//    private StorageService storageService;
 
     @Override
     @GetMapping(Constant.PATH)
@@ -64,7 +64,7 @@ public class TutorController extends ResponseController implements BaseControlle
             Tutor from = ResponseDTO.accepted().getObject(json, Tutor.class);
             if (json.getUser() != null) {
                 User newUser = ResponseDTO.accepted().getObject(json.getUser(), User.class);
-                Role newRole = roleService.findById(json.getUser().getRoleDTO().getId());
+                Role newRole = roleService.findByName(RoleName.TUTOR.getValue());
                 newRole.setUsers(null);
                 newUser.setRole(newRole);
                 User user = userService.createOrUpdate(newUser);
@@ -84,10 +84,6 @@ public class TutorController extends ResponseController implements BaseControlle
     @DeleteMapping(value = Constant.PATH_DELETE, consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
-//            Tutor tutor = tutorService.findById(id);
-//            if (tutor != null) {
-//                storageService.deleteByFilename(tutor.getUser().getAvatar());
-//            }
             tutorService.delete(id);
         } catch (Exception ex) {
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, ex));

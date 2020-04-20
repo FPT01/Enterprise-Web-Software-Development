@@ -39,14 +39,12 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<StudentExcel> findStudentsWithoutTutor() {
-        return null;
-                //getStudentExcels(studentDao.findStudentsWithoutTutor());
+        return getStudentExcels(studentDao.findStudentsWithoutTutor());
     }
 
     @Override
     public List<StudentExcel> getStudentsSevenToTwentyEight(Date from, Date to) {
-        return null;
-                //getStudentExcels(studentDao.getStudentsSevenToTwentyEight(from, to));
+        return getStudentExcels(studentDao.getStudentsSevenToTwentyEight(from, to));
     }
 
     @Override
