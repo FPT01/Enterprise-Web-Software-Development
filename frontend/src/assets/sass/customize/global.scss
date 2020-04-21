@@ -1,0 +1,26 @@
+.welcome-block {
+	display: none;
+	@media (min-width: 992px){
+		display: block;
+	}
+}
+
+@media (max-width: 991px) {
+	.navbar-toggle .icon-bar {
+		height: 3px;
+	  border-radius: 1px;
+	  margin: 5px auto;
+	}
+}
+
+.sidebar .sidebar-wrapper {
+	.welcome-item {
+		margin: 5px 15px;
+		a {
+			display: block;
+			&:hover {
+				background: none;
+			}
+		}
+	}
+}
