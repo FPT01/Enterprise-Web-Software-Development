@@ -99,9 +99,4 @@ public class TutorController extends ResponseController implements BaseControlle
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.accepted().getObject(tutor, TutorDTO.class));
     }
-
-    @Override
-    public ResponseEntity<?> buildResponseEntity(ApiMessage apiMessage) {
-        return new ResponseEntity<>(apiMessage, apiMessage.getStatus());
-    }
 }

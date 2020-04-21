@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface MessageDao extends JpaRepository<Message, Long> {
@@ -21,5 +22,13 @@ public interface MessageDao extends JpaRepository<Message, Long> {
 
 //    @Query("SELECT count(m) FROM Message m WHERE m.user.id = :userId")
 //    Long getTotalMessageByUserId(@Param("userId") Long userId);
+
+    @Query("SELECT m.receiver, m.time, count(m) FROM Message m " +
+            "GROUP BY m.receiver, m.time HAVING m.sender.id = :userId")
+    List<Object> listMsgSenders(@Param("userId") Long userId);
+
+    @Query("SELECT m.sender, m.time, count(m) FROM Message m " +
+            "GROUP BY m.sender, m.time HAVING m.receiver.id = :userId")
+    List<Object> listMsgReceivers(@Param("userId") Long userId);
 
 }

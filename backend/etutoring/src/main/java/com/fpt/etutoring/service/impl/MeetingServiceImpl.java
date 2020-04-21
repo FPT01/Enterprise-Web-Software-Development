@@ -32,4 +32,14 @@ public class MeetingServiceImpl implements MeetingService {
     public Meeting findById(Long id) {
         return meetingDao.findById(id).get();
     }
+
+    @Override
+    public Long totalTutorMeetings(Long userId) {
+        return meetingDao.totalTutorMeetings(userId);
+    }
+
+    @Override
+    public Long totalStudentMeetings(Long userId) {
+        return meetingDao.totaStudentMeetings(userId);
+    }
 }

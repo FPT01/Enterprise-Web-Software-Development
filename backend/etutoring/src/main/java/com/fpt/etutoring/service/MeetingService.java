@@ -9,4 +9,6 @@ public interface MeetingService {
     Meeting createOrUpdate(Meeting json);
     void delete(Long id);
     Meeting findById(Long id);
+    Long totalTutorMeetings(Long userId);
+    Long totalStudentMeetings(Long userId);
 }
