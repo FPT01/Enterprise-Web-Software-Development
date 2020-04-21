@@ -60,7 +60,6 @@ class UserRole extends Component {
             <Col md={12}>
               <Card
                 title="User Role List"
-                category="Here is a list of user role"
                 ctTableFullWidth
                 ctTableResponsive
                 content={

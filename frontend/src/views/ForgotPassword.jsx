@@ -48,7 +48,7 @@ class ForgotPassword extends React.Component {
                         }
                       ]}
                     />
-                    <Button bsStyle="info" pullRight fill type="submit">
+                    <Button className="ui button blue" bsStyle="info" pullRight fill type="submit">
                       Save
                     </Button>
                     <div className="clearfix" />

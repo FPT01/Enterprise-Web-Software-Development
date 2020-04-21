@@ -107,7 +107,7 @@ class ChangePassword extends React.Component {
                         <label htmlFor="oldPassword">Old Password<span>*</span></label>
                         <input
                           className="form-control form-control-lg"
-                          type="text"
+                          type="password"
                           placeholder="Old Password" required
                           value={this.state.oldPassword} onChange={this.updateState('oldPassword')} />
                       </fieldset>
@@ -115,12 +115,12 @@ class ChangePassword extends React.Component {
                         <label htmlFor="newPassword">New Password<span>*</span></label>
                         <input
                           className="form-control form-control-lg"
-                          type="text"
+                          type="password"
                           placeholder="New Password" required
                           value={this.state.newPassword} onChange={this.updateState('newPassword')} />
                       </fieldset>
                       <button
-                        className="btn btn-primary login-btn"
+                        className="ui button blue"
                         type="submit" >
                         Submit
                       </button>
