@@ -121,6 +121,22 @@ const dashboardRoutes = [
     subNav: false,
   },
   {
+    path: "/profile-user",
+    name: "User Profile",
+    icon: "pe-7s-user",
+    component: UserProfile,
+    layout: "/tutor",
+    subNav: false,
+  },
+  {
+    path: "/profile-user",
+    name: "User Profile",
+    icon: "pe-7s-user",
+    component: UserProfile,
+    layout: "/student",
+    subNav: false,
+  },
+  {
     path: "/change-password",
     name: "Change Password",
     icon: "pe-7s-user",
@@ -129,11 +145,43 @@ const dashboardRoutes = [
     subNav: false,
   },
   {
+    path: "/change-password",
+    name: "Change Password",
+    icon: "pe-7s-user",
+    component: ChangePassword,
+    layout: "/tutor",
+    subNav: false,
+  },
+  {
+    path: "/change-password",
+    name: "Change Password",
+    icon: "pe-7s-user",
+    component: ChangePassword,
+    layout: "/student",
+    subNav: false,
+  },
+  {
     path: "/documents",
     name: "Management Documents",
     icon: "pe-7s-user",
     component: Documents,
     layout: "/admin",
+    subNav: false,
+  },
+  {
+    path: "/documents",
+    name: "Management Documents",
+    icon: "pe-7s-user",
+    component: Documents,
+    layout: "/tutor",
+    subNav: false,
+  },
+  {
+    path: "/documents",
+    name: "Management Documents",
+    icon: "pe-7s-user",
+    component: Documents,
+    layout: "/student",
     subNav: false,
   },
   {
@@ -190,7 +238,15 @@ const dashboardRoutes = [
     name: "Chat Box",
     icon: "pe-7s-note2",
     component: ChatRoom,
-    layout: "/admin",
+    layout: "/tutor",
+    subNav: false,
+  },
+  {
+    path: "/chat-room",
+    name: "Chat Box",
+    icon: "pe-7s-note2",
+    component: ChatRoom,
+    layout: "/student",
     subNav: false,
   },
 
@@ -224,7 +280,21 @@ const dashboardRoutes = [
     name: "Blog post",
     icon: "pe-7s-note2",
     component: BlogPosts,
+    layout: "/tutor"
+  },
+  {
+    path: "/blogposts",
+    name: "Blog post",
+    icon: "pe-7s-note2",
+    component: BlogPosts,
     layout: "/admin"
+  },
+  {
+    path: "/blogposts",
+    name: "Blog post",
+    icon: "pe-7s-note2",
+    component: BlogPosts,
+    layout: "/student"
   },
   {
     path: "/blogdetail",
@@ -293,7 +363,8 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: ReportLastSevenDays,
     layout: "/admin",
-  }
+  },
+
 ];
 
 export default dashboardRoutes;
