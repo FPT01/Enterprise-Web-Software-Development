@@ -10,8 +10,8 @@
 
 import React, { Component } from "react";
 import { Grid, Row, Col, FormControl, } from "react-bootstrap";
-import Card from "components/Card/Card.jsx";
-import { Dropdown, Button, Divider, Form, Label } from 'semantic-ui-react'
+//import Card from "components/Card/Card.jsx";
+import { Dropdown, Button, Card, Form, Label } from 'semantic-ui-react'
 
 import queryString from 'query-string';
 
@@ -126,69 +126,63 @@ class Allocate extends Component {
   render() {
     return (
       <div className="content">
-        <Grid fluid>
-          <Row>
-            <Col md={12}>
-              <Card
-                title=""
-                category=""
-                ctTableFullWidth
-                ctTableResponsive
-                content={
-                  <>
-                    <div className="allocate-content">
-                      <div>
-                        <Button color="green" onClick={() => window.location.href = "/admin/allocate"} >
-                          <i className="fa fa-arrow-circle-left" /> To Allocated list
+        <Card fluid>
+          <Card.Content>
+            <Card.Description>
+              <Button color="green" onClick={() => window.location.href = "/admin/allocate"} >
+                <i className="fa fa-arrow-circle-left" /> To Allocated list
                         </Button>
-                      </div>
-                      <br />
-                      <Form>
-                        <Form.Field>
-                          <Label size="big">Room Id : {this.state.selectedRoom}</Label>
 
-                        </Form.Field>
-                        <Form.Field>
-                          <Label>Please select tutor</Label>
-                          <Dropdown
-                            placeholder='Tutor'
-                            fluid
-                            selection
-                            multiple
-                            search
-                            onChange={this.onChangeTutor}
-                            options={this.state.listTutor}
-                            value={this.state.selectedTutors}
-                          />
-                        </Form.Field>
-                        <Form.Field>
-                          <Label >Please select student(s)</Label>
-                          <Dropdown
-                            placeholder='Student'
-                            fluid
-                            selection
-                            multiple
-                            search
-                            onChange={this.onChangeStudent}
-                            options={this.state.listStudent}
-                            value={this.state.selectedStudents}
-                          />
-                        </Form.Field>
+            </Card.Description>
+          </Card.Content>
+        </Card>
+        <Card fluid>
+          <Card.Content>
+            <Card.Description>
+              <div>
+                <Form>
+                  <Form.Field>
+                    <Label size="big">Room Id : {this.state.selectedRoom}</Label>
 
-                        <div>
-                          <Button color='blue' onClick={this.saveAllocate}>Save</Button>
-                          <Button color='red' onClick={this.resetAllField}>Reset</Button>
-                        </div>
-                      </Form>
+                  </Form.Field>
+                  <Form.Field>
+                    <Label>Please select tutor</Label>
+                    <Dropdown
+                      placeholder='Tutor'
+                      fluid
+                      selection
+                      multiple
+                      search
+                      onChange={this.onChangeTutor}
+                      options={this.state.listTutor}
+                      value={this.state.selectedTutors}
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <Label >Please select student(s)</Label>
+                    <Dropdown
+                      placeholder='Student'
+                      fluid
+                      selection
+                      multiple
+                      search
+                      onChange={this.onChangeStudent}
+                      options={this.state.listStudent}
+                      value={this.state.selectedStudents}
+                    />
+                  </Form.Field>
 
-                    </div>
+                  <div>
+                    <Button color='blue' onClick={this.saveAllocate}>Save</Button>
+                    <Button color='red' onClick={this.resetAllField}>Reset</Button>
+                  </div>
+                </Form>
 
-                  </>
-                }
-              />
-            </Col>
-          </Row>
-        </Grid>
+              </div>
+
+            </Card.Description>
+          </Card.Content>
+        </Card>
       </div>
     );
   }

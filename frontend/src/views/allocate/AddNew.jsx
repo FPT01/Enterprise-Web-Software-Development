@@ -10,8 +10,8 @@
 
 import React, { Component } from "react";
 import { Grid, Row, Col, FormControl, } from "react-bootstrap";
-import Card from "components/Card/Card.jsx";
-import { Dropdown, Button, Divider, Form, Label } from 'semantic-ui-react'
+//import Card from "components/Card/Card.jsx";
+import { Dropdown, Button, Card, Form, Label } from 'semantic-ui-react'
 
 class Allocate extends Component {
   constructor(props) {
@@ -31,8 +31,6 @@ class Allocate extends Component {
     };
   }
 
-
-
   componentDidMount() {
 
     this.getRooms()
@@ -50,18 +48,17 @@ class Allocate extends Component {
     })
       .then(response => response.json())
       .then(data => data.forEach(async ({ id, name }) => {
-        console.log(`id = $Ơ`)
         await fetch(`http://localhost:8080/api/allocate/findByRoomId/${id}`, {
           method: "GET",
           headers: {
             'Content-Type': 'application/json'
           }
         }).then(response => response.text())
-        
-        .then(response => {
-          const r = response.status != 200 ? listRoom.push({ key: id, text: name, value: id }) : false
-          this.setState({ listRoom: listRoom })
-        })
+
+          .then(response => {
+            const r = response.status != 200 ? listRoom.push({ key: id, text: name, value: id }) : false
+            this.setState({ listRoom: listRoom })
+          })
       }))
   }
 
@@ -87,10 +84,10 @@ class Allocate extends Component {
           headers: {
             'Content-Type': 'application/json'
           }
-        }).then(response => {
-          const r = response.status == 404 ? listStudent.push({ key: id, text: user.fullname, value: id }) : false
-          this.setState({ listStudent: listStudent })
-        })
+        }).then(response => response.text())
+          .then(data => {
+            const r = data != '' ? this.setState({ listStudent: this.state.listStudent.concat({ key: id, text: user.fullname, value: id }) }) : false
+          })
 
       }))
   }
@@ -106,7 +103,6 @@ class Allocate extends Component {
     const room = { id: this.state.selectedRoom }
     const tutors = this.state.selectedTutors.map(i => ({ id: i }))
     const students = this.state.selectedStudents.map(i => ({ id: i }))
-    console.log(JSON.stringify({ room: room, tutors: tutors, students: students }))
     return fetch(`http://localhost:8080/api/allocate/save`, {
       method: "POST",
       headers: {
@@ -136,77 +132,69 @@ class Allocate extends Component {
   render() {
     return (
       <div className="content">
-        <Grid fluid>
-          <Row>
-            <Col md={12}>
-              <Card
-                title=""
-                category=""
-                ctTableFullWidth
-                ctTableResponsive
-                content={
-                  <>
-                    <div className="allocate-content">
-                      <div>
-                        <Button color="green" onClick={() => window.location.href = "/admin/allocate"} >
-                          <i className="fa fa-arrow-circle-left" /> To Allocated list
+        <Card fluid>
+          <Card.Content>
+            <Card.Description>
+              <Button color="green" onClick={() => window.location.href = "/admin/allocate"} >
+                <i className="fa fa-arrow-circle-left" /> To Allocated list
                         </Button>
-                      </div>
-                      <br />
-                      <Form>
-                        <Form.Field>
-                          <Label>Please select class</Label>
-                          <Dropdown
-                            placeholder='Class'
-                            fluid
-                            selection
-                            search
-                            onChange={this.onChangeRoom}
-                            options={this.state.listRoom}
-                            value={this.state.selectedRoom}
-                          />
-                        </Form.Field>
-                        <Form.Field>
-                          <Label>Please select tutor</Label>
-                          <Dropdown
-                            placeholder='Tutor'
-                            fluid
-                            selection
-                            multiple
-                            search
-                            onChange={this.onChangeTutor}
-                            options={this.state.listTutor}
-                            value={this.state.selectedTutors}
-                          />
-                        </Form.Field>
-                        <Form.Field>
-                          <Label >Please select student(s)</Label>
-                          <Dropdown
-                            placeholder='Student'
-                            fluid
-                            selection
-                            multiple
-                            search
-                            onChange={this.onChangeStudent}
-                            options={this.state.listStudent}
-                            value={this.state.selectedStudents}
-                          />
-                        </Form.Field>
+            </Card.Description>
+          </Card.Content>
+        </Card>
+        <Card fluid>
+          <Card.Content>
+            <Card.Description>
+              <div>
+                <Form>
+                  <Form.Field>
+                    <Label>Please select class</Label>
+                    <Dropdown
+                      placeholder='Class'
+                      fluid
+                      selection
+                      search
+                      onChange={this.onChangeRoom}
+                      options={this.state.listRoom}
+                      value={this.state.selectedRoom}
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <Label>Please select tutor</Label>
+                    <Dropdown
+                      placeholder='Tutor'
+                      fluid
+                      selection
+                      multiple
+                      search
+                      onChange={this.onChangeTutor}
+                      options={this.state.listTutor}
+                      value={this.state.selectedTutors}
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <Label >Please select student(s)</Label>
+                    <Dropdown
+                      placeholder='Student'
+                      fluid
+                      selection
+                      multiple
+                      search
+                      onChange={this.onChangeStudent}
+                      options={this.state.listStudent}
+                      value={this.state.selectedStudents}
+                    />
+                  </Form.Field>
 
-                        <div>
-                          <Button color='blue' onClick={this.saveAllocate}>Save</Button>
-                          <Button color='red' onClick={this.resetAllField}>Reset</Button>
-                        </div>
-                      </Form>
+                  <div>
+                    <Button color='blue' onClick={this.saveAllocate}>Save</Button>
+                    <Button color='red' onClick={this.resetAllField}>Reset</Button>
+                  </div>
+                </Form>
 
-                    </div>
-
-                  </>
-                }
-              />
-            </Col>
-          </Row>
-        </Grid>
+              </div>
+            </Card.Description>
+          </Card.Content>
+        </Card>
       </div>
     );
   }

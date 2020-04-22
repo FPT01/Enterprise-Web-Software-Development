@@ -10,10 +10,11 @@
 
 import React, { Component } from "react";
 import { Grid, Row, Col } from "react-bootstrap";
-import Card from "components/Card/Card.jsx";
+//import Card from "components/Card/Card.jsx";
 import Moment from 'react-moment';
 
 import queryString from 'query-string';
+import { Card, Button, Divider, Form, Label } from 'semantic-ui-react'
 
 class BlogPosts extends Component {
   constructor(props) {
@@ -42,17 +43,17 @@ class BlogPosts extends Component {
   }
 
   onSubmit = (title, content) => {
-    
+    const account = window.localStorage.getItem('account');
+    const userid = JSON.parse(account).userid;
     return fetch(`http://localhost:8080/api/blogpost/save`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({title: title, content: content , user : { id : 1}})
+      body: JSON.stringify({ title: title, content: content, user: { id: userid } })
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data);
         if (data.status === "OK") {
           window.location.href = "/admin/blogposts";
         } else {
@@ -62,55 +63,58 @@ class BlogPosts extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <div className="content">
-        <Grid fluid className="blog-comment-wrap">
-          <Row>
-            <Col md={12} className="padding-bot">
-              <Card
-                title=""
-                category=""
-                ctTableFullWidth
-                ctTableResponsive
-                content={
-                  <>
-                    <form onSubmit={this.submitForm(this.state.title, this.state.content)} className=" margin-lr">
-                      <fieldset>
-                      <fieldset className="form-group">
-                          <label>Title<span>*</span></label>
-                          <input
-                            className="form-control form-control-lg"
-                            type="text"
-                            placeholder="Blog title"
-                            value={this.state.fullname} onChange={this.updateState('title')} required />
-                        </fieldset>
-                        <fieldset className="form-group">
-                          <label>Content<span>*</span></label>
-                          <textarea
-                            className="form-control form-control-lg"
-                            type="text"
-                            placeholder="Blog content"
-                            value={this.state.fullname} onChange={this.updateState('content')} required />
-                        </fieldset>
 
-                        <button
-                          className="btn btn-primary login-btn"
-                          type="submit" >
-                          Save
-                                    </button>
+        <Card fluid>
+          <Card.Content>
+            <Card.Description>
+              <Button color="green" onClick={() => window.location.href = "/admin/blogposts"}>
+                Blog list
+              </Button>
+            </Card.Description>
+          </Card.Content>
+        </Card>
 
-                      </fieldset>
-                    </form>
+        <Card fluid>
+          <Card.Content>
+            <Card.Description>
+              <form onSubmit={this.submitForm(this.state.title, this.state.content)} >
+                <fieldset>
+                  <fieldset className="form-group">
+                    <label>Title<span>*</span></label>
+                    <input
+                      className="form-control form-control-lg"
+                      type="text"
+                      placeholder="Blog title"
+                      value={this.state.fullname} onChange={this.updateState('title')} required />
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <label>Content<span>*</span></label>
+                    <textarea
+                      className="form-control form-control-lg"
+                      type="text"
+                      placeholder="Blog content"
+                      rows={10}
+                      value={this.state.fullname} onChange={this.updateState('content')} required />
+                  </fieldset>
 
-                  </>
-                }
-              />
-            </Col>
-          </Row>
+                  <button
+                    className="btn btn-primary margin-lr"
+                    type="submit" >
+                    Save
+                  </button>
+                  <button
+                    className="btn btn-danger margin-lr"
+                    type="reset" >
+                    Reset
+                  </button>
 
-
-        </Grid>
+                </fieldset>
+              </form>
+            </Card.Description>
+          </Card.Content>
+        </Card>
       </div>
     );
   }
