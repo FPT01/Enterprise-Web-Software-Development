@@ -27,6 +27,9 @@ class DashboardTutor extends Component {
     var username = JSON.parse(account).username; 
     fetch(`http://localhost:8080/api/statistic/summary/${username}`, {
       method: "GET",
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
     .then(response =>  response.json() )
     .then(data => {
@@ -35,56 +38,114 @@ class DashboardTutor extends Component {
   }
 
   render() {
-    const summaryList = this.state.summaryList;
+    var summaryReceiversList = this.state.summaryList.receivers;
+    var summarySendersList = this.state.summaryList.senders;
+    if(summaryReceiversList === undefined || summaryReceiversList === undefined){
+      return <></>
+    }
     return (
       <div className="content">
+
         <Grid fluid>
           <Row>
             <Col md={12}>
               <Card
-                title="Tutor List"
-                category="Here is a list of tutor"
+                title="Summary"
                 ctTableFullWidth
                 ctTableResponsive
                 content={
                   <>
-                    <div>
-                      <a style={{margin: "10px"}} className="ui green button" href="/admin/add-new-tutor">
-                        <i className="fa fa-plus" /> Add new Tutor
-                      </a>
-                    </div>
+                    <Table striped hover>
+                      <thead>
+                        <tr>
+                          <th>Total Blog Comment</th>
+                          <th>Total Blog Post</th>
+                          <th>Total Meetings</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{this.state.summaryList.totalBlogComment}</td>
+                          <td>{this.state.summaryList.totalBlogPost}</td>
+                          <td>{this.state.summaryList.totalMeetings}</td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </>
+                }
+              />
+            </Col>
+          </Row>
+        </Grid>
+        <br />
+        <Grid fluid>
+          <Row>
+            <Col md={12}>
+              <Card
+                title="Receivers"
+                ctTableFullWidth
+                ctTableResponsive
+                content={
+                  <>
                     <Table striped hover>
                       <thead>
                         <tr>
                           <th>No</th>
                           <th>Fullname</th>
                           <th>Username</th>
-                          <th>Password</th>
-                          <th>Status</th>
-                          <th>Actions</th>
+                          <th>Time</th>
+                          <th>Total Messages</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {summaryList.map((item, key) => {
+                        {summaryReceiversList.map((item, key) => {
                           return(
-                            <tr>
+                            <tr key={key}>
                               <td className="id">{key + 1}</td>
-                              <td className="fullname">{(item.user !== null) ? item.user.fullname : ""}</td>
-                              <td className="username">{(item.user !== null) ? item.user.username : ""}</td>
-                              <td className="password">{(item.user !== null) ? item.user.password : ""}</td>
-                              <td className="password">{(item.user !== null) ? ((item.user.enabled == 1) ? "active" : "unactive") : ""}</td>
-                              <td>
-                                <span>
-                                  <a className="ui yellow button" href={`/admin/edit-tutor/?id=${item.id}&userId=${item.user.id}&roleId=${item.user.roleDTO.id}`}>
-                                    <i className="fa fa-edit" />
-                                  </a>
-                                </span>
-                                <span>
-                                  <Button className="ui red button" onClick={() => this.fnDeleteTutor(item.id)}>
-                                    <i className="fa fa-trash" />
-                                  </Button>
-                                </span>
-                              </td>
+                              <td className="id">{item.fullname}</td>
+                              <td className="role-name">{item.username}</td>
+                              <td className="role-desc">{item.time}</td>
+                              <td className="role-desc">{item.counter}</td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    </Table>
+                  </>
+                }
+              />
+            </Col>
+          </Row>
+        </Grid>
+        <br />
+        <Grid fluid>
+          <Row>
+            <Col md={12}>
+              <Card
+                title="Senders"
+                ctTableFullWidth
+                ctTableResponsive
+                content={
+                  <>
+                    <Table striped hover>
+                      <thead>
+                        <tr>
+                          <th>No</th>
+                          <th>Fullname</th>
+                          <th>Username</th>
+                          <th>Time</th>
+                          <th>Total Messages</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {summarySendersList.map((item, key) => {
+                          return(
+                            <tr key={key}>
+                              <td className="id">{key + 1}</td>
+                              <td className="id">{item.fullname}</td>
+                              <td className="role-name">{item.username}</td>
+                              <td className="role-desc">{item.time}</td>
+                              <td className="role-desc">{item.counter}</td>
                             </tr>
                           )
                         })}

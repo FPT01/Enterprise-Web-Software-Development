@@ -47,28 +47,24 @@ class Login extends React.Component {
   onSubmit = (username, password) => {
     return this.fetch(`http://localhost:8080/api/user/login/`, {
       method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify({ username: username, password: password })
     })
     .then((response) => response.json())
     .then((data) => {
+      debugger;
       let account = {};
       console.log(data);
       account.username = data.username;
       account.role = data.roleDTO.roleName;
       account.userid = data.id;
       window.localStorage.setItem('account', JSON.stringify(account));
-      if( data.roleDTO.roleName === "Admin"){
+      if( data.roleDTO.roleName.toLowerCase() === "admin"){
         window.location.href = "/admin/dashboard";
-      }else if(data.roleDTO.roleName === "Tutor"){
+      }else if(data.roleDTO.roleName.toLowerCase() === "tutor"){
         window.location.href = "/tutor/dashboard";
-      }else if (data.roleDTO.roleName==="Student"){
-        window.location.href = "/student/dashboard";
-      }else if(data.roleDTO.roleName === "Staff"){
-        window.location.href = "/admin/dashboard";
-      }else {
+      }else if (data.roleDTO.roleName.toLowerCase() === "student"){
+        window.location.href = "/students/dashboard";
+      }else if(data.roleDTO.roleName.toLowerCase() === "staff"){
         window.location.href = "/admin/dashboard";
       }
     })

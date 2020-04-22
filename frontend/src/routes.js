@@ -64,6 +64,7 @@ const dashboardRoutes = [
     icon: "pe-7s-graph",
     component: Dashboard,
     layout: "/admin",
+    role: "admin",
     subNav: false,
   },
   {
@@ -72,6 +73,7 @@ const dashboardRoutes = [
     icon: "pe-7s-graph",
     component: DashboardTutor,
     layout: "/tutor",
+    role: "tutor",
     subNav: false,
   },
   {
@@ -79,7 +81,8 @@ const dashboardRoutes = [
     name: "Dashboard",
     icon: "pe-7s-graph",
     component: DashboardStudent,
-    layout: "/student",
+    layout: "/students",
+    role: "student",
     subNav: false,
   },
   {
@@ -88,6 +91,7 @@ const dashboardRoutes = [
     icon: "pe-7s-user",
     component: UserProfile,
     layout: "/admin",
+    role: "admin",
     subNav: false,
   },
   {
@@ -96,6 +100,7 @@ const dashboardRoutes = [
     icon: "pe-7s-user",
     component: UserProfile,
     layout: "/tutor",
+    role: "tutor",
     subNav: false,
   },
   {
@@ -103,7 +108,8 @@ const dashboardRoutes = [
     name: "User Profile",
     icon: "pe-7s-user",
     component: UserProfile,
-    layout: "/student",
+    layout: "/students",
+    role: "student",
     subNav: false,
   },
   {
@@ -112,6 +118,7 @@ const dashboardRoutes = [
     icon: "pe-7s-user",
     component: ChangePassword,
     layout: "/admin",
+    role: "admin",
     subNav: false,
   },
   {
@@ -120,6 +127,7 @@ const dashboardRoutes = [
     icon: "pe-7s-user",
     component: ChangePassword,
     layout: "/tutor",
+    role: "tutor",
     subNav: false,
   },
   {
@@ -127,7 +135,8 @@ const dashboardRoutes = [
     name: "Change Password",
     icon: "pe-7s-user",
     component: ChangePassword,
-    layout: "/student",
+    layout: "/students",
+    role: "student",
     subNav: false,
   },
   {
@@ -136,6 +145,7 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: UserRole,
     layout: "/admin",
+    role: "admin",
     subNav: false,
   },
   {
@@ -144,6 +154,7 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: AddNewRole,
     layout: "/admin",
+    role: "admin",
     subNav: true,
   },
   {
@@ -152,6 +163,7 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: EditRole,
     layout: "/admin",
+    role: "admin",
     subNav: true,
   },
   {
@@ -160,6 +172,7 @@ const dashboardRoutes = [
     icon: "pe-7s-users",
     component: Users,
     layout: "/admin",
+    role: "admin",
     subNav: false,
   },
   {
@@ -168,6 +181,7 @@ const dashboardRoutes = [
     icon: "pe-7s-user",
     component: AddNewUser,
     layout: "/admin",
+    role: "admin",
     subNav: true,
   },
   {
@@ -176,6 +190,7 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: EditUser,
     layout: "/admin",
+    role: "admin",
     subNav: true,
   },
   {
@@ -184,6 +199,7 @@ const dashboardRoutes = [
     icon: "pe-7s-users",
     component: TutorList,
     layout: "/admin",
+    role: "admin",
     subNav: false,
   },
   {
@@ -192,6 +208,7 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: AddNewTutor,
     layout: "/admin",
+    role: "admin",
     subNav: true,
   },
   {
@@ -200,15 +217,8 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: EditTutor,
     layout: "/admin",
+    role: "admin",
     subNav: true,
-  },
-  {
-    path: "/student",
-    name: "Management Students",
-    icon: "pe-7s-users",
-    component: StudentList,
-    layout: "/admin",
-    subNav: false,
   },
   {
     path: "/add-new-student",
@@ -216,6 +226,7 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: AddNewStudent,
     layout: "/admin",
+    role: "admin",
     subNav: true,
   },
   {
@@ -224,6 +235,7 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: EditStudent,
     layout: "/admin",
+    role: "admin",
     subNav: true,
   },
   {
@@ -232,6 +244,7 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: Documents,
     layout: "/admin",
+    role: "admin",
     subNav: false,
   },
   {
@@ -240,6 +253,7 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: Documents,
     layout: "/tutor",
+    role: "tutor",
     subNav: false,
   },
   {
@@ -247,7 +261,8 @@ const dashboardRoutes = [
     name: "Management Documents",
     icon: "pe-7s-note2",
     component: Documents,
-    layout: "/student",
+    layout: "/students",
+    role: "student",
     subNav: false,
   },
   {
@@ -256,6 +271,7 @@ const dashboardRoutes = [
     icon: "pe-7s-chat",
     component: ChatRoom,
     layout: "/tutor",
+    role: "tutor",
     subNav: false,
   },
   {
@@ -263,7 +279,8 @@ const dashboardRoutes = [
     name: "Chat Box",
     icon: "pe-7s-chat",
     component: ChatRoom,
-    layout: "/student",
+    layout: "/students",
+    role: "student",
     subNav: false,
   },
   {
@@ -272,6 +289,7 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: ChatMessageBox,
     layout: "/tutor",
+    role: "tutor",
     subNav: true,
   },
   {
@@ -279,7 +297,8 @@ const dashboardRoutes = [
     name: "Chat Box",
     icon: "pe-7s-note2",
     component: ChatMessageBox,
-    layout: "/student",
+    layout: "/students",
+    role: "students",
     subNav: true,
   },
   {
@@ -288,6 +307,7 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: Rooms,
     layout: "/admin",
+    role: "admin",
     subNav: false,
   },
   {
@@ -296,6 +316,7 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: AddNewRoom,
     layout: "/admin",
+    role: "admin",
     subNav: true,
   },
   {
@@ -303,21 +324,24 @@ const dashboardRoutes = [
     name: "Blog post",
     icon: "pe-7s-note2",
     component: BlogPosts,
-    layout: "/tutor"
+    layout: "/tutor",
+    role: "tutor",
   },
   {
     path: "/blogposts",
     name: "Blog post",
     icon: "pe-7s-note2",
     component: BlogPosts,
-    layout: "/admin"
+    layout: "/admin",
+    role: "admin",
   },
   {
     path: "/blogposts",
     name: "Blog post",
     icon: "pe-7s-note2",
     component: BlogPosts,
-    layout: "/student"
+    layout: "/student",
+    role: "student",
   },
   {
     path: "/blogdetail",
@@ -325,6 +349,7 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: BlogDetail,
     layout: "/admin",
+    role: "admin",
     subNav: true,
   },
   {
@@ -333,6 +358,7 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: AddNewBlog,
     layout: "/admin",
+    role: "admin",
     subNav: true,
   },
   {
@@ -340,7 +366,8 @@ const dashboardRoutes = [
     name: "All Allocate",
     icon: "pe-7s-note2",
     component: AllocateList,
-    layout: "/admin"
+    layout: "/admin",
+    role: "admin",
   },
   {
     path: "/edit-allocate",
@@ -348,6 +375,7 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: EditAllocate,
     layout: "/admin",
+    role: "admin",
     subNav: true
   },
   {
@@ -356,6 +384,7 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: AddAllocate,
     layout: "/admin",
+    role: "admin",
     subNav: true
   },
   {
@@ -364,6 +393,7 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: Meeting,
     layout: "/admin",
+    role: "admin",
   },
   {
     path: "/import",
@@ -371,6 +401,7 @@ const dashboardRoutes = [
     icon: "pe-7s-cloud-upload",
     component: Import,
     layout: "/admin",
+    role: "admin",
   },
   {
     path: "/edit-room",
@@ -378,6 +409,7 @@ const dashboardRoutes = [
     icon: "pe-7s-note2",
     component: EditRoom,
     layout: "/admin",
+    role: "admin",
     subNav: true,
   },
   {
@@ -386,6 +418,7 @@ const dashboardRoutes = [
     icon: "pe-7s-graph3",
     component: ReportLastSevenDays,
     layout: "/admin",
+    role: "admin",
   },
 
 ];

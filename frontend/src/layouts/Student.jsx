@@ -22,7 +22,7 @@ import routes from "routes.js";
 
 import image from "assets/img/sidebar-3.jpg";
 
-class Student extends Component {
+class Students extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,9 +33,11 @@ class Student extends Component {
       fixedClasses: "dropdown show-dropdown open"
     };
   }
+
   getRoutes = routes => {
+    debugger;
     return routes.map((prop, key) => {
-      if (prop.layout === "/student") {
+      if (prop.layout === "/students") {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -139,4 +141,4 @@ class Student extends Component {
   }
 }
 
-export default Student;
+export default Students;
