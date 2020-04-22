@@ -9,6 +9,8 @@
 */
 
 import Dashboard from "views/Dashboard.jsx";
+import DashboardTutor from "views/DashboardTutor.jsx";
+import DashboardStudent from "views/DashboardStudent.jsx";
 import Maps from "views/Maps.jsx";
 import Notifications from "views/Notifications.jsx";
 import ForgotPassword from "views/ForgotPassword.jsx";
@@ -62,6 +64,22 @@ const dashboardRoutes = [
     icon: "pe-7s-graph",
     component: Dashboard,
     layout: "/admin",
+    subNav: false,
+  },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    icon: "pe-7s-graph",
+    component: DashboardTutor,
+    layout: "/tutor",
+    subNav: false,
+  },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    icon: "pe-7s-graph",
+    component: DashboardStudent,
+    layout: "/student",
     subNav: false,
   },
   {

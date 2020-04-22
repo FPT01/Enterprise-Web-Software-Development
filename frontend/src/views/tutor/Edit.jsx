@@ -61,9 +61,11 @@ class EditTutor extends React.Component {
     })
     .then((response) => response.json())
     .then((data) => {
-      console.log('Success:', data);
       if(data.status === "OK"){
-        window.location.href = "/admin/tutor";
+        alert(data.message);
+        setTimeout(function(){ 
+          window.location.href = "/admin/tutor/";
+        }, 700);
       }else {
         console.log("error"); 
       }

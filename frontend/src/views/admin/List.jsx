@@ -22,13 +22,15 @@ class UserRole extends Component {
   }
 
   componentDidMount(){
-    fetch(`http://localhost:8080/api/role/`, {
-      method: "GET",
-    })
-    .then(response =>  response.json() )
-    .then(data => {
-      this.setState({ listUserRole: data });
-    });
+    if (window.confirm("Do you really want to delete this item?")) { 
+      fetch(`http://localhost:8080/api/role/`, {
+        method: "GET",
+      })
+      .then(response =>  response.json() )
+      .then(data => {
+        this.setState({ listUserRole: data });
+      });
+    }
   }
 
   fnDeleteRole = (key) => {

@@ -55,9 +55,11 @@ class EditRoom extends React.Component {
     })
     .then((response) => response.json())
     .then((data) => {
-      console.log('Success:', data);
       if(data.status === "OK"){
-        window.location.href = "/admin/room";
+        alert(data.message);
+        setTimeout(function(){ 
+          window.location.href = "/admin/room";
+        }, 700);
       }else {
         console.log("error"); 
       }
