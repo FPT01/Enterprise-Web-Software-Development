@@ -66,7 +66,10 @@ class AddNewStudent extends React.Component {
     .then((response) => response.json())
     .then((data) => {
       if(data.status === "OK"){
-        window.location.href = "/admin/student/";
+        alert(data.message);
+        setTimeout(function(){ 
+          window.location.href = "/admin/student";
+        }, 700);
       }else {
         console.log("error"); 
       }

@@ -9,4 +9,5 @@ public interface BlogCommentService {
     BlogComment createOrUpdate(BlogComment json);
     void delete(Long id);
     BlogComment findById(Long id);
+    Long getTotalBlogCommentByUserId(Long userId);
 }

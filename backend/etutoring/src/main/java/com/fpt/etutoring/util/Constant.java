@@ -64,4 +64,5 @@ public class Constant {
     public static final String CHAT_GET_ALL = "/getall";
     public static final String CHAT_TOPIC_GETALL = "/topic/getall";
     public static final String PATH_IMPORT_EXPORT = PATH_API + "/importexport";
+    public static final String PATH_SUMMARY= "/summary/{username}";
 }

@@ -19,7 +19,8 @@ class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      width: window.innerWidth
+      width: window.innerWidth,
+      userRole: '',
     };
   }
   activeRoute(routeName) {
@@ -29,6 +30,10 @@ class Sidebar extends Component {
     this.setState({ width: window.innerWidth });
   }
   componentDidMount() {
+    const currentUser = JSON.parse(window.localStorage.getItem('account'));
+    this.setState({
+      userRole: currentUser.role
+    });
     this.updateDimensions();
     window.addEventListener("resize", this.updateDimensions.bind(this));
   }
@@ -36,6 +41,7 @@ class Sidebar extends Component {
     const sidebarBackground = {
       backgroundImage: "url(" + this.props.image + ")"
     };
+    var role = `${this.state.userRole}`;
     return (
       <div
         id="sidebar"
@@ -68,44 +74,48 @@ class Sidebar extends Component {
           <ul className="nav">
             {this.state.width <= 991 ? <AdminNavbarLinks /> : null}
             {this.props.routes.map((prop, key) => {
-              if (!prop.redirect)
-                if(prop.subNav){
-                  return (
-                    <></>
-                  );
-                }else {
-                  return (
-                    <li key={key}
-                      className={
-                        prop.subNav
-                          ? ""
-                          : this.activeRoute(prop.layout + prop.path)
-                      }
-                      key={key}
-                    >
-                      <NavLink
-                        style={{"display": "flex"}}
-                        to={prop.layout + prop.path}
-                        className="nav-link"
-                        activeClassName="active"
+              console.log("prop.role", prop.role);
+              console.log("role", role);
+              if(role.toLowerCase() === prop.role){
+                if (!prop.redirect)
+                  if(prop.subNav){
+                    return (
+                      <></>
+                    );
+                  }else {
+                    return (
+                      <li key={key}
+                        className={
+                          prop.subNav
+                            ? ""
+                            : this.activeRoute(prop.layout + prop.path)
+                        }
+                        key={key}
                       >
+                        <NavLink
+                          style={{"display": "flex"}}
+                          to={prop.layout + prop.path}
+                          className="nav-link"
+                          activeClassName="active"
+                        >
+                          <i className={prop.icon} />
+                          <p>{prop.name}</p>
+                        </NavLink>
+                      </li>
+                    );
+                  }
+                  return (
+                    <li style={(prop.subNav) ? {display: "none"} : {display: "block"}}
+                      className={prop.subNav ? "sub-nav" : this.activeRoute(prop.layout + prop.path)}
+                    >
+                      <NavLink style={{"display": "flex"}} to={prop.layout + prop.path} className="nav-link" activeClassName="active">
                         <i className={prop.icon} />
                         <p>{prop.name}</p>
                       </NavLink>
                     </li>
                   );
-                }
-                return (
-                  <li style={(prop.subNav) ? {display: "none"} : {display: "block"}}
-                    className={prop.subNav ? "sub-nav" : this.activeRoute(prop.layout + prop.path)}
-                  >
-                    <NavLink style={{"display": "flex"}} to={prop.layout + prop.path} className="nav-link" activeClassName="active">
-                      <i className={prop.icon} />
-                      <p>{prop.name}</p>
-                    </NavLink>
-                  </li>
-                );
-              return null;
+                return null;
+              }
             })}
           </ul>
         </div>

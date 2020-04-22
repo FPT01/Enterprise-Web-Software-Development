@@ -12,4 +12,6 @@ public interface MessageService {
     Message findById(Long id);
     Long getMessagesLastSevenDays();
     List<StatisticDTO> getAverageMsg();
+    List<Object[]> listMsgSenders(Long userId);
+    List<Object[]> listMsgReceivers(Long userId);
 }

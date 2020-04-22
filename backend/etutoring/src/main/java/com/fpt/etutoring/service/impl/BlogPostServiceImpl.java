@@ -32,4 +32,9 @@ public class BlogPostServiceImpl implements BlogPostService {
     public BlogPost findById(Long id) {
         return blogPostDao.findById(id).get();
     }
+
+    @Override
+    public Long getTotalBlogByUserId(Long userId) {
+        return blogPostDao.getTotalBlogByUserId(userId);
+    }
 }

@@ -54,9 +54,11 @@ class EditRole extends React.Component {
     })
     .then((response) => response.json())
     .then((data) => {
-      console.log('Success:', data);
       if(data.status === "OK"){
-        window.location.href = "/admin/role";
+        alert(data.message);
+        setTimeout(function(){ 
+          window.location.href = "/admin/role";
+        }, 700);
       }else {
         console.log("error"); 
       }

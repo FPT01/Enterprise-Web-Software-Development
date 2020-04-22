@@ -56,7 +56,6 @@ class AddNewTutor extends React.Component {
         roleId = itm.id
       }
     });
-    console.log("status", status);
     return fetch(`http://localhost:8080/api/tutor/save`, {
       method: "POST",
       headers: {
@@ -66,9 +65,11 @@ class AddNewTutor extends React.Component {
     })
     .then((response) => response.json())
     .then((data) => {
-      console.log('Success:', data);
       if(data.status === "OK"){
-        window.location.href = "/admin/tutor/";
+        alert(data.message);
+        setTimeout(function(){ 
+          window.location.href = "/admin/tutor/";
+        }, 700);
       }else {
         console.log("error"); 
       }
@@ -99,7 +100,7 @@ class AddNewTutor extends React.Component {
                 title="Add New Tutor"
                 className="change-password"
                 content={
-                  <form onSubmit={this.submitForm(this.state.fullname, this.state.username, this.state.password, this.state.status)}>
+                  <form onSubmit={this.submitForm(this.state.fullname, this.state.username, this.state.password, this.state.selectStatusOptions)}>
                     <fieldset>
                       <fieldset className="form-group">
                         <label>Fullname<span>*</span></label>

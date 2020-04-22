@@ -134,7 +134,7 @@ class ForgotPassword extends React.Component {
                         value={this.state.email} onChange={this.updateState('email')} />
                     </fieldset>
                     <button
-                      className="btn btn-primary login-btn"
+                      className="ui button blue"
                       type="submit" >
                       Submit
                     </button>

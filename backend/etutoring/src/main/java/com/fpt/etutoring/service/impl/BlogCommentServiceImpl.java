@@ -32,4 +32,9 @@ public class BlogCommentServiceImpl implements BlogCommentService {
     public BlogComment findById(Long id) {
         return blogCommentDao.findById(id).get();
     }
+
+    @Override
+    public Long getTotalBlogCommentByUserId(Long userId) {
+        return blogCommentDao.getTotalBlogCommentByUserId(userId);
+    }
 }

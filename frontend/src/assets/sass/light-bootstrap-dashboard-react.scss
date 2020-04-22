@@ -31,15 +31,14 @@
 @import "lbd/chartist";
 @import "lbd/responsive";
 
-@import "lbd/login/index";
-@import "lbd/chat";
-
-
 
 // Blog post
 @import "customize/allocate.scss";
 @import "customize/meeting.scss";
 @import "customize/blogpost.scss";
+@import "customize/chat";
+@import "customize/login";
+@import "customize/global";
 
 @import '~@fullcalendar/core/main.css';
 @import '~@fullcalendar/daygrid/main.css';
