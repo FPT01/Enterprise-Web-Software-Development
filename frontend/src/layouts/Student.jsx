@@ -35,7 +35,6 @@ class Students extends Component {
   }
 
   getRoutes = routes => {
-    debugger;
     return routes.map((prop, key) => {
       if (prop.layout === "/students") {
         return (

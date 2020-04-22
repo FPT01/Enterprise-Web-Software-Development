@@ -51,7 +51,6 @@ class Login extends React.Component {
     })
     .then((response) => response.json())
     .then((data) => {
-      debugger;
       let account = {};
       console.log(data);
       account.username = data.username;
