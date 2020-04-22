@@ -26,7 +26,8 @@ import AddNewUser from "views/user/AddNew.jsx";
 import EditUser from "views/user/Edit.jsx";
 
 import UserProfile from "views/userprofile/UserProfile.jsx";
-import Documents from "views/document/Documents.jsx";
+import Documents from "views/document/List.jsx";
+import AddNewDocument from "views/document/AddNew.jsx";
 import ChangePassword from "views/changePassword/ChangePassword.jsx";
 
 import Tutors from "views/tutor/List.jsx";
@@ -291,6 +292,15 @@ const dashboardRoutes = [
     layout: "/students",
     role: "student",
     subNav: false,
+  },
+  {
+    path: "/add-new-document",
+    name: "Add New Document",
+    icon: "pe-7s-note2",
+    component: AddNewDocument,
+    layout: "/admin",
+    role: "admin",
+    subNav: true,
   },
   {
     path: "/chat-room",

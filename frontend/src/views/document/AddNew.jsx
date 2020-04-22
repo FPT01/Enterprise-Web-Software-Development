@@ -15,7 +15,7 @@ import queryString from 'query-string';
 
 
 
-class Documents extends Component {
+class AddNewDocument extends Component {
   constructor(props) {
     super(props);
     this.state =
@@ -159,9 +159,9 @@ class Documents extends Component {
                         <div className="row uploadDoc">
                           <div className="col-sm-4">
                               <div className="fileUpload btn btn-orange">
-                                  <img src="https://image.flaticon.com/icons/svg/136/136549.svg" className="icon" />
-                                  <span className="upl" id="upload">Upload document</span>
-                                  <input type="file" className="upload up" id="up" onChange={this.onFileChange} />
+                                <img src="https://image.flaticon.com/icons/svg/136/136549.svg" className="icon" />
+                                <span className="upl" id="upload">Upload document</span>
+                                <input type="file" className="upload up" id="up" onChange={this.onFileChange} />
                               </div>
                               <button className="ui button green" onClick={this.onFileUpload} style={{margin: "10px 0 0"}}> 
                                 Upload
@@ -200,5 +200,5 @@ class Documents extends Component {
   } 
 } 
 
-export default Documents;
+export default AddNewDocument;
 
