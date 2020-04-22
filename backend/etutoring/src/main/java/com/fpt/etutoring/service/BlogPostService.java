@@ -9,4 +9,5 @@ public interface BlogPostService {
     BlogPost createOrUpdate(BlogPost json);
     void delete(Long id);
     BlogPost findById(Long id);
+    Long getTotalBlogByUserId(Long userId);
 }

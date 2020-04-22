@@ -2,24 +2,26 @@ package com.fpt.etutoring.controller.impl;
 
 import com.fpt.etutoring.controller.ResponseController;
 import com.fpt.etutoring.dto.impl.StatisticDTO;
+import com.fpt.etutoring.dto.impl.SummaryDTO;
 import com.fpt.etutoring.entity.impl.User;
 import com.fpt.etutoring.error.ApiMessage;
-import com.fpt.etutoring.service.MeetingService;
-import com.fpt.etutoring.service.MessageService;
-import com.fpt.etutoring.service.StudentService;
-import com.fpt.etutoring.service.UserService;
+import com.fpt.etutoring.service.*;
 import com.fpt.etutoring.util.Constant;
 import com.fpt.etutoring.util.DateUtil;
 import com.fpt.etutoring.util.ExcelUtil;
+import com.fpt.etutoring.util.RoleName;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -36,6 +38,12 @@ public class StatisticController extends ResponseController {
     private UserService userService;
     @Autowired
     private MeetingService meetingService;
+    @Autowired
+    private BlogPostService blogPostService;
+    @Autowired
+    private BlogCommentService blogCommentService;
+
+
 
     @GetMapping(Constant.PATH_LAST_SEVEN_DAYS)
     public ResponseEntity<?> getLastSevenDays() {
@@ -70,17 +78,49 @@ public class StatisticController extends ResponseController {
         }
     }
 
-    @GetMapping(value = Constant.PATH_SUMMARY_TUTOR, consumes = "application/json", produces = "application/json")
+    @GetMapping(value = Constant.PATH_SUMMARY, consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> tutorSummary(@NotNull @PathVariable String username) {
         User user = userService.findByUsername(username);
         if (user == null)
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
 
-        List<Object> msgSenders = messageService.listMsgSenders(user.getId());
-        List<Object> msgReceivers = messageService.listMsgReceivers(user.getId());
-        Long totalMeetings = meetingService.totalTutorMeetings(user.getId());
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        List<Object[]> msgSenders = messageService.listMsgSenders(user.getId());
+        List<Object[]> msgReceivers = messageService.listMsgReceivers(user.getId());
+        Long totalBlogPost = blogPostService.getTotalBlogByUserId(user.getId());
+        Long totalBlogComment = blogCommentService.getTotalBlogCommentByUserId(user.getId());
+        Long totalMeetings = null;
+        if (user.getRole().getRoleName().equalsIgnoreCase(RoleName.TUTOR.getValue()))
+            totalMeetings = meetingService.totalTutorMeetings(user.getId());
+        else
+            totalMeetings = meetingService.totalStudentMeetings(user.getId());
+
+        SummaryDTO summaryDTO = new SummaryDTO();
+        summaryDTO.setSenders(getListUserMsgs(msgSenders));
+        summaryDTO.setReceivers(getListUserMsgs(msgReceivers));
+        summaryDTO.setTotalMeetings(totalMeetings);
+        summaryDTO.setTotalBlogPost(totalBlogPost);
+        summaryDTO.setTotalBlogComment(totalBlogComment);
+        return ResponseEntity.status(HttpStatus.OK).body(summaryDTO);
     }
 
+    private List<SummaryDTO.UserMsg> getListUserMsgs(List<Object[]> msgs) {
+        List<SummaryDTO.UserMsg> userMsgs = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(msgs)) {
+            msgs.forEach(obj -> {
+                String fullname = (String) obj[0];
+                String username = (String) obj[1];
+                Date t = (Date) obj[2];
+                Long c = (Long) obj[3];
+                SummaryDTO.UserMsg userMsg = new SummaryDTO.UserMsg();
+                userMsg.setCounter(c);
+                userMsg.setFullname(fullname);
+                userMsg.setUsername(username);
+                userMsg.setTime(t);
+
+                userMsgs.add(userMsg);
+            });
+        }
+        return userMsgs;
+    }
 
 }

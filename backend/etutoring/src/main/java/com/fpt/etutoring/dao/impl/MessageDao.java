@@ -23,12 +23,14 @@ public interface MessageDao extends JpaRepository<Message, Long> {
 //    @Query("SELECT count(m) FROM Message m WHERE m.user.id = :userId")
 //    Long getTotalMessageByUserId(@Param("userId") Long userId);
 
-    @Query("SELECT m.receiver, m.time, count(m) FROM Message m " +
-            "GROUP BY m.receiver, m.time HAVING m.sender.id = :userId")
-    List<Object> listMsgSenders(@Param("userId") Long userId);
+    @Query("SELECT m.sender.fullname, m.sender.username, m.time, count(m) FROM Message m " +
+            "WHERE m.sender.id = :userId " +
+            "GROUP BY m.sender.fullname, m.sender.username, m.time")
+    List<Object[]> listMsgSenders(@Param("userId") Long userId);
 
-    @Query("SELECT m.sender, m.time, count(m) FROM Message m " +
-            "GROUP BY m.sender, m.time HAVING m.receiver.id = :userId")
-    List<Object> listMsgReceivers(@Param("userId") Long userId);
+    @Query("SELECT m.receiver.fullname, m.receiver.username, m.time, count(m) FROM Message m " +
+            "WHERE m.receiver.id = :userId " +
+            "GROUP BY m.receiver.fullname, m.receiver.username, m.time")
+    List<Object[]> listMsgReceivers(@Param("userId") Long userId);
 
 }
