@@ -424,6 +424,8 @@ const dashboardRoutes = [
     icon: "pe-7s-cloud-upload",
     component: ImportExport,
     layout: "/admin",
+    role: "admin",
+    subNav: false,
   },
   {
     path: "/meeting",
