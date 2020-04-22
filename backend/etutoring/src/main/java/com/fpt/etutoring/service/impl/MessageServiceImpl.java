@@ -59,17 +59,16 @@ public class MessageServiceImpl implements MessageService {
                 }
             });
         }
-        List<StatisticDTO> dtos = calculateData(msgSenders);
-        return dtos;
+        return calculateData(msgSenders);
     }
 
     @Override
-    public List<Object> listMsgSenders(Long userId) {
+    public List<Object[]> listMsgSenders(Long userId) {
         return messageDao.listMsgSenders(userId);
     }
 
     @Override
-    public List<Object> listMsgReceivers(Long userId) {
+    public List<Object[]> listMsgReceivers(Long userId) {
         return messageDao.listMsgReceivers(userId);
     }
 
