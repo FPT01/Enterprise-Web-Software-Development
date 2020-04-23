@@ -35,6 +35,11 @@ class BlogPosts extends Component {
     };
   }
   componentDidMount() {
+    const account = window.localStorage.getItem('account');
+    let role = JSON.parse(account).role;
+    role = role == 'student' ? 'students' : role
+    this.setState({ role: role })
+
     const blogId = queryString.parse(this.props.location.search).id;
     fetch(`http://localhost:8080/api/blogpost/findById/${blogId}/`, {
       headers: {
@@ -70,7 +75,7 @@ class BlogPosts extends Component {
       .then((data) => {
         console.log(data)
         if (data.status === "OK") {
-          window.location.href = "/admin/blogdetail?id=" + this.state.id;
+          window.location.href = `/${this.state.role}/blogdetail?id=` + this.state.id;
         } else {
           console.log("error");
         }
@@ -78,13 +83,12 @@ class BlogPosts extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <div className="content">
         <Card fluid>
           <Card.Content>
             <Card.Description>
-              <Button color="green" onClick={() => window.location.href = "/admin/blogposts"}>
+              <Button color="green" onClick={() => window.location.href = `/${this.state.role}/blogposts`}>
                 Blog list
               </Button>
             </Card.Description>

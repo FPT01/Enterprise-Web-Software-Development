@@ -21,6 +21,8 @@ class BlogPosts extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      role: '',
+      userid: '',
       id: "",
       title: "",
       content: "",
@@ -31,8 +33,6 @@ class BlogPosts extends Component {
       nextBlog: 0,
       nextBlogBtn: true,
       currBlog: 0,
-
-
     }
     this.updateState = field => ev => {
       const state = this.state;
@@ -49,10 +49,14 @@ class BlogPosts extends Component {
     return str.replace(/^(.{40}[^\s]*).*/, "$1");
   }
   componentDidMount() {
+    const account = window.localStorage.getItem('account');
+    let role = JSON.parse(account).role;
+    const userid = JSON.parse(account).userid;
+    role = role == 'student' ? 'students' : role
+    this.setState({ role: role, userid: userid })
     this.fnGetBlog()
   }
   fnGetBlog = () => {
-    console.log(this.props.location);
     const blogId = queryString.parse(this.props.location.search).id;
     fetch(`http://localhost:8080/api/blogpost/findById/${blogId}/`, {
       headers: {
@@ -61,8 +65,6 @@ class BlogPosts extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
-
         this.setState({
           ...data
         });
@@ -86,12 +88,9 @@ class BlogPosts extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data);
         if (data.status === "OK") {
           this.setState({ commenttext: "" })
           this.fnGetBlog()
-
-          //window.location.href = "/admin/blogdetail?id=" + this.state.id;
         } else {
           console.log("error");
         }
@@ -103,18 +102,20 @@ class BlogPosts extends Component {
     const prevBlogBtn = !(this.state.id * 1 - 1) > 0
     const nextBlog = this.state.id * 1 + 1
     const nextBlogBtn = !(this.state.id * 1 + 1) > 0
+    const disabledEdit =  this.state.userid != this.state.user?.id;
+
     return (
       <div className="content">
         <Card fluid>
           <Card.Content>
             <Card.Description>
-              <Button color="blue" onClick={() => window.location.href = "/admin/blogdetail?id=" + prevBlog} disabled={prevBlogBtn}>
+              <Button color="blue" onClick={() => window.location.href = `/${this.state.role}/blogdetail?id=` + prevBlog} disabled={prevBlogBtn}>
                 Previous
               </Button>
-              <Button color="blue" onClick={() => window.location.href = "/admin/blogdetail?id=" + nextBlog} disabled={nextBlogBtn}>
-                Next 
+              <Button color="blue" onClick={() => window.location.href = `/${this.state.role}/blogdetail?id=` + nextBlog} disabled={nextBlogBtn}>
+                Next
               </Button>
-              <Button color="yellow" onClick={() => window.location.href = "/admin/edit-blog?id=" + this.state.id}>
+              <Button color="yellow" onClick={() => window.location.href = `/${this.state.role}/edit-blog?id=` + this.state.id} disabled={disabledEdit}>
                 Edit
               </Button>
             </Card.Description>

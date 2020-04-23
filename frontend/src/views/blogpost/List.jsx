@@ -15,11 +15,17 @@ class BlogPosts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      blogPostList: []
+      blogPostList: [],
+      role: ''
     }
   }
 
   componentDidMount() {
+    const account = window.localStorage.getItem('account');
+    let role = JSON.parse(account).role;
+    role = role == 'student' ? 'students' : role
+    this.setState({ role: role })
+
     fetch(`http://localhost:8080/api/blogpost/`, {
       headers: {
         'Content-Type': 'application/json'
@@ -43,14 +49,14 @@ class BlogPosts extends Component {
         <Card fluid>
           <Card.Content>
             <Card.Description>
-              <Button color="green" onClick={() => window.location.href = "/admin/add-new-blog"}>
+              <Button color="green" onClick={() => window.location.href = `/${this.state.role}/add-new-blog`}>
                 Create blog
               </Button>
             </Card.Description>
           </Card.Content>
         </Card>
         {blogPostList.map((item, key) => (
-          <Card fluid link onClick={() => window.location.href = "/admin/blogdetail?id=" + item.id}>
+          <Card fluid link onClick={() => window.location.href = `/${this.state.role}/blogdetail?id=` + item.id}>
             <Card.Header><strong>{item.title}</strong></Card.Header>
             <Card.Content>
 
