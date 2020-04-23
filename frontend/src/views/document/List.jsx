@@ -18,7 +18,8 @@ class Documents extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      documentList: []
+      documentList: [],
+      currentLayout: "",
     }
   }
 
@@ -35,6 +36,12 @@ class Documents extends Component {
         documentList : data
       })
     });
+
+    var url = window.location.pathname;
+    var arr = url.split("/");
+    this.setState({
+      currentLayout: arr[1]
+    });
   }
 
   render() {
@@ -50,7 +57,7 @@ class Documents extends Component {
                 content={
                   <>
                     <div>
-                      <a style={{margin: "0 0 10px"}} className="ui green button" href="/admin/add-new-document">
+                      <a style={{margin: "0 0 10px"}} className="ui green button" href={"/" + this.state.currentLayout + "/add-new-document"}>
                         <i className="fa fa-plus" /> Add new Document
                       </a>
                     </div>
@@ -58,13 +65,11 @@ class Documents extends Component {
                         {documentList.map((item, key) => {
                           return(
                             <div className="row uploadDoc">
-                              <div className="col-sm-4">
-                                  <div className="fileUpload btn btn-orange">
-                                    <img src="https://image.flaticon.com/icons/svg/136/136549.svg" className="icon" />
-                                    <span className="upl" id="upload">{(item.url === "") ? "file" : item.url}</span>
-                                  </div>
+                              <div className="fileUpload btn btn-orange">
+                                <img src="https://image.flaticon.com/icons/svg/136/136549.svg" className="icon" />
+                                <span className="upl" id="upload">{(item.url === "") ? "file" : item.url}</span>
                               </div>
-                              <fieldset className="col-sm-8">
+                              <fieldset className="doc-info">
                                 <div>Written By: {item.owner.username} - At <Moment format="YYYY/MM/DD">{item.creationTime}</Moment></div>
                                 <div>{item.title}</div>
                                 <div>{item.content}</div>                                          

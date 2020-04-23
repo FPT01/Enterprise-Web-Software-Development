@@ -94,6 +94,8 @@ class AddNewDocument extends Component {
   onSubmit = (title, url, content) => {
     const currentUser = JSON.parse(window.localStorage.getItem('account'));
     const newUrl = this.state.selectedFile.name;
+    var url = window.location.pathname;
+    var arr = url.split("/");
     return fetch(`http://localhost:8080/api/document/save`, {
       method: "POST",
       headers: {
@@ -105,6 +107,10 @@ class AddNewDocument extends Component {
     .then((data) => {
       console.log('Success:', data);
       if(data.status === "OK"){
+        alert(data.message);
+        setTimeout(function(){ 
+          window.location.href = "/" + arr[1] + "/documents";
+        }, 700);
       }else {
         console.log("error"); 
       }
@@ -127,19 +133,6 @@ class AddNewDocument extends Component {
       ); 
     } 
   }; 
-
-  componentDidMount(){
-    fetch(`http://localhost:8080/api/document/`, {
-      method: "GET",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    .then(response =>  response.json() )
-    .then(data => {
-      console.log(data);
-    });
-  }
 
   render() { 
     var fileName = "";
@@ -187,7 +180,7 @@ class AddNewDocument extends Component {
                         </div>
                       </div>
                       <div className="text-center">
-                        <button className="ui button blue" type="submit" ><i className="fa fa-paper-plane"></i> Submit </button>
+                        <button className="ui button blue" type="submit" >Submit</button>
                       </div>
                     </form>
                   </div>

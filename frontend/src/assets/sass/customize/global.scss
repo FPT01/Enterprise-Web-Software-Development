@@ -7,9 +7,12 @@
 .list-docs {
 	.uploadDoc {
 		margin-bottom: 10px;
+		display: flex;
+		vertical-align: middle;
 	}
 	.fileUpload {
 		width: 100px;
+		margin: 0 20px;
 		span {
 			white-space: nowrap;
 			overflow: hidden;
