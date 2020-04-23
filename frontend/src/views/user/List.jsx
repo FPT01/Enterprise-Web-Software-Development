@@ -17,7 +17,8 @@ class Users extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      userList: []
+      userList: [],
+      roleName: "",
     }
   }
 
@@ -44,17 +45,23 @@ class Users extends Component {
   }
 
   componentDidMount(){
+    const account = window.localStorage.getItem('account');
+    const role = JSON.parse(account).role;
     fetch(`http://localhost:8080/api/user/`, {
       method: "GET",
     })
     .then(response =>  response.json() )
     .then(data => {
-      this.setState({ userList: data });
+      this.setState({ 
+        userList: data,
+        roleName: role
+      });
     });
   }
 
   render() {
     const userList = this.state.userList;
+    const roleName = this.state.roleName;
     return (
       <div className="content">
         <Grid fluid>
@@ -67,11 +74,17 @@ class Users extends Component {
                 ctTableResponsive
                 content={
                   <>
-                  <div>
-                    <a style={{margin: "10px"}} className="ui green button" href="/admin/add-new-user">
-                      <i className="fa fa-plus" /> Add new User
-                    </a>
-                  </div>
+                  {
+                    this.state.roleName !== "staff" 
+                    ?
+                    <div>
+                      <a style={{margin: "10px"}} className="ui green button" href="/admin/add-new-user">
+                        <i className="fa fa-plus" /> Add new User
+                      </a>
+                    </div>
+                    : <></>
+                  }
+                  
                   <Table striped hover>
                     <thead>
                       <tr>
@@ -83,7 +96,12 @@ class Users extends Component {
                         <th>Email</th>
                         <th>Role</th>
                         <th>Status</th>
-                        <th>Actions</th>
+                        {
+                          this.state.roleName !== "staff" ?
+                          <th>Actions</th>
+                          : <th></th>
+                        }
+                        
                       </tr>
                     </thead>
                     <tbody>
@@ -98,18 +116,23 @@ class Users extends Component {
                               <td className="email">{(item.email !== null) ? item.email : ""}</td>
                               <td className="roleId">{(item.roleDTO !== null) ? item.roleDTO.roleName : ""}</td>
                               <td className="password">{(item.enabled !== null) ? ((item.enabled == 1) ? "active" : "unactive") : ""}</td>
-                            <td>
-                              <span>
-                                  <a className="ui yellow button" href={"/admin/edit-user?id=" + item.id}>
-                                    <i className="fa fa-edit" />
-                                  </a>
-                                </span>
-                              <span>
-                                <Button className="ui red button" onClick={() => this.fnDeleteUser(item.id)}>
-                                  <i className="fa fa-trash" />
-                                </Button>
-                              </span>
-                            </td>
+                              {
+                                this.state.roleName !== "staff" ?
+                                <td>
+                                  <span>
+                                      <a className="ui yellow button" href={"/admin/edit-user?id=" + item.id}>
+                                        <i className="fa fa-edit" />
+                                      </a>
+                                    </span>
+                                  <span>
+                                    <Button className="ui red button" onClick={() => this.fnDeleteUser(item.id)}>
+                                      <i className="fa fa-trash" />
+                                    </Button>
+                                  </span>
+                                </td>
+                                : <td></td>
+                              }
+                            
                           </tr>
                         )
                       })}

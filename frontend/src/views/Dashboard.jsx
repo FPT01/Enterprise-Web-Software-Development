@@ -7,127 +7,160 @@
  =========================================================
 
 */
-import React, { Component } from "react";
-import ChartistGraph from "react-chartist";
-import { Grid, Row, Col } from "react-bootstrap";
 
-import { Card } from "components/Card/Card.jsx";
-// import { StatsCard } from "components/StatsCard/StatsCard.jsx";
-import { Tasks } from "components/Tasks/Tasks.jsx";
-import {
-  dataPie,
-  legendPie,
-  dataSales,
-  optionsSales,
-  responsiveSales,
-  legendSales,
-  dataBar,
-  optionsBar,
-  responsiveBar,
-  legendBar
-} from "variables/Variables.jsx";
+import React, { Component } from "react";
+import { Grid, Row, Col, Table } from "react-bootstrap";
+import Card from "components/Card/Card.jsx";
+import Button from "components/CustomButton/CustomButton.jsx";
+import { Link } from 'react-router-dom';
 
 class Dashboard extends Component {
-  createLegend(json) {
-    var legend = [];
-    for (var i = 0; i < json["names"].length; i++) {
-      var type = "fa fa-circle text-" + json["types"][i];
-      legend.push(<i className={type} key={i} />);
-      legend.push(" ");
-      legend.push(json["names"][i]);
+  constructor(props) {
+    super(props);
+    this.state = { 
+      reportLastSevenDays: [],
+      reportAvgMessage: [],
     }
-    return legend;
   }
+
+  componentDidMount(){    
+    fetch(`http://localhost:8080/api/statistic/lastsevendays`, {
+      method: "GET",
+    })
+    .then(response =>  response.json() )
+    .then(data => {
+      this.setState({ reportLastSevenDays: data });
+    });
+
+    fetch(`http://localhost:8080/api/statistic/avgmsg`, {
+      method: "GET",
+    })
+    .then(response =>  response.json() )
+    .then(data => {
+      this.setState({ reportAvgMessage: data });
+    });
+  }
+
   render() {
+    var reportLastSevenDays = this.state.reportLastSevenDays;
     return (
-      <div className="content">
-        <Grid fluid>
-          <Row>
-            <Col md={8}>
-              <Card
-                statsIcon="fa fa-history"
-                id="chartHours"
-                title="Users Behavior"
-                category="24 Hours performance"
-                stats="Updated 3 minutes ago"
-                content={
-                  <div className="ct-chart">
-                    <ChartistGraph
-                      data={dataSales}
-                      type="Line"
-                      options={optionsSales}
-                      responsiveOptions={responsiveSales}
-                    />
-                  </div>
-                }
-                legend={
-                  <div className="legend">{this.createLegend(legendSales)}</div>
-                }
-              />
-            </Col>
-            <Col md={4}>
-              <Card
-                statsIcon="fa fa-clock-o"
-                title="Email Statistics"
-                category="Last Campaign Performance"
-                stats="Campaign sent 2 days ago"
-                content={
-                  <div
-                    id="chartPreferences"
-                    className="ct-chart ct-perfect-fourth"
-                  >
-                    <ChartistGraph data={dataPie} type="Pie" />
-                  </div>
-                }
-                legend={
-                  <div className="legend">{this.createLegend(legendPie)}</div>
-                }
-              />
-            </Col>
-          </Row>
-
-          <Row>
-            <Col md={6}>
-              <Card
-                id="chartActivity"
-                title="2014 Sales"
-                category="All products including Taxes"
-                stats="Data information certified"
-                statsIcon="fa fa-check"
-                content={
-                  <div className="ct-chart">
-                    <ChartistGraph
-                      data={dataBar}
-                      type="Bar"
-                      options={optionsBar}
-                      responsiveOptions={responsiveBar}
-                    />
-                  </div>
-                }
-                legend={
-                  <div className="legend">{this.createLegend(legendBar)}</div>
-                }
-              />
-            </Col>
-
-            <Col md={6}>
-              <Card
-                title="Tasks"
-                category="Backend development"
-                stats="Updated 3 minutes ago"
-                statsIcon="fa fa-history"
-                content={
-                  <div className="table-full-width">
-                    <table className="table">
-                      <Tasks />
-                    </table>
-                  </div>
-                }
-              />
-            </Col>
-          </Row>
-        </Grid>
-      </div>
+      <>
+        <div className="content">
+          <Grid fluid>
+            <Row>
+              <Col md={12}>
+                <Card
+                  title="View exception reports"
+                  category=""
+                  ctTableFullWidth
+                  ctTableResponsive
+                  content={
+                    <>
+                      <Table striped hover>
+                        <thead>
+                          <tr>
+                            <th>Report's Name</th>
+                            <th>Download</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr style={{background: "white"}}>
+                            <td>Students without a personal tutor</td>
+                            <td>
+                              <a href="http://localhost:8080/api/statistic/export/studentwithouttutor">
+                                <i className="fa fa-file-excel-o" />
+                              </a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Students with no interaction for 7 days and 28 days</td>
+                            <td>
+                              <a href="http://localhost:8080/api/statistic/export/studentwithnointeraction">
+                                <i className="fa fa-file-excel-o" />
+                              </a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </>
+                  }
+                />
+              </Col>
+            </Row>
+          </Grid>
+        </div>
+        <div className="content">
+          <Grid fluid>
+            <Row>
+              <Col md={12}>
+                <Card
+                  title="Total messages in 7 days"
+                  category="Number of messages in last 7 days"
+                  ctTableFullWidth
+                  ctTableResponsive
+                  content={
+                    <>
+                      <Table striped hover>
+                        <thead>
+                          <tr>
+                            <th>No</th>
+                            <th>Last Seven Days</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td className="id">1</td>
+                            <td className="fullname">{(reportLastSevenDays.lastSevenDays !== null) ? reportLastSevenDays.lastSevenDays : ""}</td>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </>
+                  }
+                />
+              </Col>
+            </Row>
+          </Grid>
+        </div>
+        <div className="content">
+          <Grid fluid>
+            <Row>
+              <Col md={12}>
+                <Card
+                  title="Average messages"
+                  category="Average number of messages for each personal tutor"
+                  ctTableFullWidth
+                  ctTableResponsive
+                  content={
+                    <>
+                      <Table striped hover>
+                        <thead>
+                          <tr>
+                            <th>No</th>
+                            <th>Fullname</th>
+                            <th>Average messages</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {this.state.reportAvgMessage.map((item, key) => {
+                            console.log(item);
+                            return(
+                              <tr>
+                                <td className="id">{key + 1}</td>
+                                <td className="fullname">{(item.fullname !== null) ? item.fullname : ""}</td>
+                                <td>{(item.averageMsg !== null) ? item.averageMsg : ""}</td>
+                              </tr>
+                            )
+                          })}
+                        </tbody>
+                      </Table>
+                    </>
+                  }
+                />
+              </Col>
+            </Row>
+          </Grid>
+        </div>
+      </>
     );
   }
 }

@@ -52,7 +52,6 @@ class Login extends React.Component {
     .then((response) => response.json())
     .then((data) => {
       let account = {};
-      console.log(data);
       account.username = data.username;
       account.role = data.roleDTO.roleName;
       account.userid = data.id;

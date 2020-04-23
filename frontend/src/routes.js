@@ -62,6 +62,7 @@ import ReportLastSevenDays from "views/report/ReportLastSevenDays.jsx";
 const dashboardRoutes = [
 // ADMIN Route
   { path: "/dashboard", name: "Dashboard", icon: "pe-7s-graph", component: Dashboard, layout: "/admin", role: "admin", subNav: false, },
+  { path: "/profile-user", name: "User Profile", icon: "pe-7s-user", component: UserProfile, layout: "/admin", role: "admin", subNav: false, },
   { path: "/change-password", name: "Change Password", icon: "pe-7s-user", component: ChangePassword, layout: "/admin", role: "admin", subNav: false, },
   { path: "/role", name: "Management Roles", icon: "pe-7s-note2", component: UserRole, layout: "/admin", role: "admin", subNav: false, },
   { path: "/add-new-role", name: "Add New Role", icon: "pe-7s-note2", component: AddNewRole, layout: "/admin", role: "admin", subNav: true, },
@@ -95,8 +96,8 @@ const dashboardRoutes = [
 
 // Staff Route
   { path: "/dashboard", name: "Dashboard", icon: "pe-7s-graph", component: Dashboard, layout: "/admin", role: "staff", subNav: false, },
+  { path: "/profile-user", name: "User Profile", icon: "pe-7s-user", component: UserProfile, layout: "/admin", role: "staff", subNav: false, },
   { path: "/change-password", name: "Change Password", icon: "pe-7s-user", component: ChangePassword, layout: "/admin", role: "staff", subNav: false, },
-  { path: "/role", name: "Management Roles", icon: "pe-7s-note2", component: UserRole, layout: "/admin", role: "staff", subNav: false, },
   { path: "/add-new-role", name: "Add New Role", icon: "pe-7s-note2", component: AddNewRole, layout: "/admin", role: "staff", subNav: true, },
   { path: "/edit-role", name: "Edit Role", icon: "pe-7s-note2", component: EditRole, layout: "/admin", role: "staff", subNav: true, },
   { path: "/user", name: "Management Users", icon: "pe-7s-users", component: Users, layout: "/admin", role: "staff", subNav: false, },

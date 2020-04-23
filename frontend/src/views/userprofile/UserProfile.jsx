@@ -69,7 +69,6 @@ class UserProfile extends Component {
     })
     .then((response) => response.json())
     .then((data) => {
-      console.log('Success:', data);
       if(data.status === "OK"){
         alert(data.message);
         // window.location.href = "/admin/user";

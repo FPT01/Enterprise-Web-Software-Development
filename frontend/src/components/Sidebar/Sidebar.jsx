@@ -74,8 +74,6 @@ class Sidebar extends Component {
           <ul className="nav">
             {this.state.width <= 991 ? <AdminNavbarLinks /> : null}
             {this.props.routes.map((prop, key) => {
-              console.log("prop.role", prop.role);
-              console.log("role", role);
               if(role.toLowerCase() === prop.role){
                 if (!prop.redirect)
                   if(prop.subNav){
