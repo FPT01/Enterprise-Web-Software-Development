@@ -47,16 +47,14 @@ class Documents extends Component {
             <Col md={12}>
               <Card
                 title="Documents"
-                ctTableFullWidth
-                ctTableResponsive
                 content={
                   <>
                     <div>
-                      <a style={{margin: "10px"}} className="ui green button" href="/admin/add-new-document">
+                      <a style={{margin: "0 0 10px"}} className="ui green button" href="/admin/add-new-document">
                         <i className="fa fa-plus" /> Add new Document
                       </a>
                     </div>
-                    <div>
+                    <div className="list-docs">
                         {documentList.map((item, key) => {
                           return(
                             <div className="row uploadDoc">

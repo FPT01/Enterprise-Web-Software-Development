@@ -4,6 +4,20 @@
 		display: block;
 	}
 }
+.list-docs {
+	.uploadDoc {
+		margin-bottom: 10px;
+	}
+	.fileUpload {
+		width: 100px;
+		span {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: block;
+		}
+	}
+}
 
 @media (max-width: 991px) {
 	.navbar-toggle .icon-bar {
