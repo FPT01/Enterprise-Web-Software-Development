@@ -73,7 +73,7 @@ class ChatRoom extends React.Component {
     })
     .then(response =>  response.json() )
     .then(data => {
-      var dataWithoutSender = data.filter(item => item.username !== username);
+      var dataWithoutSender = data.filter(item => item.username !== username && item.username !== "admin" && item.username !== "staff");
       this.setState({ 
         userChatList: dataWithoutSender,
         sender: username
