@@ -32,21 +32,25 @@ class Rooms extends Component {
   }
 
   fnDeleteRoom = (key) => {
-    fetch(`http://localhost:8080/api/room/delete/${key}`, {
-      method: "DELETE",
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log('Success:', data);
-      if(data.status === "OK"){
-        window.location.reload();
-      }else {
-        console.log("error");
-      }
-    })
+    if (window.confirm("Do you really want to delete this item?")) { 
+      fetch(`http://localhost:8080/api/room/delete/${key}`, {
+        method: "DELETE",
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        if(data.status === "OK"){
+          alert(data.message);
+          setTimeout(function(){ 
+            window.location.reload();
+          }, 500);
+        }else {
+          console.log("error"); 
+        }
+      })
+    }
   }
 
   render() {

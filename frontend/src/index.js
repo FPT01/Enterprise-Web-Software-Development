@@ -30,7 +30,7 @@ ReactDOM.render(
       <Route path="/login" render={props => <Login {...props} />} />
       <Route path="/admin" render={props => <AdminLayout {...props} />} />
       <Route path="/tutor" render={props => <TutorLayout {...props} />} />
-      <Route path="/student" render={props => <StudentLayout {...props} />} />
+      <Route path="/students" render={props => <StudentLayout {...props} />} />
       <Route path="/forgot-password"  component={ForgotPassword} />
       <Redirect from="/" to="/login" />
     </Switch>

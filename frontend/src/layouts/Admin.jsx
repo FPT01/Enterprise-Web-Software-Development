@@ -36,7 +36,7 @@ class Admin extends Component {
 
   getRoutes = routes => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/admin" || prop.layout === "/staff" || prop.layout === "/tutor" || prop.layout === "/student") {
+      if (prop.layout === "/admin" || prop.layout === "/staff") {
         return (
           <Route
             path={prop.layout + prop.path} 
