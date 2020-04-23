@@ -35,6 +35,10 @@ class BlogPosts extends Component {
     };
   }
   componentDidMount() {
+    const account = window.localStorage.getItem('account');
+    let role = JSON.parse(account).role;
+    role = role == 'student' ? 'students' : role
+    this.setState({ role: role })
   }
   updateInputValue(evt) {
     this.setState({
@@ -55,7 +59,7 @@ class BlogPosts extends Component {
       .then((response) => response.json())
       .then((data) => {
         if (data.status === "OK") {
-          window.location.href = "/admin/blogposts";
+          window.location.href = `/${this.state.role}/blogposts`;
         } else {
           console.log("error");
         }
@@ -69,7 +73,7 @@ class BlogPosts extends Component {
         <Card fluid>
           <Card.Content>
             <Card.Description>
-              <Button color="green" onClick={() => window.location.href = "/admin/blogposts"}>
+              <Button color="green" onClick={() => window.location.href = `/${this.state.role}/blogposts`}>
                 Blog list
               </Button>
             </Card.Description>
