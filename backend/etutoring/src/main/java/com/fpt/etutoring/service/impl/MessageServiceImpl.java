@@ -72,6 +72,11 @@ public class MessageServiceImpl implements MessageService {
         return messageDao.listMsgReceivers(userId);
     }
 
+    @Override
+    public List<Message> findBySenderReceiver(Long senderId, Long receiverId) {
+        return messageDao.findBySenderReceiver(senderId, receiverId);
+    }
+
     private List<StatisticDTO> calculateData(Map<User,List<Message>> msgGroupByUsers) {
         List<StatisticDTO> dtos = new ArrayList<>();
         Map<User, Float> mapAverageMsg = new HashMap<>();

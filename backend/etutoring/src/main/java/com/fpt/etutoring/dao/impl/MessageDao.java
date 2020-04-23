@@ -33,4 +33,7 @@ public interface MessageDao extends JpaRepository<Message, Long> {
             "GROUP BY m.receiver.fullname, m.receiver.username, m.time")
     List<Object[]> listMsgReceivers(@Param("userId") Long userId);
 
+    @Query("SELECT m FROM Message m WHERE m.sender.id = :senderId AND m.receiver.id = :receiverId")
+    List<Message> findBySenderReceiver(@Param("senderId") Long senderId, @Param("receiverId") Long receiverId);
+
 }
