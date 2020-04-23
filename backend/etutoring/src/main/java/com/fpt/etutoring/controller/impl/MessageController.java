@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(Constant.PATH_MESSAGE)
@@ -54,7 +56,10 @@ public class MessageController extends ResponseController implements BaseControl
                 messageDTOS.add(messageDTO);
             });
         }
-        return ResponseEntity.status(HttpStatus.OK).body(messageDTOS);
+        List<MessageDTO> sortedMsgs = messageDTOS.stream()
+                .sorted(Comparator.comparing(MessageDTO::getDateTime))
+                .collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(sortedMsgs);
     }
 
     @Override
