@@ -117,7 +117,6 @@ class Login extends React.Component {
   }
 
   render() {
-    console.log("this.state.error", this.state.error);
     return (
       <div id="page">
         <div className="wrapper fadeInDown">

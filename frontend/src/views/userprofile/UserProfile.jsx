@@ -22,7 +22,7 @@ import { Card } from "components/Card/Card.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import { UserCard } from "components/UserCard/UserCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
-
+import Avatar from "../../assets/img/edit-profile.png";
 
 
 class UserProfile extends Component {
@@ -171,22 +171,8 @@ class UserProfile extends Component {
                 }
               />
             </Col>
-            <Col md={4}>
-              <UserCard
-                bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
-                avatar=""
-                name="Mike Andrew"
-                userName="michael24"
-                description={
-                  <span>
-                    "Lamborghini Mercy
-                    <br />
-                    Your chick she so thirsty
-                    <br />
-                    I'm in that two seat Lambo"
-                  </span>
-                }
-              />
+            <Col md={4} style={{width: "100%"}}>
+              <div className="fpt-greenwich-logo"><img src={Avatar} style={{width: "100%", height: "auto", "display": "block", "maxWidth": "300px", "margin": "10px auto"}}/></div>
             </Col>
           </Row>
         </Grid>
