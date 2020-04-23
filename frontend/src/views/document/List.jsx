@@ -12,6 +12,7 @@ import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
+import Moment from 'react-moment';
 
 class Documents extends Component {
   constructor(props) {
@@ -45,7 +46,7 @@ class Documents extends Component {
           <Row>
             <Col md={12}>
               <Card
-                title="User Role List"
+                title="Documents"
                 ctTableFullWidth
                 ctTableResponsive
                 content={
@@ -55,28 +56,25 @@ class Documents extends Component {
                         <i className="fa fa-plus" /> Add new Document
                       </a>
                     </div>
-                    <Table striped hover>
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>Role's Name</th>
-                          <th>Role's Description</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
+                    <div>
                         {documentList.map((item, key) => {
                           return(
-                            <tr key={key}>
-                              <td className="id">{item.id}</td>
-                              <td className="role-name">{item.title}</td>
-                              <td className="role-desc">{item.content}</td>
-                              <td className="role-desc">{item.creationTime}</td>
-                            </tr>
+                            <div className="row uploadDoc">
+                              <div className="col-sm-4">
+                                  <div className="fileUpload btn btn-orange">
+                                    <img src="https://image.flaticon.com/icons/svg/136/136549.svg" className="icon" />
+                                    <span className="upl" id="upload">{(item.url === "") ? "file" : item.url}</span>
+                                  </div>
+                              </div>
+                              <fieldset className="col-sm-8">
+                                <div>Written By: {item.owner.username} - At <Moment format="YYYY/MM/DD">{item.creationTime}</Moment></div>
+                                <div>{item.title}</div>
+                                <div>{item.content}</div>                                          
+                              </fieldset>
+                            </div>
                           )
                         })}
-                      </tbody>
-                    </Table>
+                    </div>
                   </>
                 }
               />

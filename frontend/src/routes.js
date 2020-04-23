@@ -41,12 +41,13 @@ import EditStudent from "views/student/Edit.jsx";
 import BlogPosts from "views/blogpost/List.jsx";
 import BlogDetail from "views/blogpost/Detail.jsx";
 import AddNewBlog from "views/blogpost/AddNew.jsx";
+import EditBlog from "views/blogpost/Edit.jsx";
 
 import AllocateList from "views/allocate/List.jsx";
 import EditAllocate from "views/allocate/Edit.jsx";
 import AddAllocate from "views/allocate/AddNew.jsx";
 import Meeting from "views/meeting/List.jsx";
-import Import from "views/meeting/List.jsx";
+import ImportExport from "views/Import-Export/Import-Export.jsx";
 
 import Rooms from "views/room/List.jsx";
 import AddNewRoom from "views/room/AddNew.jsx";
@@ -358,7 +359,7 @@ const dashboardRoutes = [
   },
   {
     path: "/blogposts",
-    name: "Blog post",
+    name: "Blog",
     icon: "pe-7s-note2",
     component: BlogPosts,
     layout: "/student",
@@ -384,8 +385,16 @@ const dashboardRoutes = [
     subNav: true,
   },
   {
+    path: "/edit-blog",
+    name: "Edit Blog",
+    icon: "pe-7s-note2",
+    component: EditBlog,
+    layout: "/admin",
+    subNav: true,
+  },
+  {
     path: "/allocate",
-    name: "All Allocate",
+    name: "Allocate",
     icon: "pe-7s-note2",
     component: AllocateList,
     layout: "/admin",
@@ -420,12 +429,12 @@ const dashboardRoutes = [
     subNav: false,
   },
   {
-    path: "/meeting",
-    name: "Meeting",
-    icon: "pe-7s-note2",
-    component: Meeting,
-    layout: "/tutor",
-    role: "tutor",
+    path: "/import-export",
+    name: "Import / Export",
+    icon: "pe-7s-cloud-upload",
+    component: ImportExport,
+    layout: "/admin",
+    role: "admin",
     subNav: false,
   },
   {
@@ -435,15 +444,6 @@ const dashboardRoutes = [
     component: Meeting,
     layout: "/students",
     role: "student",
-    subNav: false,
-  },
-  {
-    path: "/import",
-    name: "Import",
-    icon: "pe-7s-cloud-upload",
-    component: Import,
-    layout: "/admin",
-    role: "admin",
     subNav: false,
   },
   {

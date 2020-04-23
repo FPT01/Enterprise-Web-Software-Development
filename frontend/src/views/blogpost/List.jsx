@@ -10,9 +10,10 @@
 
 import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
-import Card from "components/Card/Card.jsx";
-import Button from "components/CustomButton/CustomButton.jsx";
+//import Card from "components/Card/Card.jsx";
+//import Button from "components/CustomButton/CustomButton.jsx";
 import Moment from 'react-moment';
+import { Card, Button } from 'semantic-ui-react'
 
 class BlogPosts extends Component {
   constructor(props) {
@@ -43,37 +44,26 @@ class BlogPosts extends Component {
     const blogPostList = this.state.blogPostList;
     return (
       <div className="content">
-        <div>
-          <a href="/admin/add-new-blog">
-            <i className="fa fa-plus" /> Add new Blog
-                      </a>
-        </div>
+        <Card fluid>
+          <Card.Content>
+            <Card.Description>
+              <Button color="green" onClick={() => window.location.href = "/admin/add-new-blog"}>
+                Create blog
+              </Button>
+            </Card.Description>
+          </Card.Content>
+        </Card>
         {blogPostList.map((item, key) => (
-          <Grid fluid>
-            <Row>
-              <Col md={12} className="padding-bot">
-                <Card
-                  title={item.title}
-                  category=""
-                  ctTableFullWidth
-                  ctTableResponsive
-                  content={
-                    <>
-                      <i><div className="blog-creator">Written By: {item.user?.fullname} - At <Moment format="YYYY/MM/DD">
-                        {item.creationTime}
-                      </Moment></div>
-                      </i>
-                      <div className="blog-content">{this.cutContentText(item.content)}...
+          <Card fluid link onClick={() => window.location.href = "/admin/blogdetail?id=" + item.id}>
+            <Card.Header><strong>{item.title}</strong></Card.Header>
+            <Card.Content>
 
-
-                        <a href={"/admin/blogdetail?id=" + item.id}>view more</a></div>
-
-                    </>
-                  }
-                />
-              </Col>
-            </Row>
-          </Grid>
+              <Card.Meta>Written By: {item.user?.fullname} - At <Moment format="YYYY/MM/DD">{item.creationTime}</Moment></Card.Meta>
+              <Card.Description>
+                {this.cutContentText(item.content)}...
+              </Card.Description>
+            </Card.Content>
+          </Card>
         )
         )}
 

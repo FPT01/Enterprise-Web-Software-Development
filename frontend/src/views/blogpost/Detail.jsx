@@ -10,10 +10,12 @@
 
 import React, { Component } from "react";
 import { Grid, Row, Col } from "react-bootstrap";
-import Card from "components/Card/Card.jsx";
+//import Card from "components/Card/Card.jsx";
 import Moment from 'react-moment';
 
 import queryString from 'query-string';
+
+import { Card, Button, Divider, Form, Label } from 'semantic-ui-react'
 
 class BlogPosts extends Component {
   constructor(props) {
@@ -24,6 +26,11 @@ class BlogPosts extends Component {
       content: "",
       creationTime: "",
       commenttext: "",
+      prevBlog: 0,
+      prevBlogBtn: true,
+      nextBlog: 0,
+      nextBlogBtn: true,
+      currBlog: 0,
 
 
     }
@@ -42,8 +49,11 @@ class BlogPosts extends Component {
     return str.replace(/^(.{40}[^\s]*).*/, "$1");
   }
   componentDidMount() {
+    this.fnGetBlog()
+  }
+  fnGetBlog = () => {
     console.log(this.props.location);
-    const blogId=queryString.parse(this.props.location.search).id;
+    const blogId = queryString.parse(this.props.location.search).id;
     fetch(`http://localhost:8080/api/blogpost/findById/${blogId}/`, {
       headers: {
         'Content-Type': 'application/json'
@@ -67,19 +77,21 @@ class BlogPosts extends Component {
   onSubmit = (commenttext) => {
     const account = window.localStorage.getItem('account');
     const userid = JSON.parse(account).userid;
-    console.log(JSON.stringify({ content: commenttext, user : { id : userid}, blogPost: { id: this.state.id} }));
     return fetch(`http://localhost:8080/api/blogcomment/save`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ content: commenttext, user : { id : 1}, blogPost: { id: this.state.id} })
+      body: JSON.stringify({ content: commenttext, user: { id: userid }, blogPost: { id: this.state.id } })
     })
       .then((response) => response.json())
       .then((data) => {
         console.log('Success:', data);
         if (data.status === "OK") {
-          window.location.href = "/admin/blogdetail?id=" + this.state.id;
+          this.setState({ commenttext: "" })
+          this.fnGetBlog()
+
+          //window.location.href = "/admin/blogdetail?id=" + this.state.id;
         } else {
           console.log("error");
         }
@@ -87,107 +99,87 @@ class BlogPosts extends Component {
   }
 
   render() {
-    console.log(this.state)
-    const prevBlog = this.state.id * 1 - 1;
-    const nextBlog = this.state.id * 1 + 1;
+    const prevBlog = this.state.id * 1 - 1
+    const prevBlogBtn = !(this.state.id * 1 - 1) > 0
+    const nextBlog = this.state.id * 1 + 1
+    const nextBlogBtn = !(this.state.id * 1 + 1) > 0
     return (
       <div className="content">
-        <div>
-          <a href={"/admin/blogdetail?id=" + prevBlog}>
-            <i className="fa fa-plus" /> Previous Blog
-          </a>
-          <a href={"/admin/blogdetail?id=" + nextBlog}>
-            <i className="fa fa-plus" /> Next Blog
-          </a>
-        </div>
-        <Grid fluid>
-          <Row>
-            <Col md={12} className="padding-bot">
-              <Card
-                title={this.state.title}
-                category=""
-                ctTableFullWidth
-                ctTableResponsive
-                content={
-                  <>
-                    <i>
-                      <div className="blog-creator">Written By: {this.state.user?.username} - At :
-                        <Moment format="YYYY/MM/DD">{this.state.creationTime}</Moment>
-                      </div>
-                    </i>
-                    <div className="blog-content">{this.state.content}</div>
-                    {this.state.blogComments?.map((item, key) => {
-                      return (
-                        <Grid fluid className="blog-comment-wrap" key={item.id}>
-                          <Row>
-                            <Col md={12} className="padding-bot">
-                              <Card
-                                title=""
-                                category=""
-                                ctTableFullWidth
-                                ctTableResponsive
-                                content={
-                                  <>
-                                    <i>
-                                      <div className="blog-comment-creator">{item.user?.username} said at :
-                                      <Moment format="YYYY/MM/DD">{item.creationTime}</Moment>
-                                      </div>
-                                    </i>
-                                    <div className="blog-comment-content" >{item.content}</div>
-                                  </>
-                                }
-                              />
-                            </Col>
-                          </Row>
-                        </Grid>
-                      )
-                    })}
-                    <Grid fluid className="blog-comment-wrap">
-                      <Row>
-                        <Col md={12} className="padding-bot">
-                          <Card
-                            title=""
-                            category=""
-                            ctTableFullWidth
-                            ctTableResponsive
-                            content={
-                              <>
-                                <form onSubmit={this.submitForm(this.state.commenttext)} className=" margin-lr">
-                                  <fieldset>
-                                    <fieldset className="form-group">
-                                      <label>Input Comment<span>*</span></label>
-                                      <textarea
-                                        className="form-control form-control-lg"
-                                        type="text"
-                                        placeholder="Put your comment here"
-                                        value={this.state.commenttext} onChange={this.updateState('commenttext')} />
-                                    </fieldset>
+        <Card fluid>
+          <Card.Content>
+            <Card.Description>
+              <Button color="blue" onClick={() => window.location.href = "/admin/blogdetail?id=" + prevBlog} disabled={prevBlogBtn}>
+                Previous
+              </Button>
+              <Button color="blue" onClick={() => window.location.href = "/admin/blogdetail?id=" + nextBlog} disabled={nextBlogBtn}>
+                Next 
+              </Button>
+              <Button color="yellow" onClick={() => window.location.href = "/admin/edit-blog?id=" + this.state.id}>
+                Edit
+              </Button>
+            </Card.Description>
+          </Card.Content>
+        </Card>
+        <Card fluid>
+          <Card.Header><strong>{this.state.title}</strong></Card.Header>
+          <Card.Content>
 
-                                    <button
-                                      className="btn btn-primary login-btn"
-                                      type="submit" >
-                                      Save
-                                    </button>
+            <Card.Meta>Written By: {this.state.user?.fullname} - At <Moment format="YYYY/MM/DD">{this.state.creationTime}</Moment></Card.Meta>
+            <Card.Description>
+              {this.state.content}
+            </Card.Description>
+          </Card.Content>
+        </Card>
+        <Card fluid>
+          <Card.Header><strong>Comment(s)</strong></Card.Header>
+          <Card.Content>
+            <Card.Description>
+              {this.state.blogComments?.map((item, key) => {
+                return (
+                  <Card fluid>
+                    <Card.Header><strong>{item.user?.username}</strong> said at :
+                    <Moment format="YYYY/MM/DD">{item.creationTime}</Moment></Card.Header>
+                    <Card.Content>
+                      <Card.Description>
+                        {item.content}
+                      </Card.Description>
+                    </Card.Content>
+                  </Card>
+                )
+              })}
+              <Card fluid>
+                <Card.Content>
+                  <Card.Description>
+                    <form onSubmit={this.submitForm(this.state.commenttext)} className=" margin-lr">
+                      <fieldset>
+                        <fieldset className="form-group">
+                          <label>Input Comment<span>*</span></label>
+                          <textarea
+                            className="form-control form-control-lg"
+                            type="text"
+                            rows={4}
+                            placeholder="Put your comment here"
+                            value={this.state.commenttext} onChange={this.updateState('commenttext')} />
+                        </fieldset>
 
-                                  </fieldset>
-                                </form>
-
-                              </>
-                            }
-                          />
-                        </Col>
-                      </Row>
-
-
-                    </Grid>
-
-                  </>
-                }
-              />
-            </Col>
-          </Row>
-
-        </Grid>
+                        <button
+                          className="btn btn-primary margin-lr"
+                          type="submit" >
+                          Save
+                        </button>
+                        <button
+                          className="btn btn-danger margin-lr"
+                          type="reset" >
+                          Reset
+                        </button>
+                      </fieldset>
+                    </form>
+                  </Card.Description>
+                </Card.Content>
+              </Card>
+            </Card.Description>
+          </Card.Content>
+        </Card>
 
       </div>
 

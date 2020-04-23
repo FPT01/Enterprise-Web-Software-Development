@@ -10,28 +10,27 @@
 
 import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
-import Card from "components/Card/Card.jsx";
+//import Card from "components/Card/Card.jsx";
 
-import { Dropdown, Button, Divider, Form, Label } from 'semantic-ui-react'
+import { List, Button, Card, Form, Label } from 'semantic-ui-react'
 
 class UserRole extends Component {
   constructor(props) {
     super(props);
     this.state = {
       listRoomAllocated: [],
-      listStudentAllocated: [],
-      isExistRoomForAllocate: true,
-      isExistStudentForAllocate: true,
+      disableAddAllocate: true,
     }
   }
 
   componentDidMount() {
-    this.getRoom()
-    this.getStudents()
+    this.fnGetRoomAllocated()
   }
 
-  getRoom = async () => {
-    const listRoomAllocated = []
+  fnGetRoomAllocated = async () => {
+    this.setState({
+      listRoomAllocated: []
+    })
     await fetch(`http://localhost:8080/api/room/`, {
       method: "GET",
       headers: {
@@ -45,34 +44,25 @@ class UserRole extends Component {
           headers: {
             'Content-Type': 'application/json'
           }
-        }).then(response => {
-          const r = response.status == 200 ? listRoomAllocated.push({ id, name, }) : this.setState({ isExistRoomForAllocate: false })
-          this.setState({ listRoomAllocated: listRoomAllocated })
-        })
-      }))
-  }
+        }).then(response => response.json())
+          .then(response => {
+            if (response.room) {
+              const room = {
+                id,
+                name,
+                students: response.students.map(({ user }) => user.fullname),
+                tutors: response.tutors.map(({ user }) => user.fullname),
+              }
+              this.setState({
+                listRoomAllocated: this.state.listRoomAllocated.concat(room)
+              })
+            } else {
 
-  getStudents = async () => {
-    let listStudentAllocated = []
-    await fetch(`http://localhost:8080/api/student/`, {
-      method: "GET",
-    })
-      .then(response => response.json())
-      .then(data => data.forEach(async ({ id, user }) => {
-        await fetch(`http://localhost:8080/api/allocate/checkStudentExist/${id}`, {
-          method: "GET",
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-          .then(response => response.text())
-          .then(data => {
-            const r = data != '' ? listStudentAllocated.push({ id }) : this.setState({ listStudentAllocated: false })
+              this.setState({ disableAddAllocate: false })
+            }
           })
-
       }))
   }
-
 
   fnDeleteAllocate = (id) => {
     fetch(`http://localhost:8080/api/allocate/deleteByRoomId/${id}`, {
@@ -85,7 +75,7 @@ class UserRole extends Component {
       .then((data) => {
         console.log('Success:', data);
         if (data.status === "OK") {
-          window.location.reload();
+          this.fnGetRoomAllocated()
         } else {
           console.log("error");
         }
@@ -94,66 +84,69 @@ class UserRole extends Component {
 
   render() {
     const listRoom = this.state.listRoomAllocated;
-    console.log('1', this.state.isExistRoomForAllocate)
-    console.log('1', this.state.isExistStudentForAllocate)
     return (
       <div className="content" >
-        <Grid fluid>
-          <Row>
-            <Col md={12}>
-              <Card
-                title="Here is a list of allocated class"
-                category=""
-                ctTableFullWidth
-                ctTableResponsive
-                content={
-                  <>
-                    <div className="allocate-content">
-                      <div>
-                        <Button color="green" onClick={() => window.location.href = "/admin/add-allocate"} disabled={this.state.isExistStudentForAllocate && this.state.isExistRoomForAllocate}>
-                          <i className="fa fa-plus" /> New allocation
-                        </Button>
-                      </div>
-                      <br />
-                      <Table striped hover>
-                        <thead>
-                          <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {listRoom.map((item, key) => {
-                            return (
-                              <tr key={key}>
-                                <td className="id">{item.id}</td>
-                                <td className="role-name">{item.name}</td>
-                                <td>
-                                  <span>
-                                    <Button className="ui yellow button" onClick={() => window.location.href = "/admin/edit-allocate?id=" + item.id}>
-                                      Edit
+
+        <Card fluid>
+          <Card.Content>
+            <Card.Description>
+              <Button color="green" onClick={() => window.location.href = "/admin/add-allocate"} disabled={this.state.disableAddAllocate}>New</Button>
+            </Card.Description>
+          </Card.Content>
+        </Card>
+        <Card fluid>
+          <Card.Header><strong>Here is a list of allocated class</strong></Card.Header>
+          <Card.Content>
+            <Card.Description>
+              <div>
+                <Table striped hover>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Tutor</th>
+                      <th>Student</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {listRoom.map((item, key) => {
+                      return (
+                        <tr key={key}>
+                          <td className="id">{item.id}</td>
+                          <td className="role-name">{item.name}</td>
+                          <td className="role-name">
+                            <List>
+                              {item.tutors.map((s, key) => (<List.Item key={key}>{s}</List.Item>))}
+                            </List>
+                          </td>
+                          <td className="role-name">
+                            <List>
+                              {item.students.map((s, key) => (<List.Item key={key}>{s}</List.Item>))}
+                            </List>
+                          </td>
+                          <td>
+                            <span>
+                              <Button className="ui yellow button" onClick={() => window.location.href = "/admin/edit-allocate?id=" + item.id}>
+                                Edit
                                     </Button>
 
-                                  </span>
-                                  <span>
-                                    <Button className="ui red button" onClick={() => this.fnDeleteAllocate(item.id)}>
-                                      <i className="fa fa-trash" />
-                                    </Button>
-                                  </span>
-                                </td>
-                              </tr>
-                            )
-                          })}
-                        </tbody>
-                      </Table>
-                    </div>
-                  </>
-                }
-              />
-            </Col>
-          </Row>
-        </Grid>
+                            </span>
+                            <span>
+                              <Button className="ui red button" onClick={() => this.fnDeleteAllocate(item.id)}>
+                                <i className="fa fa-trash" />
+                              </Button>
+                            </span>
+                          </td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </Table>
+              </div>
+            </Card.Description>
+          </Card.Content>
+        </Card>
       </div>
     );
   }
