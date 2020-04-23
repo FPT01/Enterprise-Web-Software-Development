@@ -25,7 +25,8 @@ class ChatRoom extends React.Component {
       userChatList: [],
       selectValue: "",
       receiverName: '',
-      sender: ''
+      sender: '',
+      historyMessages: [],
     };
 
     this.updateState = field => ev => {
@@ -49,9 +50,19 @@ class ChatRoom extends React.Component {
   }
 
   onSubmit = (username) => {
-    this.setState({
-      receiverName: username,
+    fetch(`http://localhost:8080/api/message/${this.state.sender}/${username}`, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
+    .then(response =>  response.json() )
+    .then(data => {
+      this.setState({
+        historyMessages: data,
+        receiverName: username,
+      })
+    });
   }
 
   componentDidMount(){
@@ -109,7 +120,7 @@ class ChatRoom extends React.Component {
       )
     }else {
       return (
-        <ChatMessageBox receiverName={this.state.receiverName} />
+        <ChatMessageBox receiverName={this.state.receiverName} historyMessages={this.state.historyMessages}/>
       )
     }
   }

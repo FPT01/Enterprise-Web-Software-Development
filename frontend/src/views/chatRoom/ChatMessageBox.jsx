@@ -12,8 +12,8 @@ class ChatMessageBox extends Component {
         username: "",
         textMessage: null,
         listMessage: [],
-        listHistoryMessage: [],
         receiver: props.receiverName,
+        listHistoryMessage: props.historyMessages,
       };
       this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -22,13 +22,13 @@ class ChatMessageBox extends Component {
   componentDidMount() {
     // The compat mode syntax is totally different, converting to v5 syntax
     // Client is imported from '@stomp/stompjs';
-    fetch(`http://localhost:8080/api/message/`, {
-      method: "GET",
-    })
-    .then(response =>  response.json() )
-    .then(data => {
-      this.setState({ listHistoryMessage: data });
-    });
+    // fetch(`http://localhost:8080/api/message/`, {
+    //   method: "GET",
+    // })
+    // .then(response =>  response.json() )
+    // .then(data => {
+    //   this.setState({ listHistoryMessage: data });
+    // });
 
     var account = window.localStorage.getItem('account');
     var username = JSON.parse(account).username;
@@ -91,7 +91,6 @@ class ChatMessageBox extends Component {
   }
 
   handleSubmit = () => {
-    console.log("this.state.receiver", this.state.receiver);
     var username = this.state.username;
     var text = document.getElementById('text').value;
     var json = {'username':username, 'text':text};
@@ -113,7 +112,6 @@ class ChatMessageBox extends Component {
   }
 
   render() {
-    console.log("this.state.textMessage", this.state.textMessage);
     return (
       <div className="chatbox">
         <div id="chat">
