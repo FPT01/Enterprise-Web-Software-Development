@@ -110,10 +110,10 @@ const dashboardRoutes = [
   { path: "/documents", name: "Documents", icon: "pe-7s-note2", component: Documents, layout: "/students", role: "student", subNav: false, },
   { path: "/chat-room", name: "Chat Box", icon: "pe-7s-chat", component: ChatRoom, layout: "/students", role: "student", subNav: false, },
   { path: "/chat-message-box", name: "Chat Box", icon: "pe-7s-note2", component: ChatMessageBox, layout: "/students", role: "students", subNav: true, },
-  { path: "/blogposts", name: "Blog", icon: "pe-7s-note2", component: BlogPosts, layout: "/student", role: "student", subNav: false, },
-  { path: "/blogdetail", name: "Blog detail", icon: "pe-7s-note2", component: BlogDetail, layout: "/student", role: "student", subNav: true, },
-  { path: "/add-new-blog", name: "Add New Blog", icon: "pe-7s-note2", component: AddNewBlog, layout: "/student", role: "student", subNav: true, },
-  { path: "/edit-blog", name: "Edit Blog", icon: "pe-7s-note2", component: EditBlog, layout: "/student", subNav: true, },
+  { path: "/blogposts", name: "Blog", icon: "pe-7s-note2", component: BlogPosts, layout: "/students", role: "student", subNav: false, },
+  { path: "/blogdetail", name: "Blog detail", icon: "pe-7s-note2", component: BlogDetail, layout: "/students", role: "student", subNav: true, },
+  { path: "/add-new-blog", name: "Add New Blog", icon: "pe-7s-note2", component: AddNewBlog, layout: "/students", role: "student", subNav: true, },
+  { path: "/edit-blog", name: "Edit Blog", icon: "pe-7s-note2", component: EditBlog, layout: "/students", subNav: true, },
 
 ];
 
