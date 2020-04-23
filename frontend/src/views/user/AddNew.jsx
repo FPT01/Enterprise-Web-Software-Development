@@ -54,13 +54,11 @@ class AddNewUser extends React.Component {
   }
 
   onSubmit = (roleId, fullname, username, password, status, email, gender) => {
-    var roleId = null;
     this.state.roleList.map(itm => {
       if(itm.roleName === "Tutor"){
         roleId = itm.id
       }
     });
-    console.log("status", status);
     return fetch(`http://localhost:8080/api/user/save`, {
       method: "POST",
       headers: {
