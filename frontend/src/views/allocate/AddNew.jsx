@@ -53,9 +53,7 @@ class Allocate extends Component {
           headers: {
             'Content-Type': 'application/json'
           }
-        }).then(response => response.text())
-
-          .then(response => {
+        }).then(response =>{
             const r = response.status != 200 ? listRoom.push({ key: id, text: name, value: id }) : false
             this.setState({ listRoom: listRoom })
           })
@@ -86,7 +84,7 @@ class Allocate extends Component {
           }
         }).then(response => response.text())
           .then(data => {
-            const r = data != '' ? this.setState({ listStudent: this.state.listStudent.concat({ key: id, text: user.fullname, value: id }) }) : false
+            const r = data == '' ? this.setState({ listStudent: this.state.listStudent.concat({ key: id, text: user.fullname, value: id }) }) : false
           })
 
       }))

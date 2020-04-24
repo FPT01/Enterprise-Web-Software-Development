@@ -19,14 +19,18 @@ class UserRole extends Component {
     super(props);
     this.state = {
       listRoomAllocated: [],
-      disableAddAllocate: true,
+      isAvailRoom: false,
+      listStudent: [],
     }
   }
 
   componentDidMount() {
-    this.fnGetRoomAllocated()
+    this.initData()
   }
-
+  initData = ()=>{
+    this.fnGetRoomAllocated()
+    this.getStudents()
+  }
   fnGetRoomAllocated = async () => {
     this.setState({
       listRoomAllocated: []
@@ -58,12 +62,31 @@ class UserRole extends Component {
               })
             } else {
 
-              this.setState({ disableAddAllocate: false })
+              this.setState({ isAvailRoom: true })
             }
           })
       }))
   }
+  getStudents = async () => {
+    let listStudent = []
+    await fetch(`http://localhost:8080/api/student/`, {
+      method: "GET",
+    })
+      .then(response => response.json())
+      .then(data => data.forEach(async ({ id, user }) => {
+        await fetch(`http://localhost:8080/api/allocate/checkStudentExist/${id}`, {
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(response => response.text())
+          .then(data => {
+            console.log(data)
+            const r = data == '' ? this.setState({ listStudent: this.state.listStudent.concat({ key: id, text: user.fullname, value: id }) }) : false
+          })
 
+      }))
+  }
   fnDeleteAllocate = (id) => {
     fetch(`http://localhost:8080/api/allocate/deleteByRoomId/${id}`, {
       method: "DELETE",
@@ -75,7 +98,7 @@ class UserRole extends Component {
       .then((data) => {
         console.log('Success:', data);
         if (data.status === "OK") {
-          this.fnGetRoomAllocated()
+          this.initData()
         } else {
           console.log("error");
         }
@@ -84,13 +107,24 @@ class UserRole extends Component {
 
   render() {
     const listRoom = this.state.listRoomAllocated;
+    const listStudent = this.state.listStudent;
+    const isAvailStudent = listStudent.length > 0;
+
+    const cantAddMore = !(isAvailStudent && this.state.isAvailRoom);
+
+    console.log({
+      listRoom,
+      listStudent,
+      isAvailStudent,
+      cantAddMore,
+    })
     return (
       <div className="content" >
 
         <Card fluid>
           <Card.Content>
             <Card.Description>
-              <Button color="green" onClick={() => window.location.href = "/admin/add-allocate"} disabled={this.state.disableAddAllocate}>New</Button>
+              <Button color="green" onClick={() => window.location.href = "/admin/add-allocate"} disabled={cantAddMore}>New</Button>
             </Card.Description>
           </Card.Content>
         </Card>
