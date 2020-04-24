@@ -94,7 +94,9 @@ class UserRole extends Component {
       .then((data) => {
 
         if (data.status === "OK") {
-         // window.location.href = "/admin/meeting";
+          alert('Success!')
+          this.setState({ openModal: false, allEvents: [] })
+          this.fnLoadEvents();
         } else {
           console.log("error");
         }
@@ -251,8 +253,6 @@ class UserRole extends Component {
   onChangeEventStartTime = (e, { value }) => this.setState({ eventStartTime: value })
   onChangeEventEndTime = (e, { value }) => this.setState({ eventEndTime: value })
   onChangeEventDate = (day) => this.setState({ eventDate: day })
-  onChangeEventTime = ({ startTime, endTime }) => this.setState({ eventStartTime: startTime, eventEndTime: endTime })
-
   onChangeEventStudents = (e, { value }) => this.setState({ eventStudents: value })
   onChangeEventTutors = (e, { value }) => this.setState({ eventTutors: value })
 
