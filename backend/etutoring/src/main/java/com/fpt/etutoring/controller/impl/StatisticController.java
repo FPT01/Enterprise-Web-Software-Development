@@ -71,8 +71,7 @@ public class StatisticController extends ResponseController {
     public void exportStudentWithNoInteraction(HttpServletRequest req, HttpServletResponse res) {
         try {
             ExcelUtil.exportToExcel(req, res, Constant.EXCEL_STUDENT_WITH_NO_INTERACTION,
-                    studentService.getStudentsSevenToTwentyEight(DateUtil.getLastSevenDays(),
-                            DateUtil.getLastTwentyEightDays()));
+                    studentService.getStudentsSevenToTwentyEight(DateUtil.getLastSevenDays()));
         } catch (Exception e) {
             log.error("export excel error:{}", e);
         }

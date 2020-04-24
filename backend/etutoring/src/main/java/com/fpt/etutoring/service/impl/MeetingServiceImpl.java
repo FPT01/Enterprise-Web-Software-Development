@@ -40,6 +40,6 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Override
     public Long totalStudentMeetings(Long userId) {
-        return meetingDao.totaStudentMeetings(userId);
+        return meetingDao.totalStudentMeetings(userId);
     }
 }

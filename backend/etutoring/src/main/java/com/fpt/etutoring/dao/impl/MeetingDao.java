@@ -12,5 +12,5 @@ public interface MeetingDao extends JpaRepository<Meeting, Long> {
     Long totalTutorMeetings(@Param("userId") Long userId);
 
     @Query("SELECT count(m) FROM Meeting m JOIN m.students t WHERE t.user.id = :userId")
-    Long totaStudentMeetings(@Param("userId") Long userId);
+    Long totalStudentMeetings(@Param("userId") Long userId);
 }

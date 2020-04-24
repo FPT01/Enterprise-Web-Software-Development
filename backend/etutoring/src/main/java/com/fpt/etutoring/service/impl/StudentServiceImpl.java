@@ -43,8 +43,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentExcel> getStudentsSevenToTwentyEight(Date from, Date to) {
-        return getStudentExcels(studentDao.getStudentsSevenToTwentyEight(from, to));
+    public List<StudentExcel> getStudentsSevenToTwentyEight(Date date) {
+        return getStudentExcels(studentDao.getStudentsSevenToTwentyEight(date));
     }
 
     @Override

@@ -12,7 +12,7 @@ public interface StudentService {
     void delete(Long id);
     Student findById(Long id);
     List<StudentExcel> findStudentsWithoutTutor();
-    List<StudentExcel> getStudentsSevenToTwentyEight(Date from, Date to);
+    List<StudentExcel> getStudentsSevenToTwentyEight(Date date);
     void saveAll(List<Student> students);
     List<Student> findByMeetingId(Long id);
 }
