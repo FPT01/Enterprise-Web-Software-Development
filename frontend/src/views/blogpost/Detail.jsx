@@ -27,6 +27,7 @@ class BlogPosts extends Component {
       title: "",
       content: "",
       creationTime: "",
+      modifiedTime: "",
       commenttext: "",
       prevBlog: 0,
       prevBlogBtn: true,
@@ -52,7 +53,15 @@ class BlogPosts extends Component {
     const account = window.localStorage.getItem('account');
     let role = JSON.parse(account).role;
     const userid = JSON.parse(account).userid;
-    role = role == 'student' ? 'students' : role
+    switch (role) {
+      case 'student':
+        role = 'students'
+        break;
+      case 'staff':
+        role = 'admin'
+        break;
+      default:
+    }
     this.setState({ role: role, userid: userid })
     this.fnGetBlog()
   }
@@ -102,19 +111,13 @@ class BlogPosts extends Component {
     const prevBlogBtn = !(this.state.id * 1 - 1) > 0
     const nextBlog = this.state.id * 1 + 1
     const nextBlogBtn = !(this.state.id * 1 + 1) > 0
-    const disabledEdit =  this.state.userid != this.state.user?.id;
+    const disabledEdit = this.state.userid != this.state.user?.id;
 
     return (
       <div className="content">
         <Card fluid>
           <Card.Content>
             <Card.Description>
-              <Button color="blue" onClick={() => window.location.href = `/${this.state.role}/blogdetail?id=` + prevBlog} disabled={prevBlogBtn}>
-                Previous
-              </Button>
-              <Button color="blue" onClick={() => window.location.href = `/${this.state.role}/blogdetail?id=` + nextBlog} disabled={nextBlogBtn}>
-                Next
-              </Button>
               <Button color="yellow" onClick={() => window.location.href = `/${this.state.role}/edit-blog?id=` + this.state.id} disabled={disabledEdit}>
                 Edit
               </Button>
@@ -125,7 +128,9 @@ class BlogPosts extends Component {
           <Card.Header><strong>{this.state.title}</strong></Card.Header>
           <Card.Content>
 
-            <Card.Meta>Written By: {this.state.user?.fullname} - At <Moment format="YYYY/MM/DD">{this.state.creationTime}</Moment></Card.Meta>
+            <Card.Meta>Written By: <strong>{this.state.user?.fullname}</strong> - create at <Moment format="YYYY/MM/DD hh:mm:ss">{this.state.creationTime}</Moment>,
+                        last change at <Moment format="YYYY/MM/DD hh:mm:ss">{this.state.modifiedTime}</Moment>
+            </Card.Meta>
             <Card.Description>
               {this.state.content}
             </Card.Description>
@@ -139,7 +144,7 @@ class BlogPosts extends Component {
                 return (
                   <Card fluid>
                     <Card.Header><strong>{item.user?.username}</strong> said at :
-                    <Moment format="YYYY/MM/DD">{item.creationTime}</Moment></Card.Header>
+                    <Moment format="YYYY/MM/DD hh:mm:ss">{item.creationTime}</Moment></Card.Header>
                     <Card.Content>
                       <Card.Description>
                         {item.content}

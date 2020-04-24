@@ -23,7 +23,15 @@ class BlogPosts extends Component {
   componentDidMount() {
     const account = window.localStorage.getItem('account');
     let role = JSON.parse(account).role;
-    role = role == 'student' ? 'students' : role
+    switch(role){
+      case 'student':
+        role = 'students'
+        break;
+      case 'staff':
+        role = 'admin'
+        break;
+      default:
+    }
     this.setState({ role: role })
 
     fetch(`http://localhost:8080/api/blogpost/`, {
@@ -60,7 +68,7 @@ class BlogPosts extends Component {
             <Card.Header><strong>{item.title}</strong></Card.Header>
             <Card.Content>
 
-              <Card.Meta>Written By: {item.user?.fullname} - At <Moment format="YYYY/MM/DD">{item.creationTime}</Moment></Card.Meta>
+              <Card.Meta>Written By: {item.user?.fullname} - At <Moment format="YYYY/MM/DD hh:mm:ss">{item.creationTime}</Moment></Card.Meta>
               <Card.Description>
                 {this.cutContentText(item.content)}...
               </Card.Description>

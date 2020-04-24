@@ -39,6 +39,7 @@ class UserRole extends Component {
       allStudents: [],
       allTutors: [],
 
+      eventId: '',
       eventType: '',
       eventTitle: '',
       eventDescription: '',
@@ -48,6 +49,7 @@ class UserRole extends Component {
       eventTutors: [],
       eventStudents: [],
 
+      initEventId: '',
       initEventType: '',
       initEventTitle: '',
       initEventDescription: '',
@@ -67,37 +69,37 @@ class UserRole extends Component {
     this.fnLoadEvents();
     this.fnGetTutors();
     this.fnGetStudents();
+    this.fnGetTime();
   }
 
   onSaveEvent = () => {
+    const id = this.state.eventId
     const title = this.state.eventTitle
     const description = this.state.eventDescription
     const type = this.state.eventType
-    const startTime = `${(new Date(this.state.eventDate)).toISOString().substring(0, 10)}@${(new Date(this.state.eventStartTime)).toTimeString().substring(0, 8)}.000+0000`
-    const endTime = `${(new Date(this.state.eventDate)).toISOString().substring(0, 10)}@${(new Date(this.state.eventEndTime)).toTimeString().substring(0, 8)}.000+0000`
+    const startTime = `${this.state.eventDate.toLocaleDateString("sv")}@${this.state.eventStartTime}.000+0700`
+    const endTime = `${this.state.eventDate.toLocaleDateString("sv")}@${this.state.eventEndTime}.000+0700`
     const studentDTOS = this.state.eventStudents.map(i => ({ id: i }))
     const tutorDTOS = this.state.eventTutors.map(i => ({ id: i }))
-    console.log(JSON.stringify({ title, description, type, startTime, endTime, studentDTOS, tutorDTOS }))
+    console.log(JSON.stringify({ id, title, description, type, startTime, endTime, studentDTOS, tutorDTOS }))
 
     fetch(`http://localhost:8080/api/meeting/save`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title, description, type, startTime, endTime, studentDTOS, tutorDTOS })
+      body: JSON.stringify({ id, title, description, type, startTime, endTime, studentDTOS, tutorDTOS })
     })
       .then((response) => response.json())
       .then((data) => {
 
         if (data.status === "OK") {
-          window.location.href = "/admin/meeting";
+         // window.location.href = "/admin/meeting";
         } else {
           console.log("error");
         }
       })
   }
-
-
 
   fnGetTutors = () => {
     fetch(`http://localhost:8080/api/tutor/`, {
@@ -131,6 +133,7 @@ class UserRole extends Component {
       .then(response => response.json())
       .then(data => {
         data.map(({ id, title, description, type, startTime, endTime, studentDTOS, tutorDTOS }) => {
+
           this.setState({  // add new event data
             allEvents: this.state.allEvents.concat({
               id: id,
@@ -152,21 +155,23 @@ class UserRole extends Component {
   onClickDate = (arg) => {
 
     this.setState({
+      eventId: '',
       eventType: '',
       eventTitle: 'New meeting about ',
       eventDescription: '',
       eventDate: arg.date,
-      eventStartTime: new Date(),
-      eventEndTime: Date.now(),
+      eventStartTime: '',
+      eventEndTime: '',
       eventTutors: [],
       eventStudents: [],
 
+      initEventId: '',
       initEventType: '',
       initEventTitle: 'New meeting about ',
       initEventDescription: '',
       initEventDate: arg.date,
-      initEventStartTime: new Date(),
-      initEventEndTime: Date.now(),
+      initEventStartTime: '',
+      initEventEndTime: '',
       initEventTutors: [],
       initEventStudents: [],
 
@@ -175,25 +180,31 @@ class UserRole extends Component {
   }
 
   onclickEvent = ({ event }) => {
-    console.log('etende', event.extendedProps)
-
-    const { title, start, end, extendedProps } = event
+    const { id, title, start, end, extendedProps } = event
+    const startHour = ("0" + new Date(start).getHours()).slice(-2);
+    const startMinute = ("0" + new Date(start).getMinutes()).slice(-2);
+    const startTime = `${startHour}:${startMinute}:00`
+    const endHour = ("0" + new Date(end).getHours()).slice(-2);
+    const endMinute = ("0" + new Date(end).getMinutes()).slice(-2);
+    const endTime = `${endHour}:${endMinute}:00`
     this.setState({
+      eventId: id,
       eventType: extendedProps.type,
       eventTitle: title,
       eventDescription: extendedProps.description,
       eventDate: new Date(start),
-      eventStartTime: new Date(start),
-      eventEndTime: new Date(end),
+      eventStartTime: startTime,
+      eventEndTime: endTime,
       eventTutors: extendedProps.tutorDTOS,
       eventStudents: extendedProps.studentDTOS,
 
+      initEventId: id,
       initEventType: extendedProps.type,
       initEventTitle: title,
       initEventDescription: extendedProps.description,
       initEventDate: new Date(start),
-      initEventStartTime: new Date(start),
-      initEventEndTime: new Date(end),
+      initEventStartTime: startTime,
+      initEventEndTime: endTime,
       initEventTutors: extendedProps.tutorDTOS,
       initEventStudents: extendedProps.studentDTOS,
 
@@ -202,6 +213,7 @@ class UserRole extends Component {
   }
   onResetEvent = () => {
     this.setState({
+      eventId: this.state.initEventId,
       eventType: this.state.initEventType,
       eventTitle: this.state.initEventTitle,
       eventDescription: this.state.initEventDescription,
@@ -218,11 +230,29 @@ class UserRole extends Component {
   fnGetEventTypes = () => this.setState({
     allEventTypes: [{ key: '1', text: 'Virtual', value: 'Virtual' }, { key: '2', text: 'Real', value: 'Real' },]
   })
+  fnGetTime = () => {
+    let times = [];
+
+    ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
+      "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
+      "20", "21", "22", "23"].forEach(h => {
+        ["00", "15", "30", "45"].forEach(m => {
+          times.push({ key: `${h}:${m}:00`, text: `${h}:${m}`, value: `${h}:${m}:00` })
+        });
+      })
+
+    this.setState({
+      times: times
+    })
+  }
   onChangeEventTitle = (e, { value }) => this.setState({ eventTitle: value })
   onChangeEventDescription = (e, { value }) => this.setState({ eventDescription: value })
   onChangeEventType = (e, { value }) => this.setState({ eventType: value })
+  onChangeEventStartTime = (e, { value }) => this.setState({ eventStartTime: value })
+  onChangeEventEndTime = (e, { value }) => this.setState({ eventEndTime: value })
   onChangeEventDate = (day) => this.setState({ eventDate: day })
   onChangeEventTime = ({ startTime, endTime }) => this.setState({ eventStartTime: startTime, eventEndTime: endTime })
+
   onChangeEventStudents = (e, { value }) => this.setState({ eventStudents: value })
   onChangeEventTutors = (e, { value }) => this.setState({ eventTutors: value })
 
@@ -304,12 +334,18 @@ class UserRole extends Component {
                             </Form.Field>
                             <Form.Field>
                               <Label>Meeting time</Label>
-                              <TimeRange
-                                startLabel=""
-                                endLabel=""
-                                startMoment={this.state.eventStartTime}
-                                endMoment={this.state.eventEndTime}
-                                onChange={this.onChangeEventTime}
+                              <Dropdown
+                                placeholder='Start time'
+                                search
+                                onChange={this.onChangeEventStartTime}
+                                options={this.state.times}
+                                value={this.state.eventStartTime}
+                              /><Dropdown
+                                placeholder='End time'
+                                search
+                                onChange={this.onChangeEventEndTime}
+                                options={this.state.times}
+                                value={this.state.eventEndTime}
                               />
                             </Form.Field>
 

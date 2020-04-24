@@ -37,7 +37,15 @@ class BlogPosts extends Component {
   componentDidMount() {
     const account = window.localStorage.getItem('account');
     let role = JSON.parse(account).role;
-    role = role == 'student' ? 'students' : role
+    switch (role) {
+      case 'student':
+        role = 'students'
+        break;
+      case 'staff':
+        role = 'admin'
+        break;
+      default:
+    }
     this.setState({ role: role })
 
     const blogId = queryString.parse(this.props.location.search).id;
@@ -69,7 +77,16 @@ class BlogPosts extends Component {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ id: this.state.id , title: title, content: content, user: { id: userid } })
+      body: JSON.stringify({
+        id: this.state.id,
+        title: title,
+        content: content,
+        user: {
+          id: userid
+
+        },
+        creationTime: this.state.creationTime,
+      })
     })
       .then((response) => response.json())
       .then((data) => {

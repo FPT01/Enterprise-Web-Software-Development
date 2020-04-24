@@ -37,7 +37,15 @@ class BlogPosts extends Component {
   componentDidMount() {
     const account = window.localStorage.getItem('account');
     let role = JSON.parse(account).role;
-    role = role == 'student' ? 'students' : role
+    switch (role) {
+      case 'student':
+        role = 'students'
+        break;
+      case 'staff':
+        role = 'admin'
+        break;
+      default:
+    }
     this.setState({ role: role })
   }
   updateInputValue(evt) {
