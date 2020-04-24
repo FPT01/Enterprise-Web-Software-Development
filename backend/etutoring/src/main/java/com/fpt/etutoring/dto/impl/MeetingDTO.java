@@ -5,9 +5,7 @@ import com.fpt.etutoring.dto.BaseDTO;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -23,6 +21,6 @@ public class MeetingDTO extends BaseDTO {
     private Date creationTime;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
     private Date modifiedTime;
-    private Set<StudentDTO> studentDTOS = new HashSet<>(0);
-    private Set<TutorDTO> tutorDTOS = new HashSet<>(0);
+    private List<StudentDTO> studentDTOS = new ArrayList<>();
+    private List<TutorDTO> tutorDTOS = new ArrayList<>();
 }

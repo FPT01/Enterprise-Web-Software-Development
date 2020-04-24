@@ -21,9 +21,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping(Constant.PATH_MEETING)
@@ -44,8 +42,8 @@ public class MeetingController extends ResponseController implements BaseControl
         List<MeetingDTO> meetingDTOS = new ArrayList<>();
         if (!CollectionUtils.isEmpty(meetings)) {
             meetings.forEach(m -> {
-                Set<StudentDTO> studentDTOS = new HashSet<>();
-                Set<TutorDTO> tutorDTOS = new HashSet<>();
+                List<StudentDTO> studentDTOS = new ArrayList<>();
+                List<TutorDTO> tutorDTOS = new ArrayList<>();
                 MeetingDTO meetingDTO = ResponseDTO.accepted().getObject(m, MeetingDTO.class);
                 if (!CollectionUtils.isEmpty(m.getTutors())) {
                     m.getTutors().forEach(t -> {
@@ -77,7 +75,7 @@ public class MeetingController extends ResponseController implements BaseControl
         try {
             Meeting from = ResponseDTO.accepted().getObject(json, Meeting.class);
             if (!CollectionUtils.isEmpty(json.getStudentDTOS())) {
-                json.getTutorDTOS().forEach(s -> {
+                json.getStudentDTOS().forEach(s -> {
                     Student student = studentService.findById(s.getId());
                     if (student != null) {
                         from.getStudents().add(student);
@@ -121,8 +119,8 @@ public class MeetingController extends ResponseController implements BaseControl
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
 
         MeetingDTO meetingDTO = ResponseDTO.accepted().getObject(m, MeetingDTO.class);
-        Set<StudentDTO> studentDTOS = new HashSet<>();
-        Set<TutorDTO> tutorDTOS = new HashSet<>();
+        List<StudentDTO> studentDTOS = new ArrayList<>();
+        List<TutorDTO> tutorDTOS = new ArrayList<>();
         if (!CollectionUtils.isEmpty(m.getTutors())) {
             m.getTutors().forEach(t -> {
                 TutorDTO tutorDTO = ResponseDTO.accepted().getObject(t, TutorDTO.class);
