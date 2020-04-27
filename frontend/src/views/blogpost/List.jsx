@@ -23,7 +23,7 @@ class BlogPosts extends Component {
   componentDidMount() {
     const account = window.localStorage.getItem('account');
     let role = JSON.parse(account).role;
-    switch(role){
+    switch (role) {
       case 'student':
         role = 'students'
         break;
@@ -47,7 +47,7 @@ class BlogPosts extends Component {
   }
 
   cutContentText(str) {
-    return str?.replace(/^(.{400}[^\s]*).*/, "$1");
+    return str.split(' ').slice(0,100).join(' ')
   }
 
   render() {
