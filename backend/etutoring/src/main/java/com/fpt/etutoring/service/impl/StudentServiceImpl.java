@@ -44,7 +44,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<StudentExcel> getStudentsSevenToTwentyEight(Date from, Date to) {
-        return getStudentExcels(studentDao.getStudentsSevenToTwentyEight(from, to));
+        return getStudentExcels(studentDao.getStudentsSevenToTwentyEight(from));
     }
 
     @Override
