@@ -37,12 +37,12 @@ public interface MessageDao extends JpaRepository<Message, Long> {
     List<Message> findBySenderReceiver(@Param("senderId") Long senderId, @Param("receiverId") Long receiverId);
 
     @Query("SELECT m FROM Message m " +
-            "WHERE m.time >= :from AND m.time <= :to AND m.sender.role.roleName = :roleName")
+            "WHERE m.time <= :from AND m.time >= :to AND m.sender.role.roleName = :roleName")
     List<Message> getStudentsSevenToTwentyEight1(@Param("from") Date from,
                                                  @Param("to") Date to, @Param("roleName") String roleName);
 
     @Query("SELECT m FROM Message m " +
-            "WHERE m.time > :from AND m.sender.role.roleName = :roleName")
+            "WHERE m.time < :from AND m.sender.role.roleName = :roleName")
     List<Message> getStudentsSevenToTwentyEight2(@Param("from") Date from, @Param("roleName") String roleName);
 
 }
