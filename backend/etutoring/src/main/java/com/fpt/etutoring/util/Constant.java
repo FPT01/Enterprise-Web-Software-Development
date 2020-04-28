@@ -30,6 +30,7 @@ public class Constant {
     public static final String PATH_CHECK_STUDENT_EXIST = "/checkStudentExist" + PATH + PATH_VARIABLE_ID;
     public static final String PATH_MESSAGE = PATH_API + "/message";
     public static final String PATH_DOCUMENT = PATH_API + "/document";
+    public static final String PATH_DOCUMENT_COMMENT = PATH_API + "/documentComment";
     public static final String PATH_COMMENT = PATH_API + "/comment";
     public static final String PATH_DASHBOARD_INFO = PATH_API + "/dashboardinfo";
     public static final String PATH_NOTIFICATION = PATH_API + "/notification";

@@ -1,19 +1,20 @@
 package com.fpt.etutoring.entity.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "blog_comment")
+@Table(name = "document_comment")
 @Getter
 @Setter
+@EqualsAndHashCode
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class BlogComment implements Serializable {
+public class DocumentComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -38,6 +39,6 @@ public class BlogComment implements Serializable {
     private User user;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "blog_post_id", referencedColumnName = "id")
-    private BlogPost blogPost;
+    @JoinColumn(name = "document_id", referencedColumnName = "id")
+    private Document document;
 }
