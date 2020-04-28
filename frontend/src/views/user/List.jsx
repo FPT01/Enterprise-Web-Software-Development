@@ -91,7 +91,6 @@ class Users extends Component {
                         <th>No</th>
                         <th>Fullname</th>
                         <th>Username</th>
-                        <th>Password</th>
                         <th>Gender</th>
                         <th>Email</th>
                         <th>Role</th>
@@ -111,7 +110,6 @@ class Users extends Component {
                             <td className="id">{key + 1}</td>
                               <td className="fullname">{(item.fullname !== null) ? item.fullname : ""}</td>
                               <td className="username">{(item.username !== null) ? item.username : ""}</td>
-                              <td className="password">{(item.password !== null) ? item.password : ""}</td>
                               <td className="gender">{(item.gender !== null) ? ((item.gender == 1) ? "male" : "female") : ""}</td>
                               <td className="email">{(item.email !== null) ? item.email : ""}</td>
                               <td className="roleId">{(item.roleDTO !== null) ? item.roleDTO.roleName : ""}</td>
@@ -120,7 +118,7 @@ class Users extends Component {
                                 this.state.roleName !== "staff" ?
                                 <td>
                                   <span>
-                                      <a className="ui yellow button" href={"/admin/edit-user?id=" + item.id}>
+                                      <a className="ui yellow button" href={"/admin/edit-user?id=" + item.id + "&username=" + item.username}>
                                         <i className="fa fa-edit" />
                                       </a>
                                     </span>

@@ -23,6 +23,7 @@ class EditUser extends React.Component {
       fullname: '',
       username: '',
       password: '',
+      email: '',
       status: '',
       selectValue: "",
       selectStatusOptions: "",
@@ -76,7 +77,25 @@ class EditUser extends React.Component {
     })
   }
 
-  componentDidMount(){    
+  componentDidMount(){   
+    const userObj = queryString.parse(this.props.location.search);
+    console.log("userObj.username", userObj.username);
+    fetch(`http://localhost:8080/api/user/findByUsername/${userObj.username}`, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response =>  response.json() )
+    .then(data => {
+      this.setState({ 
+        userProfile: data,
+        fullname: data.fullname,
+        username: data.username,
+        email: data.email,
+      });
+    }); 
+
     fetch(`http://localhost:8080/api/role/`, {
       method: "GET",
     })
