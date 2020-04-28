@@ -91,7 +91,7 @@ public class MessageServiceImpl implements MessageService {
                     sameTimes.add(m.getTime());
             });
             if (sameTimes.size() > 0) {
-                Float averageMsg = Float.valueOf(msgs.size() / sameTimes.size());
+                Float averageMsg = Float.valueOf(msgs.size());
                 mapAverageMsg.put(k, averageMsg);
             }
         });
