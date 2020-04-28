@@ -46,7 +46,6 @@ class Allocate extends Component {
 
   getAllocate = (id) => {
     const roomId = queryString.parse(this.props.location.search).id;
-    console.log(` $$ ${this.state.selectedRoom} dd ${roomId}`)
     fetch(`http://localhost:8080/api/allocate/findByRoomId/${roomId}`, {
       method: "GET",
       headers: {
@@ -62,7 +61,6 @@ class Allocate extends Component {
           initTutors: tutors.map(({ id }) => id),
           initRoom: roomId,
         })
-        console.log({ roomId })
       })
   }
 
@@ -83,7 +81,6 @@ class Allocate extends Component {
       .then(response => response.json())
       .then(data => data.map(({ id, user }) => ({ key: id, text: user.fullname, value: id })))
       .then(data => {
-        console.log(data)
         this.setState({ listStudent: data });
       });
   }
@@ -98,8 +95,6 @@ class Allocate extends Component {
     const room = { id: this.state.selectedRoom }
     const tutors = this.state.selectedTutors.map(i => ({ id: i }))
     const students = this.state.selectedStudents.map(i => ({ id: i }))
-    console.table(students)
-    console.log(JSON.stringify({ room: room, tutors: tutors, students: students }))
     return fetch(`http://localhost:8080/api/allocate/save`, {
       method: "POST",
       headers: {

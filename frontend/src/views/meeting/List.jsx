@@ -81,7 +81,6 @@ class UserRole extends Component {
     const endTime = `${this.state.eventDate.toLocaleDateString("sv")}@${this.state.eventEndTime}.000+0700`
     const studentDTOS = this.state.eventStudents.map(i => ({ id: i }))
     const tutorDTOS = this.state.eventTutors.map(i => ({ id: i }))
-    console.log(JSON.stringify({ id, title, description, type, startTime, endTime, studentDTOS, tutorDTOS }))
 
     fetch(`http://localhost:8080/api/meeting/save`, {
       method: "POST",

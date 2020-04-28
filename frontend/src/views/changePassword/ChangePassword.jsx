@@ -84,7 +84,6 @@ class ChangePassword extends React.Component {
   };
 
   render() {
-    console.log("this.state.error", this.state.error);
     return (
       <div className="content">
         <Grid fluid>

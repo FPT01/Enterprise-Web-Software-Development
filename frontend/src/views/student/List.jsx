@@ -109,12 +109,17 @@ class Students extends Component {
                                       <i className="fa fa-trash" />
                                     </Button>
                                   </span>
+                                  <span>
+                                    <a className="ui lightgrey button" href={`/admin/student-profile/?username=${item.user.username}`}>
+                                      <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                  </span>
                                 </td>
                                 : 
                                 <td>
                                   <span>
-                                    <a className="ui yellow button" href={`/admin/student-profile/?username=${item.user.username}`}>
-                                      <i class="fa fa-eye" aria-hidden="true"></i>
+                                    <a className="ui blue button" href="/students/dashboard">
+                                      <i class="fa fa-external-link" aria-hidden="true"></i>
                                     </a>
                                   </span>
                                   <span>
@@ -126,6 +131,11 @@ class Students extends Component {
                                     <Button className="ui red button" onClick={() => this.fnDeleteStudent(item.id)}>
                                       <i className="fa fa-trash" />
                                     </Button>
+                                  </span>
+                                  <span>
+                                    <a className="ui lightgrey button" href={`/admin/student-detail/?username=${item.user.username}`}>
+                                      <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
                                   </span>
                                 </td>
                               }

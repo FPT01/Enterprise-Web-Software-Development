@@ -75,7 +75,6 @@ class AddNewDocument extends Component {
   }; 
 
   downloadFile = (name) => {
-    console.log("name", name);
     return fetch(`http://localhost:8080/api/document/loadfile?filename=${name}`, {
       method: "GET",
       headers: {
@@ -105,7 +104,6 @@ class AddNewDocument extends Component {
     })
     .then((response) => response.json())
     .then((data) => {
-      console.log('Success:', data);
       if(data.status === "OK"){
         alert(data.message);
         setTimeout(function(){ 

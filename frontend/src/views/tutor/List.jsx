@@ -74,7 +74,6 @@ class Tutors extends Component {
 
   render() {
     const tutorList = this.state.tutorList;
-    console.log("this.state.roleName", this.state.roleName);
     return (
       <div className="content">
         <Grid fluid>
@@ -123,12 +122,17 @@ class Tutors extends Component {
                                       <i className="fa fa-trash" />
                                     </Button>
                                   </span>
+                                  <span>
+                                    <a className="ui lightgrey button" href={`/admin/tutor-profile/?username=${item.user.username}`}>
+                                      <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                  </span>
                                 </td>
                                 : 
                                 <td>
                                   <span>
-                                    <a className="ui yellow button" href={`/admin/tutor-profile/?username=${item.user.username}`}>
-                                      <i class="fa fa-eye" aria-hidden="true"></i>
+                                    <a className="ui blue button" href="/tutor/dashboard">
+                                      <i class="fa fa-external-link" aria-hidden="true"></i>
                                     </a>
                                   </span>
                                   <span>
@@ -140,6 +144,11 @@ class Tutors extends Component {
                                     <Button className="ui red button" onClick={() => this.fnDeleteTutor(item.id)}>
                                       <i className="fa fa-trash" />
                                     </Button>
+                                  </span>
+                                  <span>
+                                    <a className="ui lightgrey button" href={`/admin/tutor-detail/?username=${item.user.username}`}>
+                                      <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
                                   </span>
                                 </td>
                               }

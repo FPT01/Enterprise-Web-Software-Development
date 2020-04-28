@@ -81,7 +81,6 @@ class UserRole extends Component {
           }
         }).then(response => response.text())
           .then(data => {
-            console.log(data)
             const r = data == '' ? this.setState({ listStudent: this.state.listStudent.concat({ key: id, text: user.fullname, value: id }) }) : false
           })
 
@@ -96,7 +95,6 @@ class UserRole extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data);
         if (data.status === "OK") {
           this.initData()
         } else {
@@ -112,12 +110,6 @@ class UserRole extends Component {
 
     const cantAddMore = !(isAvailStudent && this.state.isAvailRoom);
 
-    console.log({
-      listRoom,
-      listStudent,
-      isAvailStudent,
-      cantAddMore,
-    })
     return (
       <div className="content" >
 

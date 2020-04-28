@@ -26,7 +26,7 @@ import Avatar from "../../assets/img/edit-profile.png";
 import queryString from 'query-string';
 
 
-class StudentDetail extends Component {
+class UserDetail extends Component {
   constructor(props) {
     super(props);
     this.state = { 
@@ -81,8 +81,8 @@ class StudentDetail extends Component {
 
 
   componentDidMount(){
-    const studentObj=queryString.parse(this.props.location.search);
-    fetch(`http://localhost:8080/api/user/findByUsername/${studentObj.username}`, {
+    const tutorObj=queryString.parse(this.props.location.search);
+    fetch(`http://localhost:8080/api/user/findByUsername/${tutorObj.username}`, {
       method: "GET",
       headers: {
         'Content-Type': 'application/json'
@@ -134,6 +134,10 @@ class StudentDetail extends Component {
                         <label>Username<span>*</span></label>
                         <div className="form-control form-control-lg">{this.state.username}</div>
                       </fieldset>
+                      <fieldset className="form-group">
+                        <label>Email<span>*</span></label>
+                        <div className="form-control form-control-lg">{this.state.email}</div>
+                      </fieldset>
                     </fieldset>
                   </form>
                 }
@@ -146,4 +150,4 @@ class StudentDetail extends Component {
   }
 }
 
-export default StudentDetail;
+export default UserDetail;
