@@ -76,6 +76,22 @@ const dashboardRoutes = [
   { path: "/student", name: "Management Student", icon: "pe-7s-users", component: Students, layout: "/admin", role: "admin", subNav: false, },
   { path: "/add-new-student", name: "Add New Student", icon: "pe-7s-note2", component: AddNewStudent, layout: "/admin", role: "admin", subNav: true, },
   { path: "/edit-student", name: "Edit Student", icon: "pe-7s-note2", component: EditStudent, layout: "/admin", role: "admin", subNav: true, },
+  { path: "/room", name: "Management Rooms", icon: "pe-7s-note2", component: Rooms, layout: "/admin", role: "admin", subNav: false, },
+  { path: "/add-new-room", name: "Add New Room", icon: "pe-7s-note2", component: AddNewRoom, layout: "/admin", role: "admin", subNav: true, },
+  { path: "/edit-room", name: "Edit Room", icon: "pe-7s-note2", component: EditRoom, layout: "/admin", role: "admin", subNav: true, },
+  { path: "/documents", name: "Documents", icon: "pe-7s-note2", component: Documents, layout: "/admin", role: "admin", subNav: false, },
+  { path: "/add-new-document", name: "Add New Document", icon: "pe-7s-note2", component: AddNewDocument, layout: "/admin", role: "admin", subNav: true, },
+
+  { path: "/blogposts", name: "Blog", icon: "pe-7s-note2", component: BlogPosts, layout: "/admin", role: "admin", subNav: false, },
+  { path: "/blogdetail", name: "Blog detail", icon: "pe-7s-note2", component: BlogDetail, layout: "/admin", role: "admin", subNav: true, },
+  { path: "/add-new-blog", name: "Add New Blog", icon: "pe-7s-note2", component: AddNewBlog, layout: "/admin", role: "admin", subNav: true, },
+  { path: "/edit-blog", name: "Edit Blog", icon: "pe-7s-note2", component: EditBlog, layout: "/admin", subNav: true, },
+
+  { path: "/allocate", name: "Allocate", icon: "pe-7s-note2", component: AllocateList, layout: "/admin", role: "admin", subNav: false, },
+  { path: "/edit-allocate", name: "Edit Allocate", icon: "pe-7s-note2", component: EditAllocate, layout: "/admin", role: "admin", subNav: true },
+  { path: "/add-allocate", name: "Allocate Tutor and Student for class", icon: "pe-7s-note2", component: AddAllocate, layout: "/admin", role: "admin", subNav: true },
+
+  { path: "/meeting", name: "Meeting", icon: "pe-7s-note2", component: Meeting, layout: "/admin", role: "admin", subNav: false, },
   { path: "/import-export", name: "Import / Export", icon: "pe-7s-cloud-upload", component: ImportExport, layout: "/admin", role: "admin", subNav: false, },
   { path: "/report-lastsevendays", name: "Report", icon: "pe-7s-graph3", component: ReportLastSevenDays, layout: "/admin", role: "admin", subNav: false, },
 
@@ -92,6 +108,13 @@ const dashboardRoutes = [
   { path: "/room", name: "Management Rooms", icon: "pe-7s-note2", component: Rooms, layout: "/admin", role: "staff", subNav: false, },
   { path: "/add-new-room", name: "Add New Room", icon: "pe-7s-note2", component: AddNewRoom, layout: "/admin", role: "staff", subNav: true, },
   { path: "/edit-room", name: "Edit Room", icon: "pe-7s-note2", component: EditRoom, layout: "/admin", role: "staff", subNav: true, },
+  { path: "/documents", name: "Documents", icon: "pe-7s-note2", component: Documents, layout: "/admin", role: "staff", subNav: false, },
+  { path: "/add-new-document", name: "Add New Document", icon: "pe-7s-note2", component: AddNewDocument, layout: "/admin", role: "staff", subNav: true, },
+
+  { path: "/blogposts", name: "Blog", icon: "pe-7s-note2", component: BlogPosts, layout: "/admin", role: "staff", subNav: false, },
+  { path: "/blogdetail", name: "Blog detail", icon: "pe-7s-note2", component: BlogDetail, layout: "/admin", role: "staff", subNav: true, },
+  { path: "/add-new-blog", name: "Add New Blog", icon: "pe-7s-note2", component: AddNewBlog, layout: "/admin", role: "staff", subNav: true, },
+  { path: "/edit-blog", name: "Edit Blog", icon: "pe-7s-note2", component: EditBlog, layout: "/admin", subNav: true, },
 
   { path: "/allocate", name: "Allocate", icon: "pe-7s-note2", component: AllocateList, layout: "/admin", role: "staff", subNav: false, },
   { path: "/edit-allocate", name: "Edit Allocate", icon: "pe-7s-note2", component: EditAllocate, layout: "/admin", role: "staff", subNav: true },
