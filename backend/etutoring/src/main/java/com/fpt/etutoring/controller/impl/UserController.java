@@ -47,7 +47,7 @@ public class UserController extends ResponseController implements BaseController
             userService.createOrUpdate(u);
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
         }
-        return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
+        return buildResponseEntity(new ApiMessage(HttpStatus.NOT_FOUND, Constant.ERROR_NOT_FOUND));
     }
 
     @PostMapping(value = Constant.PATH_LOGIN)
@@ -59,7 +59,7 @@ public class UserController extends ResponseController implements BaseController
             userDTO.setPassword(null);
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }
-        return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_LOGIN));
+        return buildResponseEntity(new ApiMessage(HttpStatus.NOT_FOUND, Constant.ERROR_LOGIN));
     }
 
     private UserDTO getUserWithRole(User u) {
