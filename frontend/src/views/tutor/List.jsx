@@ -91,7 +91,6 @@ class Tutors extends Component {
                           <th>No</th>
                           <th>Fullname</th>
                           <th>Username</th>
-                          <th>Password</th>
                           <th>Status</th>
                           <th>Actions</th>
                         </tr>
@@ -103,7 +102,6 @@ class Tutors extends Component {
                               <td className="id">{key + 1}</td>
                               <td className="fullname">{(item.user !== null) ? item.user.fullname : ""}</td>
                               <td className="username">{(item.user !== null) ? item.user.username : ""}</td>
-                              <td className="password">{(item.user !== null) ? item.user.password : ""}</td>
                               <td className="password">{(item.user !== null) ? ((item.user.enabled == 1) ? "active" : "unactive") : ""}</td>
                               <td>
                                 <span>
