@@ -77,6 +77,25 @@ class EditStudent extends React.Component {
     })
   }
 
+  componentDidMount(){
+    const studentObj = queryString.parse(this.props.location.search);
+    fetch(`http://localhost:8080/api/user/findByUsername/${studentObj.username}`, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response =>  response.json() )
+    .then(data => {
+      this.setState({ 
+        userProfile: data,
+        fullname: data.fullname,
+        username: data.username,
+        roleName: data.roleDTO.roleName
+      });
+    });
+  }
+
   render() {
     const selectStatusOptions = () => {
       return this.state.enabled.map(item => {

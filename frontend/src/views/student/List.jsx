@@ -92,7 +92,7 @@ class Students extends Component {
                               <td className="password">{(item.user !== null) ? ((item.user.enabled == 1) ? "active" : "unactive") : ""}</td>
                               <td>
                                 <span>
-                                  <a className="ui yellow button" href={`/admin/edit-student/?id=${item.id}&userId=${item.user.id}&roleId=${item.user.roleDTO.id}`}>
+                                  <a className="ui yellow button" href={`/admin/edit-student/?id=${item.id}&userId=${item.user.id}&roleId=${item.user.roleDTO.id}&username=${item.user.username}`}>
                                     <i className="fa fa-edit" />
                                   </a>
                                 </span>

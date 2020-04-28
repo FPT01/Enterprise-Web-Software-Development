@@ -118,7 +118,7 @@ class Users extends Component {
                                 this.state.roleName !== "staff" ?
                                 <td>
                                   <span>
-                                      <a className="ui yellow button" href={"/admin/edit-user?id=" + item.id}>
+                                      <a className="ui yellow button" href={"/admin/edit-user?id=" + item.id + "?username=" + item.username}>
                                         <i className="fa fa-edit" />
                                       </a>
                                     </span>
