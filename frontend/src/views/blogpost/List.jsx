@@ -12,6 +12,7 @@ import Moment from 'react-moment';
 import { Card, Button } from 'semantic-ui-react'
 
 class BlogPosts extends Component {
+  intervalID;
   constructor(props) {
     super(props);
     this.state = {
@@ -19,7 +20,15 @@ class BlogPosts extends Component {
       role: ''
     }
   }
-
+  componentWillUnmount() {
+    /*
+      stop getData() from continuing to run even
+      after unmounting this component. Notice we are calling
+      'clearTimeout()` here rather than `clearInterval()` as
+      in the previous example.
+    */
+    clearTimeout(this.intervalID);
+  }
   componentDidMount() {
     const account = window.localStorage.getItem('account');
     let role = JSON.parse(account).role;
@@ -33,7 +42,11 @@ class BlogPosts extends Component {
       default:
     }
     this.setState({ role: role })
+    this.fnGetBlogs();
 
+  }
+
+  fnGetBlogs = () => {
     fetch(`http://localhost:8080/api/blogpost/`, {
       headers: {
         'Content-Type': 'application/json'
@@ -43,15 +56,18 @@ class BlogPosts extends Component {
       .then(response => response.json())
       .then(data => {
         this.setState({ blogPostList: data });
+        this.intervalID = setTimeout(this.fnGetBlogs.bind(this), 1000);
       });
   }
 
   cutContentText(str) {
-    return str.split(' ').slice(0,100).join(' ')
+    return str.split(' ').slice(0, 100).join(' ')
   }
 
   render() {
-    const blogPostList = this.state.blogPostList;
+    let blogPostList = this.state.blogPostList;
+    blogPostList = blogPostList.sort((a, b) => b.id - a.id)
+    console.table(blogPostList)
     return (
       <div className="content">
         <Card fluid>

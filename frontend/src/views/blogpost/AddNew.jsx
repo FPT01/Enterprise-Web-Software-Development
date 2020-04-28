@@ -62,7 +62,7 @@ class BlogPosts extends Component {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title: title, content: content, user: { id: userid } })
+      body: JSON.stringify({ title: title, content: content, user: { id: userid }, modifiedTime: Date.now(), })
     })
       .then((response) => response.json())
       .then((data) => {

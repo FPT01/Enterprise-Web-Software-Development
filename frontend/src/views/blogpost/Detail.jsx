@@ -18,6 +18,7 @@ import queryString from 'query-string';
 import { Card, Button, Divider, Form, Label } from 'semantic-ui-react'
 
 class BlogPosts extends Component {
+  intervalID;
   constructor(props) {
     super(props);
     this.state = {
@@ -49,6 +50,15 @@ class BlogPosts extends Component {
   cutContentText(str) {
     return str.replace(/^(.{40}[^\s]*).*/, "$1");
   }
+  componentWillUnmount() {
+    /*
+      stop getData() from continuing to run even
+      after unmounting this component. Notice we are calling
+      'clearTimeout()` here rather than `clearInterval()` as
+      in the previous example.
+    */
+    clearTimeout(this.intervalID);
+  }
   componentDidMount() {
     const account = window.localStorage.getItem('account');
     let role = JSON.parse(account).role;
@@ -77,6 +87,7 @@ class BlogPosts extends Component {
         this.setState({
           ...data
         });
+        this.intervalID = setTimeout(this.fnGetBlog.bind(this), 1000);
       });
   }
   updateInputValue(evt) {
@@ -112,7 +123,10 @@ class BlogPosts extends Component {
     const nextBlog = this.state.id * 1 + 1
     const nextBlogBtn = !(this.state.id * 1 + 1) > 0
     const disabledEdit = this.state.userid != this.state.user?.id;
-
+    let comments = this.state.blogComments
+    
+    comments = comments?.sort((a, b) => b.id - a.id)
+    
     return (
       <div className="content">
         <Card fluid>
@@ -140,7 +154,7 @@ class BlogPosts extends Component {
           <Card.Header><strong>Comment(s)</strong></Card.Header>
           <Card.Content>
             <Card.Description>
-              {this.state.blogComments?.map((item, key) => {
+              {comments?.map((item, key) => {
                 return (
                   <Card fluid>
                     <Card.Header><strong>{item.user?.username}</strong> said at :
@@ -165,7 +179,9 @@ class BlogPosts extends Component {
                             type="text"
                             rows={4}
                             placeholder="Put your comment here"
-                            value={this.state.commenttext} onChange={this.updateState('commenttext')} />
+                            value={this.state.commenttext} onChange={this.updateState('commenttext')}
+                            required
+                          />
                         </fieldset>
 
                         <button
