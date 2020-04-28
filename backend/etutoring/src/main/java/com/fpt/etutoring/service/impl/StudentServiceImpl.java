@@ -1,10 +1,13 @@
 package com.fpt.etutoring.service.impl;
 
+import com.fpt.etutoring.dao.impl.MessageDao;
 import com.fpt.etutoring.dao.impl.StudentDao;
+import com.fpt.etutoring.entity.impl.Message;
 import com.fpt.etutoring.entity.impl.Student;
 import com.fpt.etutoring.export.pojo.StudentExcel;
 import com.fpt.etutoring.export.pojo.StudentExcel2;
 import com.fpt.etutoring.service.StudentService;
+import com.fpt.etutoring.util.RoleName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -17,6 +20,8 @@ import java.util.List;
 public class StudentServiceImpl implements StudentService {
     @Autowired
     private StudentDao studentDao;
+    @Autowired
+    private MessageDao messageDao;
 
     @Override
     public List<Student> list() {
@@ -46,17 +51,26 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<StudentExcel2> getStudentsSevenToTwentyEight(Date from, Date to) {
         // 7 days
-        List<Student> students1 = studentDao.getStudentsSevenToTwentyEight1(from, to);
-        List<Student> list = studentDao.findStudentsWithoutTutor();
-        if (!CollectionUtils.isEmpty(list)) {
-            list.forEach(l -> {
-                if (!students1.contains(l))
-                    students1.add(l);
+        List<Student> sevenDays = new ArrayList<>();
+        List<Message> messages = messageDao.getStudentsSevenToTwentyEight1(from, to, RoleName.STUDENT.getValue());
+        if (!CollectionUtils.isEmpty(messages)) {
+            messages.forEach(m -> {
+                Student st = studentDao.findStudentByUserId(m.getSender().getId());
+                if (st != null)
+                    sevenDays.add(st);
             });
         }
         // 28 days
-        List<Student> students2 = studentDao.getStudentsSevenToTwentyEight2(to);
-        List<StudentExcel2> students = getStudentExcels(students1, true);
+        List<Student> students2 = new ArrayList<>();
+        List<Message> messages2 = messageDao.getStudentsSevenToTwentyEight2(to, RoleName.STUDENT.getValue());
+        if (!CollectionUtils.isEmpty(messages2)) {
+            messages2.forEach(m-> {
+                Student st = studentDao.findStudentByUserId(m.getSender().getId());
+                if (st != null)
+                    students2.add(st);
+            });
+        }
+        List<StudentExcel2> students = getStudentExcels(sevenDays, true);
         students.addAll(getStudentExcels(students2, false));
         return students;
     }
