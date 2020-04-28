@@ -3,6 +3,7 @@ package com.fpt.etutoring.service.impl;
 import com.fpt.etutoring.dao.impl.StudentDao;
 import com.fpt.etutoring.entity.impl.Student;
 import com.fpt.etutoring.export.pojo.StudentExcel;
+import com.fpt.etutoring.export.pojo.StudentExcel2;
 import com.fpt.etutoring.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,8 +44,15 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentExcel> getStudentsSevenToTwentyEight(Date from, Date to) {
-        return getStudentExcels(studentDao.getStudentsSevenToTwentyEight(from));
+    public List<StudentExcel2> getStudentsSevenToTwentyEight(Date from, Date to) {
+        // 7 days
+        List<Student> students1 = studentDao.getStudentsSevenToTwentyEight1(to);
+        students1.addAll(studentDao.findStudentsWithoutTutor());
+        // 28 days
+        List<Student> students2 = studentDao.getStudentsSevenToTwentyEight2(to);
+        List<StudentExcel2> students = getStudentExcels(students1, true);
+        students.addAll(getStudentExcels(students2, false));
+        return students;
     }
 
     @Override
@@ -65,6 +73,24 @@ public class StudentServiceImpl implements StudentService {
                 studentExcel.setId(s.getId());
                 studentExcel.setFullname(s.getUser().getFullname());
                 studentExcel.setUsername(s.getUser().getUsername());
+                studentExcels.add(studentExcel);
+            });
+        }
+        return studentExcels;
+    }
+
+    private List<StudentExcel2> getStudentExcels(List<Student> students, Boolean isSeven) {
+        List<StudentExcel2> studentExcels = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(students)) {
+            students.forEach(s -> {
+                StudentExcel2 studentExcel = new StudentExcel2();
+                studentExcel.setId(s.getId());
+                studentExcel.setFullname(s.getUser().getFullname());
+                studentExcel.setUsername(s.getUser().getUsername());
+                if (isSeven)
+                    studentExcel.setSevenDays("Yes");
+                else
+                    studentExcel.setTwentyEightDays("Yes");
                 studentExcels.add(studentExcel);
             });
         }
