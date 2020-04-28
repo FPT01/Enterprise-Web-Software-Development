@@ -6,33 +6,20 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
-@Table(name = "document")
+@Table(name = "document_comment")
 @Getter
 @Setter
 @EqualsAndHashCode
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Document implements Serializable {
+public class DocumentComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id", nullable = false, columnDefinition = "BIGINT")
-    private long id;
-
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private User owner;
-
-    @Column(name = "title")
-    private String title;
-
-    @Column(name = "url")
-    private String url;
+    private  long id;
 
     @Column(name = "content")
     private String content;
@@ -42,21 +29,16 @@ public class Document implements Serializable {
     @Column(name = "creation_time")
     private Date creationTime;
 
-    @Basic
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "modified_time")
-    private Date modifiedTime;
-
     @PrePersist
     private void prePersist() {
         creationTime = new Date();
     }
 
-    @PreUpdate
-    private void preUpdate() {
-        modifiedTime = new Date();
-    }
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
-    @OneToMany(mappedBy = "document")
-    private Set<DocumentComment> documentComments = new HashSet<>(0);
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "document_id", referencedColumnName = "id")
+    private Document document;
 }

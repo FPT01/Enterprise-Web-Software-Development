@@ -3,9 +3,12 @@ package com.fpt.etutoring.controller.impl;
 import com.fpt.etutoring.controller.BaseController;
 import com.fpt.etutoring.controller.ResponseController;
 import com.fpt.etutoring.dto.ResponseDTO;
+import com.fpt.etutoring.dto.impl.DocumentCommentDTO;
 import com.fpt.etutoring.dto.impl.DocumentDTO;
 import com.fpt.etutoring.dto.impl.UserDTO;
 import com.fpt.etutoring.entity.impl.Document;
+import com.fpt.etutoring.entity.impl.DocumentComment;
+import com.fpt.etutoring.entity.impl.Role;
 import com.fpt.etutoring.entity.impl.User;
 import com.fpt.etutoring.error.ApiMessage;
 import com.fpt.etutoring.service.DocumentService;
@@ -24,7 +27,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(Constant.PATH_DOCUMENT)
@@ -65,6 +70,19 @@ public class DocumentController extends ResponseController implements BaseContro
                 if (user != null) {
                     user.setRole(null);
                     documentDTO.setOwner(user);
+                }
+                if (!CollectionUtils.isEmpty(d.getDocumentComments())) {
+                    Set<DocumentCommentDTO> documentCommentDTOS = new HashSet<>();
+                    d.getDocumentComments().forEach(c -> {
+                        if (c.getUser() != null) {
+                            Role r = c.getUser().getRole();
+                            r.setUsers(null);
+                            c.getUser().setRole(r);
+                        }
+                        c.setDocument(null);
+                        documentCommentDTOS.add(ResponseDTO.accepted().getObject(c, DocumentCommentDTO.class));
+                    });
+                    documentDTO.setDocumentCommentDTOS(documentCommentDTOS);
                 }
                 documentDTOS.add(documentDTO);
             });
@@ -116,6 +134,27 @@ public class DocumentController extends ResponseController implements BaseContro
         User user = document.getOwner();
         user.setRole(null);
         document.setOwner(user);
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.accepted().getObject(document, DocumentDTO.class));
+
+        DocumentDTO dto = ResponseDTO.accepted().getObject(document, DocumentDTO.class);
+        Set<DocumentCommentDTO> documentCommentDTOS = new HashSet<>();
+        Set<DocumentComment> documentComments = document.getDocumentComments();
+        if (!CollectionUtils.isEmpty(documentComments)) {
+            documentComments.forEach(b -> {
+                DocumentCommentDTO documentCommentDTO = new DocumentCommentDTO();
+                if (b.getUser() != null) {
+                    User u = b.getUser();
+                    Role role = b.getUser().getRole();
+                    role.setUsers(null);
+                    u.setRole(role);
+                    UserDTO userDTO = ResponseDTO.accepted().getObject(u, UserDTO.class);
+                    documentCommentDTO.setUser(userDTO);
+                }
+                b.setDocument(null);
+                documentCommentDTO = ResponseDTO.accepted().getObject(b, DocumentCommentDTO.class);
+                documentCommentDTOS.add(documentCommentDTO);
+            });
+            dto.setDocumentCommentDTOS(documentCommentDTOS);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 }
