@@ -18,10 +18,10 @@ public interface StudentDao extends JpaRepository<Student, Long> {
 
     @Query("SELECT u FROM Student u " +
             "WHERE u.user.id IN (SELECT m.sender.id FROM Message m " +
-            "WHERE m.time >= :from) " +
+            "WHERE m.time >= :from AND m.time <= :to) " +
             "OR u.user.id IN (SELECT m.receiver.id FROM Message m " +
-            "WHERE m.time >= :from)")
-    List<Student> getStudentsSevenToTwentyEight1(@Param("from") Date from);
+            "WHERE m.time >= :from AND m.time <= :to)")
+    List<Student> getStudentsSevenToTwentyEight1(@Param("from") Date from, @Param("to") Date to);
 
     @Query("SELECT u FROM Student u " +
             "WHERE u.user.id IN (SELECT m.sender.id FROM Message m " +

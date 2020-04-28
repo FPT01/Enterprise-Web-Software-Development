@@ -46,8 +46,14 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<StudentExcel2> getStudentsSevenToTwentyEight(Date from, Date to) {
         // 7 days
-        List<Student> students1 = studentDao.getStudentsSevenToTwentyEight1(from);
-        students1.addAll(studentDao.findStudentsWithoutTutor());
+        List<Student> students1 = studentDao.getStudentsSevenToTwentyEight1(from, to);
+        List<Student> list = studentDao.findStudentsWithoutTutor();
+        if (!CollectionUtils.isEmpty(list)) {
+            list.forEach(l -> {
+                if (!students1.contains(l))
+                    students1.add(l);
+            });
+        }
         // 28 days
         List<Student> students2 = studentDao.getStudentsSevenToTwentyEight2(to);
         List<StudentExcel2> students = getStudentExcels(students1, true);
