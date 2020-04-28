@@ -25,7 +25,7 @@ public class BlogPostServiceImpl implements BlogPostService {
 
     @Override
     public void delete(Long id) {
-        blogPostDao.findById(id);
+        blogPostDao.deleteById(id);
     }
 
     @Override
