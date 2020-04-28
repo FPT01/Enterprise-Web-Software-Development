@@ -19,6 +19,7 @@ class Tutors extends Component {
     super(props);
     this.state = { 
       tutorList: [],
+      roleName: "",
     }
   }
 
@@ -56,18 +57,24 @@ class Tutors extends Component {
     return paramUrl;
   };
 
-  componentDidMount(){    
+  componentDidMount(){   
+    const currentUser = JSON.parse(window.localStorage.getItem('account')); 
+    const roleNameValue = currentUser.role;
     fetch(`http://localhost:8080/api/tutor/`, {
       method: "GET",
     })
     .then(response =>  response.json() )
     .then(data => {
-      this.setState({ tutorList: data });
+      this.setState({ 
+        tutorList: data,
+        roleName: roleNameValue
+      });
     });
   }
 
   render() {
     const tutorList = this.state.tutorList;
+    console.log("this.state.roleName", this.state.roleName);
     return (
       <div className="content">
         <Grid fluid>
@@ -103,18 +110,39 @@ class Tutors extends Component {
                               <td className="fullname">{(item.user !== null) ? item.user.fullname : ""}</td>
                               <td className="username">{(item.user !== null) ? item.user.username : ""}</td>
                               <td className="password">{(item.user !== null) ? ((item.user.enabled == 1) ? "active" : "unactive") : ""}</td>
-                              <td>
-                                <span>
-                                  <a className="ui yellow button" href={`/admin/edit-tutor/?id=${item.id}&userId=${item.user.id}&roleId=${item.user.roleDTO.id}&username=${item.user.username}`}>
-                                    <i className="fa fa-edit" />
-                                  </a>
-                                </span>
-                                <span>
-                                  <Button className="ui red button" onClick={() => this.fnDeleteTutor(item.id)}>
-                                    <i className="fa fa-trash" />
-                                  </Button>
-                                </span>
-                              </td>
+                              {
+                                this.state.roleName !== "staff" ?
+                                <td>
+                                  <span>
+                                    <a className="ui yellow button" href={`/admin/edit-tutor/?id=${item.id}&userId=${item.user.id}&roleId=${item.user.roleDTO.id}&username=${item.user.username}`}>
+                                      <i className="fa fa-edit" />
+                                    </a>
+                                  </span>
+                                  <span>
+                                    <Button className="ui red button" onClick={() => this.fnDeleteTutor(item.id)}>
+                                      <i className="fa fa-trash" />
+                                    </Button>
+                                  </span>
+                                </td>
+                                : 
+                                <td>
+                                  <span>
+                                    <a className="ui yellow button" href={`/admin/tutor-profile/?username=${item.user.username}`}>
+                                      <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                  </span>
+                                  <span>
+                                    <a className="ui yellow button" href={`/admin/edit-tutor/?id=${item.id}&userId=${item.user.id}&roleId=${item.user.roleDTO.id}&username=${item.user.username}`}>
+                                      <i className="fa fa-edit" />
+                                    </a>
+                                  </span>
+                                  <span>
+                                    <Button className="ui red button" onClick={() => this.fnDeleteTutor(item.id)}>
+                                      <i className="fa fa-trash" />
+                                    </Button>
+                                  </span>
+                                </td>
+                              }
                             </tr>
                           )
                         })}

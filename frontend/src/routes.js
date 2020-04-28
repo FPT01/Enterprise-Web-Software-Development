@@ -33,10 +33,12 @@ import ChangePassword from "views/changePassword/ChangePassword.jsx";
 import Tutors from "views/tutor/List.jsx";
 import AddNewTutor from "views/tutor/AddNew.jsx";
 import EditTutor from "views/tutor/Edit.jsx";
+import TutorProfile from "views/tutor/Detail.jsx";
 
 import Students from "views/student/List.jsx";
 import AddNewStudent from "views/student/AddNew.jsx";
 import EditStudent from "views/student/Edit.jsx";
+import StudentProfile from "views/student/Detail.jsx";
 
 import BlogPosts from "views/blogpost/List.jsx";
 import BlogDetail from "views/blogpost/Detail.jsx";
@@ -85,9 +87,11 @@ const dashboardRoutes = [
   { path: "/tutor", name: "Management Tutors", icon: "pe-7s-users", component: TutorList, layout: "/admin", role: "staff", subNav: false, },
   { path: "/add-new-tutor", name: "Add New Tutor", icon: "pe-7s-note2", component: AddNewTutor, layout: "/admin", role: "staff", subNav: true, },
   { path: "/edit-tutor", name: "Edit Tutor", icon: "pe-7s-note2", component: EditTutor, layout: "/admin", role: "staff", subNav: true, },
+  { path: "/tutor-profile", name: "Tutor Profile", icon: "pe-7s-note2", component: TutorProfile, layout: "/admin", role: "staff", subNav: true, },
   { path: "/student", name: "Management Student", icon: "pe-7s-users", component: Students, layout: "/admin", role: "staff", subNav: false, },
   { path: "/add-new-student", name: "Add New Student", icon: "pe-7s-note2", component: AddNewStudent, layout: "/admin", role: "staff", subNav: true, },
   { path: "/edit-student", name: "Edit Student", icon: "pe-7s-note2", component: EditStudent, layout: "/admin", role: "staff", subNav: true, },
+  { path: "/student-profile", name: "Tutor Profile", icon: "pe-7s-note2", component: StudentProfile, layout: "/admin", role: "staff", subNav: true, },
 
   { path: "/allocate", name: "Allocate", icon: "pe-7s-note2", component: AllocateList, layout: "/admin", role: "staff", subNav: false, },
   { path: "/edit-allocate", name: "Edit Allocate", icon: "pe-7s-note2", component: EditAllocate, layout: "/admin", role: "staff", subNav: true },

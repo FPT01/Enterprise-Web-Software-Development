@@ -17,7 +17,8 @@ class Students extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      studentList: []
+      studentList: [],
+      roleName: "",
     }
   }
 
@@ -44,12 +45,17 @@ class Students extends Component {
   }
 
   componentDidMount(){
+    const currentUser = JSON.parse(window.localStorage.getItem('account')); 
+    const roleNameValue = currentUser.role;
     fetch(`http://localhost:8080/api/student/`, {
       method: "GET",
     })
     .then(response =>  response.json() )
     .then(data => {
-      this.setState({ studentList: data });
+      this.setState({ 
+        studentList: data,
+        roleName: roleNameValue,
+      });
     });
   }
 
@@ -90,18 +96,39 @@ class Students extends Component {
                               <td className="fullname">{(item.user !== null) ? item.user.fullname : ""}</td>
                               <td className="username">{(item.user !== null) ? item.user.username : ""}</td>
                               <td className="password">{(item.user !== null) ? ((item.user.enabled == 1) ? "active" : "unactive") : ""}</td>
-                              <td>
-                                <span>
-                                  <a className="ui yellow button" href={`/admin/edit-student/?id=${item.id}&userId=${item.user.id}&roleId=${item.user.roleDTO.id}&username=${item.user.username}`}>
-                                    <i className="fa fa-edit" />
-                                  </a>
-                                </span>
-                                <span>
-                                  <Button className="ui red button" onClick={() => this.fnDeleteStudent(item.id)}>
-                                    <i className="fa fa-trash" />
-                                  </Button>
-                                </span>
-                              </td>
+                              {
+                                this.state.roleName !== "staff" ?
+                                <td>
+                                  <span>
+                                    <a className="ui yellow button" href={`/admin/edit-student/?id=${item.id}&userId=${item.user.id}&roleId=${item.user.roleDTO.id}&username=${item.user.username}`}>
+                                      <i className="fa fa-edit" />
+                                    </a>
+                                  </span>
+                                  <span>
+                                    <Button className="ui red button" onClick={() => this.fnDeleteStudent(item.id)}>
+                                      <i className="fa fa-trash" />
+                                    </Button>
+                                  </span>
+                                </td>
+                                : 
+                                <td>
+                                  <span>
+                                    <a className="ui yellow button" href={`/admin/student-profile/?username=${item.user.username}`}>
+                                      <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                  </span>
+                                  <span>
+                                    <a className="ui yellow button" href={`/admin/edit-student/?id=${item.id}&userId=${item.user.id}&roleId=${item.user.roleDTO.id}&username=${item.user.username}`}>
+                                      <i className="fa fa-edit" />
+                                    </a>
+                                  </span>
+                                  <span>
+                                    <Button className="ui red button" onClick={() => this.fnDeleteStudent(item.id)}>
+                                      <i className="fa fa-trash" />
+                                    </Button>
+                                  </span>
+                                </td>
+                              }
                             </tr>
                           )
                         })}

@@ -24,6 +24,7 @@ class EditTutor extends React.Component {
       username: '',
       password: '',
       roleId: '',
+      rolename: '',
       selectStatusOptions: "",
       enabled: [{id: 0, enabled: 1}, {id:1, enabled: 0}],
       isSuccessful: false,
@@ -85,7 +86,7 @@ class EditTutor extends React.Component {
       this.setState({ 
         userProfile: data,
         fullname: data.fullname,
-        username: data.username,
+        username: data.username
       });
     });
 
