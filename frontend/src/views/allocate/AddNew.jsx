@@ -162,7 +162,7 @@ class Allocate extends Component {
                       placeholder='Tutor'
                       fluid
                       selection
-                      multiple
+                      
                       search
                       onChange={this.onChangeTutor}
                       options={this.state.listTutor}
