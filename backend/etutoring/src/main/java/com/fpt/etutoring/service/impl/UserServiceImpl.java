@@ -5,6 +5,7 @@ import com.fpt.etutoring.entity.impl.User;
 import com.fpt.etutoring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -49,6 +50,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String email) {
-        return userDao.getUserByEmail(email);
+        List<User> users = userDao.getUserByEmail(email);
+        if (CollectionUtils.isEmpty(users))
+            return null;
+        return users.get(0);
     }
 }

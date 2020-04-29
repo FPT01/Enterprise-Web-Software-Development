@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class DocumentDTO extends BaseDTO {
-    private UserDTO owner;
+    private UserDTO user;
     private String title;
     private String url;
     private String content;

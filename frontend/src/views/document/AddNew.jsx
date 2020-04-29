@@ -19,18 +19,18 @@ class AddNewDocument extends Component {
   constructor(props) {
     super(props);
     this.state =
-      {
-        username: "",
-        textMessage: null,
-        listMessage: [],
-        listHistoryMessage: [],
-        selectedFile: null,
-        listDocuments: [],
-        docTitle: "",
-        urlFile: "",
-        contents: "",
-        ownerName: "",
-      };
+    {
+      username: "",
+      textMessage: null,
+      listMessage: [],
+      listHistoryMessage: [],
+      selectedFile: null,
+      listDocuments: [],
+      docTitle: "",
+      urlFile: "",
+      contents: "",
+      ownerName: "",
+    };
 
     this.updateState = field => ev => {
       const state = this.state;
@@ -45,18 +45,18 @@ class AddNewDocument extends Component {
       // recaptchaRef.current.reset();
     };
   }
-     
+
   // On file select (from the pop up) 
-  onFileChange = event => { 
+  onFileChange = event => {
     // Update the state 
-    this.setState({ selectedFile: event.target.files[0] }); 
-   
-  }; 
-   
+    this.setState({ selectedFile: event.target.files[0] });
+
+  };
+
   // On file upload (click the upload button) 
-  onFileUpload = () => { 
+  onFileUpload = () => {
     // Create an object of formData 
-    var formData = new FormData(); 
+    var formData = new FormData();
 
     formData.append("file", this.state.selectedFile);
 
@@ -64,30 +64,31 @@ class AddNewDocument extends Component {
       method: "POST",
       body: formData
     })
-    .then((response) => response.json())
-    .then((data) => {
-      if(data.status === "OK"){
-        alert(data.message);
-      }else {
-        console.log("error"); 
-      }
-    })
-  }; 
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === "OK") {
+          alert(data.message);
+        } else {
+          console.log("error");
+        }
+      })
+  };
 
   downloadFile = (name) => {
+    console.log("name", name);
     return fetch(`http://localhost:8080/api/document/loadfile?filename=${name}`, {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
       },
     })
-    .then((data) => {
-      if(data.status === "OK"){
-        alert(data.message);
-      }else {
-        console.log("error"); 
-      }
-    })
+      .then((data) => {
+        if (data.status === "OK") {
+          alert(data.message);
+        } else {
+          console.log("error");
+        }
+      })
   }
 
   onSubmit = (title, url, content) => {
@@ -100,96 +101,96 @@ class AddNewDocument extends Component {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title: title, url: newUrl, content: content, owner:{username: currentUser.username}})
+      body: JSON.stringify({ title: title, url: newUrl, content: content, user: { id: currentUser.userid } })
     })
-    .then((response) => response.json())
-    .then((data) => {
-      if(data.status === "OK"){
-        alert(data.message);
-        setTimeout(function(){ 
-          window.location.href = "/" + arr[1] + "/documents";
-        }, 700);
-      }else {
-        console.log("error"); 
-      }
-    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+        if (data.status === "OK") {
+          alert(data.message);
+          setTimeout(function () {
+            window.location.href = "/" + arr[1] + "/documents";
+          }, 700);
+        } else {
+          console.log("error");
+        }
+      })
   }
 
-     
+
   // File content to be displayed after 
   // file upload is complete 
-  fileData = () => { 
-    if (this.state.selectedFile) { 
-      return ( 
-        <div> 
-          <p>File Name: {this.state.selectedFile.name}</p> 
-        </div> 
-      ); 
-    } else { 
-      return ( 
-        <div></div> 
-      ); 
-    } 
-  }; 
+  fileData = () => {
+    if (this.state.selectedFile) {
+      return (
+        <div>
+          <p>File Name: {this.state.selectedFile.name}</p>
+        </div>
+      );
+    } else {
+      return (
+        <div></div>
+      );
+    }
+  };
 
-  render() { 
+  render() {
     var fileName = "";
-    if(this.state.selectedFile){
+    if (this.state.selectedFile) {
       fileName = this.state.selectedFile.name;
     }
-    return ( 
+    return (
       <div className="content">
         <Grid fluid>
           <Row>
             <Card
-                title="Add New Document"
-                content={
-                  <div className="container">
-                    <form onSubmit={this.submitForm(this.state.docTitle, this.state.urlFile, this.state.contents)}>
-                      <div>
-                        <div className="row uploadDoc">
-                          <div className="col-sm-4">
-                              <div className="fileUpload btn btn-orange">
-                                <img src="https://image.flaticon.com/icons/svg/136/136549.svg" className="icon" />
-                                <span className="upl" id="upload">Upload document</span>
-                                <input type="file" className="upload up" id="up" onChange={this.onFileChange} />
-                              </div>
-                              <button className="ui button green" onClick={this.onFileUpload} style={{margin: "10px 0 0"}}> 
-                                Upload
-                              </button> 
+              title="Add New Document"
+              content={
+                <div className="container">
+                  <form onSubmit={this.submitForm(this.state.docTitle, this.state.urlFile, this.state.contents)}>
+                    <div>
+                      <div className="row uploadDoc">
+                        <div className="col-sm-4">
+                          <div className="fileUpload btn btn-orange">
+                            <img src="https://image.flaticon.com/icons/svg/136/136549.svg" className="icon" />
+                            <span className="upl" id="upload">Upload document</span>
+                            <input type="file" className="upload up" id="up" onChange={this.onFileChange} />
                           </div>
-                          <fieldset className="col-sm-8">
-                            <fieldset className="form-group">
-                              <input
-                                className="form-control form-control-lg"
-                                type="text"
-                                placeholder="Title"
-                                value={this.state.docTitle} onChange={this.updateState('docTitle')} required />
-                            </fieldset>
-
-                            <fieldset className="form-group">
-                              <input
-                                className="form-control form-control-lg"
-                                type="text"
-                                placeholder="Contents" 
-                                value={this.state.contents} onChange={this.updateState('contents')} required />
-                            </fieldset>
-                          </fieldset>
+                          <button className="ui button green" onClick={this.onFileUpload} style={{ margin: "10px 0 0" }}>
+                            Upload
+                              </button>
                         </div>
+                        <fieldset className="col-sm-8">
+                          <fieldset className="form-group">
+                            <input
+                              className="form-control form-control-lg"
+                              type="text"
+                              placeholder="Title"
+                              value={this.state.docTitle} onChange={this.updateState('docTitle')} required />
+                          </fieldset>
+
+                          <fieldset className="form-group">
+                            <input
+                              className="form-control form-control-lg"
+                              type="text"
+                              placeholder="Contents"
+                              value={this.state.contents} onChange={this.updateState('contents')} required />
+                          </fieldset>
+                        </fieldset>
                       </div>
-                      <div className="text-center">
-                        <button className="ui button blue" type="submit" >Submit</button>
-                      </div>
-                    </form>
-                  </div>
-                }
+                    </div>
+                    <div className="text-center">
+                      <button className="ui button blue" type="submit" >Submit</button>
+                    </div>
+                  </form>
+                </div>
+              }
             />
           </Row>
         </Grid>
       </div>
-    ); 
-  } 
-} 
+    );
+  }
+}
 
 export default AddNewDocument;
-

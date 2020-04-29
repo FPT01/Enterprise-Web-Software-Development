@@ -1,7 +1,6 @@
 package com.fpt.etutoring.entity.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +14,6 @@ import java.util.Set;
 @Table(name = "document")
 @Getter
 @Setter
-@EqualsAndHashCode
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Document implements Serializable {
     @Id
@@ -25,8 +23,8 @@ public class Document implements Serializable {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private User owner;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(name = "title")
     private String title;

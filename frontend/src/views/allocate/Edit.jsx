@@ -55,10 +55,10 @@ class Allocate extends Component {
       .then(({ students, tutors }) => {
         this.setState({
           selectedStudents: students.map(({ id }) => id),
-          selectedTutors: tutors.map(({ id }) => id),
+          selectedTutors: tutors[0].id,
           selectedRoom: roomId,
           initStudents: students.map(({ id }) => id),
-          initTutors: tutors.map(({ id }) => id),
+          initTutors: tutors[0].id,
           initRoom: roomId,
         })
       })
@@ -93,7 +93,7 @@ class Allocate extends Component {
   }
   saveAllocate = () => {
     const room = { id: this.state.selectedRoom }
-    const tutors = this.state.selectedTutors.map(i => ({ id: i }))
+    const tutors = [{ id: this.state.selectedTutors }]
     const students = this.state.selectedStudents.map(i => ({ id: i }))
     return fetch(`http://localhost:8080/api/allocate/save`, {
       method: "POST",
@@ -146,7 +146,7 @@ class Allocate extends Component {
                       placeholder='Tutor'
                       fluid
                       selection
-                      
+
                       search
                       onChange={this.onChangeTutor}
                       options={this.state.listTutor}

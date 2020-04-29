@@ -95,7 +95,7 @@ class ChangePassword extends React.Component {
                   <form onSubmit={this.submitForm(this.state.username, this.state.oldPassword, this.state.newPassword)}>
                     <fieldset>
                       <fieldset className="form-group">
-                        <label htmlFor="username">Email<span>*</span></label>
+                        <label htmlFor="username">Username<span>*</span></label>
                         <input
                           className="form-control form-control-lg"
                           type="text"

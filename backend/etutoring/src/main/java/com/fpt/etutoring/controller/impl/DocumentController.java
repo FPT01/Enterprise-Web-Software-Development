@@ -66,10 +66,10 @@ public class DocumentController extends ResponseController implements BaseContro
         if (!CollectionUtils.isEmpty(documents)) {
             documents.forEach(d -> {
                 DocumentDTO documentDTO = ResponseDTO.accepted().getObject(d, DocumentDTO.class);
-                UserDTO user = documentDTO.getOwner();
+                UserDTO user = documentDTO.getUser();
                 if (user != null) {
                     user.setRole(null);
-                    documentDTO.setOwner(user);
+                    documentDTO.setUser(user);
                 }
                 if (!CollectionUtils.isEmpty(d.getDocumentComments())) {
                     Set<DocumentCommentDTO> documentCommentDTOS = new HashSet<>();
@@ -95,9 +95,9 @@ public class DocumentController extends ResponseController implements BaseContro
     public ResponseEntity<?> createOrUpdate(@RequestBody DocumentDTO json) {
         try {
             Document from = ResponseDTO.accepted().getObject(json, Document.class);
-            if (json.getOwner() != null) {
-                User user = userService.findByUsername(json.getOwner().getUsername());
-                from.setOwner(user);
+            if (json.getUser() != null) {
+                User user = userService.findById(json.getUser().getId());
+                from.setUser(user);
             }
             documentService.createOrUpdate(from);
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.MSG_SUCCESS));
@@ -131,9 +131,9 @@ public class DocumentController extends ResponseController implements BaseContro
         if (document == null)
             return buildResponseEntity(new ApiMessage(HttpStatus.OK, Constant.ERROR_NOT_FOUND));
 
-        User user = document.getOwner();
+        User user = document.getUser();
         user.setRole(null);
-        document.setOwner(user);
+        document.setUser(user);
 
         DocumentDTO dto = ResponseDTO.accepted().getObject(document, DocumentDTO.class);
         Set<DocumentCommentDTO> documentCommentDTOS = new HashSet<>();
@@ -143,7 +143,7 @@ public class DocumentController extends ResponseController implements BaseContro
                 DocumentCommentDTO documentCommentDTO = new DocumentCommentDTO();
                 if (b.getUser() != null) {
                     User u = b.getUser();
-                    Role role = b.getUser().getRole();
+                    Role role = u.getRole();
                     role.setUsers(null);
                     u.setRole(role);
                     UserDTO userDTO = ResponseDTO.accepted().getObject(u, UserDTO.class);

@@ -22,7 +22,7 @@ class Allocate extends Component {
       listStudent: [],
       selectedRoom: '',
       selectedStudents: [],
-      selectedTutors: [],
+      selectedTutors: '',
     }
     this.updateState = field => ev => {
       const state = this.state;
@@ -99,7 +99,7 @@ class Allocate extends Component {
   }
   saveAllocate = () => {
     const room = { id: this.state.selectedRoom }
-    const tutors = this.state.selectedTutors.map(i => ({ id: i }))
+    const tutors = [{ id: this.state.selectedTutors }]
     const students = this.state.selectedStudents.map(i => ({ id: i }))
     return fetch(`http://localhost:8080/api/allocate/save`, {
       method: "POST",

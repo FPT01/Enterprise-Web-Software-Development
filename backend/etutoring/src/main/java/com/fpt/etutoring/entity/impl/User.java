@@ -54,4 +54,10 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user")
     private Set<BlogPost> blogPosts = new HashSet<>(0);
+
+    @OneToMany(mappedBy = "user")
+    private Set<DocumentComment> documentComments = new HashSet<>(0);
+
+    @OneToMany(mappedBy = "user")
+    private Set<Document> documents = new HashSet<>(0);
 }

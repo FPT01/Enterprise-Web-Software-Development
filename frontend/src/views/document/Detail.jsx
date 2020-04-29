@@ -24,17 +24,7 @@ class BlogPosts extends Component {
     this.state = {
       role: '',
       userid: '',
-      id: "",
-      title: "",
-      content: "",
-      creationTime: "",
-      modifiedTime: "",
       commenttext: "",
-      prevBlog: 0,
-      prevBlogBtn: true,
-      nextBlog: 0,
-      nextBlogBtn: true,
-      currBlog: 0,
     }
     this.updateState = field => ev => {
       const state = this.state;
@@ -47,16 +37,7 @@ class BlogPosts extends Component {
       this.onSubmit(fullname, username, password, status);
     };
   }
-  cutContentText(str) {
-    return str.replace(/^(.{40}[^\s]*).*/, "$1");
-  }
   componentWillUnmount() {
-    /*
-      stop getData() from continuing to run even
-      after unmounting this component. Notice we are calling
-      'clearTimeout()` here rather than `clearInterval()` as
-      in the previous example.
-    */
     clearTimeout(this.intervalID);
   }
   componentDidMount() {
@@ -73,11 +54,11 @@ class BlogPosts extends Component {
       default:
     }
     this.setState({ role: role, userid: userid })
-    this.fnGetBlog()
+    this.fnGetDocument()
   }
-  fnGetBlog = () => {
+  fnGetDocument = () => {
     const blogId = queryString.parse(this.props.location.search).id;
-    fetch(`http://localhost:8080/api/blogpost/findById/${blogId}/`, {
+    fetch(`http://localhost:8080/api/document/findById/${blogId}/`, {
       headers: {
         'Content-Type': 'application/json'
       }, method: "GET",
@@ -87,7 +68,7 @@ class BlogPosts extends Component {
         this.setState({
           ...data
         });
-        this.intervalID = setTimeout(this.fnGetBlog.bind(this), 1000);
+        this.intervalID = setTimeout(this.fnGetDocument.bind(this), 100000);
       });
   }
   updateInputValue(evt) {
@@ -123,11 +104,11 @@ class BlogPosts extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data, id);
+        console.log('Success:', data);
         if (data.status === "OK") {
 
           alert('Delete succesfully')
-          this.fnGetBlog()
+          this.fnGetDocument()
         } else {
           console.log("error");
         }
@@ -136,18 +117,19 @@ class BlogPosts extends Component {
   onSubmit = (commenttext) => {
     const account = window.localStorage.getItem('account');
     const userid = JSON.parse(account).userid;
-    return fetch(`http://localhost:8080/api/blogcomment/save`, {
+    console.log(JSON.stringify({ content: commenttext, user: { id: userid }, documentDTO: { id: this.state.id } }))
+    return fetch(`http://localhost:8080/api/documentComment/save`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ content: commenttext, user: { id: userid }, blogPost: { id: this.state.id } })
+      body: JSON.stringify({ content: commenttext, user: { id: userid }, documentDTO: { id: this.state.id } })
     })
       .then((response) => response.json())
       .then((data) => {
         if (data.status === "OK") {
           this.setState({ commenttext: "" })
-          this.fnGetBlog()
+          this.fnGetDocument()
         } else {
           console.log("error");
         }
@@ -155,35 +137,22 @@ class BlogPosts extends Component {
   }
 
   render() {
-    const prevBlog = this.state.id * 1 - 1
-    const prevBlogBtn = !(this.state.id * 1 - 1) > 0
-    const nextBlog = this.state.id * 1 + 1
-    const nextBlogBtn = !(this.state.id * 1 + 1) > 0
-    const disabledEdit = this.state.userid != this.state.user?.id;
-    let comments = this.state.blogComments
-
+    let comments = this.state.documentCommentDTOS
     comments = comments?.sort((a, b) => b.id - a.id)
 
     return (
       <div className="content">
         <Card fluid>
-          <Card.Content>
-            <Card.Description>
-              <Button color="yellow" onClick={() => window.location.href = `/${this.state.role}/edit-blog?id=` + this.state.id} disabled={disabledEdit}>
-                Edit
-              </Button>
-            </Card.Description>
-          </Card.Content>
-        </Card>
-        <Card fluid>
           <Card.Header><strong>{this.state.title}</strong></Card.Header>
           <Card.Content>
-
-            <Card.Meta>Written By: <strong>{this.state.user?.fullname}</strong> - create at <Moment format="YYYY/MM/DD hh:mm:ss">{this.state.creationTime}</Moment>,
-                        last change at <Moment format="YYYY/MM/DD hh:mm:ss">{this.state.modifiedTime}</Moment>
+            <Card.Meta>Written By: {this.state.owner?.username} - At <Moment format="YYYY/MM/DD">{this.state.creationTime}</Moment>
             </Card.Meta>
             <Card.Description>
-              {this.state.content}
+              {this.state.content}<br />
+              <div className="fileUpload btn btn-orange">
+                <img src="https://image.flaticon.com/icons/svg/136/136549.svg" className="icon" />
+                <span className="upl" id="upload">{(this.state.url === "") ? "file" : this.state.url}</span>
+              </div>
             </Card.Description>
           </Card.Content>
         </Card>
@@ -197,12 +166,16 @@ class BlogPosts extends Component {
                   <Card fluid>
                     <Card.Header>
                       <strong>{item.user?.username}</strong> said at: <Moment format="YYYY/MM/DD hh:mm:ss">{item.creationTime}</Moment>
-
                     </Card.Header>
                     <Card.Content>
                       <Card.Description>
                         {item.content}
                       </Card.Description>
+                    </Card.Content>
+                    <Card.Content extra>
+                      <Button color="red" onClick={() => this.fnDeleteComment(item.id)} disabled={disabledComment}>
+                        Delete
+                      </Button>
                     </Card.Content>
                   </Card>
                 )
@@ -229,10 +202,9 @@ class BlogPosts extends Component {
                           type="submit" >
                           Save
                         </button>
-                        <button
+                        <button onClick={()=>{this.setState({commenttext: ''})}}
                           className="btn btn-danger margin-lr"
-                          type="reset" 
-                          onClick={()=>{this.setState({commenttext: ''})}}>
+                          type="reset" >
                           Reset
                         </button>
                       </fieldset>

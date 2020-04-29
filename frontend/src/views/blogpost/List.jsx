@@ -74,7 +74,7 @@ class BlogPosts extends Component {
           <Card.Content>
             <Card.Description>
               <Button color="green" onClick={() => window.location.href = `/${this.state.role}/add-new-blog`}>
-                Create blog
+                Create Blog
               </Button>
             </Card.Description>
           </Card.Content>
