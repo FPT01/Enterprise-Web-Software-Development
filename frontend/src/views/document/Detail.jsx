@@ -85,7 +85,6 @@ class BlogPosts extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data);
         if (data.status === "OK") {
 
           alert('Delete succesfully')
@@ -104,7 +103,6 @@ class BlogPosts extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data);
         if (data.status === "OK") {
 
           alert('Delete succesfully')
@@ -117,7 +115,6 @@ class BlogPosts extends Component {
   onSubmit = (commenttext) => {
     const account = window.localStorage.getItem('account');
     const userid = JSON.parse(account).userid;
-    console.log(JSON.stringify({ content: commenttext, user: { id: userid }, documentDTO: { id: this.state.id } }))
     return fetch(`http://localhost:8080/api/documentComment/save`, {
       method: "POST",
       headers: {

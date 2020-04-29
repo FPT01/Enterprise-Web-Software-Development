@@ -104,7 +104,6 @@ class BlogPosts extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data);
         if (data.status === "OK") {
 
           alert('Delete succesfully')
@@ -123,7 +122,6 @@ class BlogPosts extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data, id);
         if (data.status === "OK") {
 
           alert('Delete succesfully')
