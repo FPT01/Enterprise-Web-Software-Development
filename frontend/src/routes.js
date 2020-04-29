@@ -27,6 +27,7 @@ import EditUser from "views/user/Edit.jsx";
 
 import UserProfile from "views/userprofile/UserProfile.jsx";
 import Documents from "views/document/List.jsx";
+import DocumentDetail from "views/document/Detail.jsx";
 import AddNewDocument from "views/document/AddNew.jsx";
 import ChangePassword from "views/changePassword/ChangePassword.jsx";
 
@@ -104,6 +105,7 @@ const dashboardRoutes = [
   { path: "/profile-user", name: "User Profile", icon: "pe-7s-user", component: UserProfile, layout: "/tutor", role: "tutor", subNav: false, },
   { path: "/change-password", name: "Change Password", icon: "pe-7s-user", component: ChangePassword, layout: "/tutor", role: "tutor", subNav: false, },
   { path: "/documents", name: "Documents", icon: "pe-7s-note2", component: Documents, layout: "/tutor", role: "tutor", subNav: false, },
+  { path: "/documentdetail", name: "Documents", icon: "pe-7s-note2", component: DocumentDetail, layout: "/tutor", role: "tutor", subNav: true, },
   { path: "/add-new-document", name: "Add New Document", icon: "pe-7s-note2", component: AddNewDocument, layout: "/tutor", role: "tutor", subNav: true, },
   { path: "/chat-room", name: "Chat Box", icon: "pe-7s-chat", component: ChatRoom, layout: "/tutor", role: "tutor", subNav: false, },
   { path: "/chat-message-box", name: "Chat Box", icon: "pe-7s-note2", component: ChatMessageBox, layout: "/tutor", role: "tutor", subNav: true, },
@@ -119,6 +121,7 @@ const dashboardRoutes = [
   { path: "/profile-user", name: "User Profile", icon: "pe-7s-user", component: UserProfile, layout: "/students", role: "student", subNav: false, },
   { path: "/change-password", name: "Change Password", icon: "pe-7s-user", component: ChangePassword, layout: "/students", role: "student", subNav: false, },
   { path: "/documents", name: "Documents", icon: "pe-7s-note2", component: Documents, layout: "/students", role: "student", subNav: false, },
+  { path: "/documentdetail", name: "Documents", icon: "pe-7s-note2", component: DocumentDetail, layout: "/students", role: "student", subNav: true, },
   { path: "/add-new-document", name: "Add New Document", icon: "pe-7s-note2", component: AddNewDocument, layout: "/students", role: "student", subNav: true, },
   { path: "/chat-room", name: "Chat Box", icon: "pe-7s-chat", component: ChatRoom, layout: "/students", role: "student", subNav: false, },
   { path: "/chat-message-box", name: "Chat Box", icon: "pe-7s-note2", component: ChatMessageBox, layout: "/students", role: "students", subNav: true, },

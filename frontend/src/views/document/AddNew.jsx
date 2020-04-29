@@ -101,7 +101,7 @@ class AddNewDocument extends Component {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title: title, url: newUrl, content: content, owner:{username: currentUser.username}})
+      body: JSON.stringify({ title: title, url: newUrl, content: content, owner:{id: currentUser.userid}})
     })
     .then((response) => response.json())
     .then((data) => {
