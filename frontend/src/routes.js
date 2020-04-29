@@ -63,7 +63,7 @@ import ReportLastSevenDays from "views/report/ReportLastSevenDays.jsx";
 
 
 const dashboardRoutes = [
-// ADMIN Route
+  // ADMIN Route
   { path: "/dashboard", name: "Dashboard", icon: "pe-7s-graph", component: Dashboard, layout: "/admin", role: "admin", subNav: false, },
   { path: "/profile-user", name: "User Profile", icon: "pe-7s-user", component: UserProfile, layout: "/admin", role: "admin", subNav: false, },
   { path: "/change-password", name: "Change Password", icon: "pe-7s-user", component: ChangePassword, layout: "/admin", role: "admin", subNav: false, },
@@ -81,7 +81,7 @@ const dashboardRoutes = [
   { path: "/edit-student", name: "Edit Student", icon: "pe-7s-note2", component: EditStudent, layout: "/admin", role: "admin", subNav: true, },
   { path: "/import-export", name: "Import / Export", icon: "pe-7s-cloud-upload", component: ImportExport, layout: "/admin", role: "admin", subNav: false, },
 
-// Staff Route
+  // Staff Route
   { path: "/dashboard", name: "Dashboard", icon: "pe-7s-graph", component: Dashboard, layout: "/admin", role: "staff", subNav: false, },
   { path: "/profile-user", name: "User Profile", icon: "pe-7s-user", component: UserProfile, layout: "/admin", role: "staff", subNav: false, },
   { path: "/change-password", name: "Change Password", icon: "pe-7s-user", component: ChangePassword, layout: "/admin", role: "staff", subNav: false, },
@@ -93,11 +93,14 @@ const dashboardRoutes = [
   { path: "/add-new-student", name: "Add New Student", icon: "pe-7s-note2", component: AddNewStudent, layout: "/admin", role: "staff", subNav: true, },
   { path: "/edit-student", name: "Edit Student", icon: "pe-7s-note2", component: EditStudent, layout: "/admin", role: "staff", subNav: true, },
   { path: "/student-profile", name: "Tutor Profile", icon: "pe-7s-note2", component: StudentProfile, layout: "/admin", role: "staff", subNav: true, },
+  { path: "/room", name: "Management Rooms", icon: "pe-7s-note2", component: Rooms, layout: "/admin", role: "staff", subNav: false, },
+  { path: "/add-new-room", name: "Add New Room", icon: "pe-7s-note2", component: AddNewRoom, layout: "/admin", role: "staff", subNav: true, },
+  { path: "/edit-room", name: "Edit Room", icon: "pe-7s-note2", component: EditRoom, layout: "/admin", role: "staff", subNav: true, },
 
   { path: "/allocate", name: "Allocate", icon: "pe-7s-note2", component: AllocateList, layout: "/admin", role: "staff", subNav: false, },
   { path: "/edit-allocate", name: "Edit Allocate", icon: "pe-7s-note2", component: EditAllocate, layout: "/admin", role: "staff", subNav: true },
   { path: "/add-allocate", name: "Allocate Tutor and Student for class", icon: "pe-7s-note2", component: AddAllocate, layout: "/admin", role: "staff", subNav: true },
-  
+
   { path: "/report-lastsevendays", name: "Report", icon: "pe-7s-graph3", component: ReportLastSevenDays, layout: "/admin", role: "staff", subNav: false, },
 
   // TUTOR Route
@@ -130,7 +133,7 @@ const dashboardRoutes = [
   { path: "/add-new-blog", name: "Add New Blog", icon: "pe-7s-note2", component: AddNewBlog, layout: "/students", role: "student", subNav: true, },
   { path: "/edit-blog", name: "Edit Blog", icon: "pe-7s-note2", component: EditBlog, layout: "/students", subNav: true, },
   { path: "/meeting", name: "Meeting", icon: "pe-7s-note2", component: Meeting, layout: "/students", role: "student", subNav: false, },
-  
+
 ];
 
 export default dashboardRoutes;
