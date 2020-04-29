@@ -131,7 +131,7 @@ class Tutors extends Component {
                                 : 
                                 <td>
                                   <span>
-                                    <a className="ui blue button" href="/tutor/dashboard">
+                                    <a className="ui blue button" href={`/tutor/dashboard/?username=${item.user.username}`}>
                                       <i class="fa fa-external-link" aria-hidden="true"></i>
                                     </a>
                                   </span>

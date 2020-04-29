@@ -118,7 +118,7 @@ class Students extends Component {
                                 : 
                                 <td>
                                   <span>
-                                    <a className="ui blue button" href="/students/dashboard">
+                                    <a className="ui blue button" href={`/students/dashboard/?username=${item.user.username}`}>
                                       <i class="fa fa-external-link" aria-hidden="true"></i>
                                     </a>
                                   </span>
