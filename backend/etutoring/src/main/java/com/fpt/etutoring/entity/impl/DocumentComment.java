@@ -1,7 +1,6 @@
 package com.fpt.etutoring.entity.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +11,6 @@ import java.util.Date;
 @Table(name = "document_comment")
 @Getter
 @Setter
-@EqualsAndHashCode
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class DocumentComment {
     @Id
