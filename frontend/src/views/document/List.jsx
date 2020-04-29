@@ -58,7 +58,7 @@ class Documents extends Component {
       currentLayout: arr[1]
     });
   }
-
+  
   render() { 
     
     let  documentList = []
@@ -88,10 +88,10 @@ class Documents extends Component {
                 <Card.Meta>Written By:  {item.owner?.username} - At <Moment format="YYYY/MM/DD hh:mm:ss">{item.creationTime}</Moment></Card.Meta>
                 <Card.Description>
                   {item.content}<br />
-                  <div className="fileUpload btn btn-orange">
-                    <img src="https://image.flaticon.com/icons/svg/136/136549.svg" className="icon" />
+                  <a href={"http://localhost:8080/api/document/loadfile?filename=" + item.url} className="fileUpload btn btn-orange" style={{width: "150px"}} >
+                    <img src="https://image.flaticon.com/icons/svg/136/136549.svg" className="icon"/>
                     <span className="upl" id="upload">{(item.url === "") ? "file" : item.url}</span>
-                  </div>
+                  </a>
                 </Card.Description>
               </Card.Content>
             </Card>
