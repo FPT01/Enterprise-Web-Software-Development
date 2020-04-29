@@ -123,7 +123,7 @@ class BlogPosts extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data);
+        console.log('Success:', data, id);
         if (data.status === "OK") {
 
           alert('Delete succesfully')
@@ -203,7 +203,7 @@ class BlogPosts extends Component {
 
                     </Card.Header>
                     <Card.Content>
-                      <Card.Description>F
+                      <Card.Description>
                         {item.content}
                       </Card.Description>
                     </Card.Content>
