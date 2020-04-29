@@ -123,7 +123,7 @@ class Tutors extends Component {
                                     </Button>
                                   </span>
                                   <span>
-                                    <a className="ui lightgrey button" href={`/admin/tutor-profile/?username=${item.user.username}`}>
+                                    <a className="ui lightgrey button" href={`/admin/tutor-detail/?username=${item.user.username}`}>
                                       <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
                                   </span>

@@ -76,9 +76,11 @@ const dashboardRoutes = [
   { path: "/tutor", name: "Management Tutors", icon: "pe-7s-users", component: TutorList, layout: "/admin", role: "admin", subNav: false, },
   { path: "/add-new-tutor", name: "Add New Tutor", icon: "pe-7s-note2", component: AddNewTutor, layout: "/admin", role: "admin", subNav: true, },
   { path: "/edit-tutor", name: "Edit Tutor", icon: "pe-7s-note2", component: EditTutor, layout: "/admin", role: "admin", subNav: true, },
+  { path: "/tutor-detail", name: "Tutor Profile", icon: "pe-7s-note2", component: TutorProfile, layout: "/admin", role: "admin", subNav: true, },
   { path: "/student", name: "Management Student", icon: "pe-7s-users", component: Students, layout: "/admin", role: "admin", subNav: false, },
   { path: "/add-new-student", name: "Add New Student", icon: "pe-7s-note2", component: AddNewStudent, layout: "/admin", role: "admin", subNav: true, },
   { path: "/edit-student", name: "Edit Student", icon: "pe-7s-note2", component: EditStudent, layout: "/admin", role: "admin", subNav: true, },
+  { path: "/student-detail", name: "Student Profile", icon: "pe-7s-note2", component: StudentProfile, layout: "/admin", role: "admin", subNav: true, },
   { path: "/import-export", name: "Import / Export", icon: "pe-7s-cloud-upload", component: ImportExport, layout: "/admin", role: "admin", subNav: false, },
 
   // Staff Route
@@ -92,7 +94,7 @@ const dashboardRoutes = [
   { path: "/student", name: "Management Student", icon: "pe-7s-users", component: Students, layout: "/admin", role: "staff", subNav: false, },
   { path: "/add-new-student", name: "Add New Student", icon: "pe-7s-note2", component: AddNewStudent, layout: "/admin", role: "staff", subNav: true, },
   { path: "/edit-student", name: "Edit Student", icon: "pe-7s-note2", component: EditStudent, layout: "/admin", role: "staff", subNav: true, },
-  { path: "/student-detail", name: "Tutor Profile", icon: "pe-7s-note2", component: StudentProfile, layout: "/admin", role: "staff", subNav: true, },
+  { path: "/student-detail", name: "Student Profile", icon: "pe-7s-note2", component: StudentProfile, layout: "/admin", role: "staff", subNav: true, },
   { path: "/room", name: "Management Rooms", icon: "pe-7s-note2", component: Rooms, layout: "/admin", role: "staff", subNav: false, },
   { path: "/add-new-room", name: "Add New Room", icon: "pe-7s-note2", component: AddNewRoom, layout: "/admin", role: "staff", subNav: true, },
   { path: "/edit-room", name: "Edit Room", icon: "pe-7s-note2", component: EditRoom, layout: "/admin", role: "staff", subNav: true, },
