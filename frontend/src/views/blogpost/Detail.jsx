@@ -172,9 +172,6 @@ class BlogPosts extends Component {
               <Button color="yellow" onClick={() => window.location.href = `/${this.state.role}/edit-blog?id=` + this.state.id} disabled={disabledEdit}>
                 Edit
               </Button>
-              <Button color="red" onClick={() => this.fnDeleteBlog(this.state.id)} disabled={disabledEdit}>
-                Delete
-              </Button>
             </Card.Description>
           </Card.Content>
         </Card>
@@ -206,11 +203,6 @@ class BlogPosts extends Component {
                       <Card.Description>
                         {item.content}
                       </Card.Description>
-                    </Card.Content>
-                    <Card.Content extra>
-                      <Button color="red" onClick={() => this.fnDeleteComment(item.id)} disabled={disabledComment}>
-                        Delete
-                      </Button>
                     </Card.Content>
                   </Card>
                 )

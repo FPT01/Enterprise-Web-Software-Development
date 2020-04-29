@@ -81,7 +81,7 @@ class Documents extends Component {
         </Card>
         {documentList.map((item, key) => {
           return (
-            <Card fluid link onClick={() => window.location.href = `/${this.state.role}/documentdetail?id=` + item.id}>
+            <Card fluid>
               <Card.Header><strong>{item.title}</strong></Card.Header>
               <Card.Content>
 
