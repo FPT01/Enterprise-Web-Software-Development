@@ -37,7 +37,7 @@ public class BlogComment implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "blog_post_id", referencedColumnName = "id")
     private BlogPost blogPost;
 }
