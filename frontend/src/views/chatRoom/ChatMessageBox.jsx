@@ -41,7 +41,6 @@ class ChatMessageBox extends Component {
         client.subscribe('/queue/now', message => {
           this.setState({textMessage: message.body});
         });
-        console.log("client", client);
         // test
         //stompClient.send('/app/addPrivateUser', {}, JSON.stringify({ sender: this.props.otherUser, type: 'JOIN' }))
         client.publish({destination: '/app/addPrivateUser', body: JSON.stringify({ sender: this.state.username, type: 'JOIN' }) });
@@ -94,7 +93,6 @@ class ChatMessageBox extends Component {
     var username = this.state.username;
     var text = document.getElementById('text').value;
     var json = {'username':username, 'text':text};
-    console.log(this.state.username, this.state.receiver);
     // test
     var chatMessage = {
       sender: this.state.username,

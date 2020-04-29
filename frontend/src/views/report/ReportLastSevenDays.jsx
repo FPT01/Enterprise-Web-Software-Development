@@ -142,7 +142,6 @@ class ReportLastSevenDays extends Component {
                         </thead>
                         <tbody>
                           {this.state.reportAvgMessage.map((item, key) => {
-                            console.log(item);
                             return(
                               <tr>
                                 <td className="id">{key + 1}</td>

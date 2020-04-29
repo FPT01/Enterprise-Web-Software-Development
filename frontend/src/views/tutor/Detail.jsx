@@ -111,67 +111,33 @@ class TutorDetail extends Component {
       <div className="content">
         <Grid fluid>
           <Row>
-            <Col md={8}>
+            <Col md={5} style={{margin: "0 auto"}}>
               <Card
-                title="Edit User Profile"
+                title="View User Detail"
                 className="change-password"
                 content={
                   <form onSubmit={this.submitEditForm(roleId, this.state.fullname, this.state.username, this.state.email, this.state.gender)}>
                     <fieldset>
                       <fieldset className="form-group">
                         <label>Role</label>
-                        <input
-                          className="form-control form-control-lg"
-                          type="text"
-                          placeholder="Role"
-                          disabled
-                          value={this.state.roleName} />
+                        <div className="form-control form-control-lg">{this.state.roleName}</div>
                       </fieldset>
                       <fieldset className="form-group">
                         <label>Fullname<span>*</span></label>
-                        <input
-                          className="form-control form-control-lg"
-                          type="text"
-                          placeholder="Fullname"
-                          value={this.state.fullname} onChange={this.updateState('fullname')} required />
+                        <div className="form-control form-control-lg">{this.state.roleName}</div>
                       </fieldset>
                       <fieldset className="form-group">
                         <label>Gender<span>*</span></label>
-                        <input
-                          className="form-control form-control-lg"
-                          type="text"
-                          placeholder="Gender"
-                          value={this.state.gender} onChange={this.updateState('gender')} required />
+                        <div className="form-control form-control-lg">{this.state.gender}</div>
                       </fieldset>
                       <fieldset className="form-group">
                         <label>Username<span>*</span></label>
-                        <input
-                          className="form-control form-control-lg"
-                          type="text"
-                          placeholder="Username"
-                          value={this.state.username} onChange={this.updateState('username')} required />
+                        <div className="form-control form-control-lg">{this.state.username}</div>
                       </fieldset>
-                      <fieldset className="form-group">
-                        <label>Email<span>*</span></label>
-                        <input
-                          className="form-control form-control-lg"
-                          type="text"
-                          placeholder="Email"
-                          value={this.state.email} onChange={this.updateState('email')} required />
-                      </fieldset>
-                      <button
-                        className="ui blue button"
-                        type="submit" >
-                        Update Profile
-                      </button>
-
                     </fieldset>
                   </form>
                 }
               />
-            </Col>
-            <Col md={4} style={{width: "100%"}}>
-              <div className="fpt-greenwich-logo"><img src={Avatar} style={{width: "100%", height: "auto", "display": "block", "maxWidth": "300px", "margin": "10px auto"}}/></div>
             </Col>
           </Row>
         </Grid>

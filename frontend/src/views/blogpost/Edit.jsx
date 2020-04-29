@@ -56,8 +56,6 @@ class BlogPosts extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
-
         this.setState({
           ...data
         });
@@ -90,7 +88,6 @@ class BlogPosts extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
         if (data.status === "OK") {
           window.location.href = `/${this.state.role}/blogdetail?id=` + this.state.id;
         } else {

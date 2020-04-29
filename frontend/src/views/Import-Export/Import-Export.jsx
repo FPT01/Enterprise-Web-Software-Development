@@ -37,7 +37,6 @@ class Export extends Component {
       } else {
         alert('error')
       }
-      console.log(response.data);
     })
   }
   onChange(e) {

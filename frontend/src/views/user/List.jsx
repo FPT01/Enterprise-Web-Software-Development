@@ -127,6 +127,11 @@ class Users extends Component {
                                       <i className="fa fa-trash" />
                                     </Button>
                                   </span>
+                                  <span>
+                                    <a className="ui lightgrey button" href={`/admin/user-detail/?username=${item.username}`}>
+                                      <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                  </span>
                                 </td>
                                 : <td></td>
                               }

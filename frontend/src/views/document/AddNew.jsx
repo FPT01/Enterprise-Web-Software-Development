@@ -194,4 +194,3 @@ class AddNewDocument extends Component {
 }
 
 export default AddNewDocument;
-
