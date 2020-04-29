@@ -27,7 +27,7 @@ class UserRole extends Component {
   componentDidMount() {
     this.initData()
   }
-  initData = ()=>{
+  initData = () => {
     this.fnGetRoomAllocated()
     this.getStudents()
   }
@@ -87,20 +87,24 @@ class UserRole extends Component {
       }))
   }
   fnDeleteAllocate = (id) => {
-    fetch(`http://localhost:8080/api/allocate/deleteByRoomId/${id}`, {
-      method: "DELETE",
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.status === "OK") {
-          this.initData()
-        } else {
-          console.log("error");
+    if (window.confirm("Do you really want to delete this item?")) {
+      fetch(`http://localhost:8080/api/allocate/deleteByRoomId/${id}`, {
+        method: "DELETE",
+        headers: {
+          'Content-Type': 'application/json'
         }
       })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.status === "OK") {
+            alert(data.message);
+            this.initData()
+          } else {
+            console.log("error");
+          }
+        })
+    }
+
   }
 
   render() {

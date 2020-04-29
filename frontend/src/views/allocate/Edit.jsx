@@ -54,6 +54,7 @@ class Allocate extends Component {
     }).then(response => response.json())
       .then(({ students, tutors }) => {
         this.setState({
+          listStudent: this.state.listStudent.concat(students.map(({ id, user }) => ({ key: id, text: user.fullname, value: id }))),
           selectedStudents: students.map(({ id }) => id),
           selectedTutors: tutors[0].id,
           selectedRoom: roomId,
@@ -75,14 +76,23 @@ class Allocate extends Component {
       });
   }
   getStudents = async () => {
+    let listStudent = []
     await fetch(`http://localhost:8080/api/student/`, {
       method: "GET",
     })
       .then(response => response.json())
-      .then(data => data.map(({ id, user }) => ({ key: id, text: user.fullname, value: id })))
-      .then(data => {
-        this.setState({ listStudent: data });
-      });
+      .then(data => data.forEach(async ({ id, user }) => {
+        await fetch(`http://localhost:8080/api/allocate/checkStudentExist/${id}`, {
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(response => response.text())
+          .then(data => {
+            const r = data == '' ? this.setState({ listStudent: this.state.listStudent.concat({ key: id, text: user.fullname, value: id }) }) : false
+          })
+
+      }))
   }
   resetAllField = () => {
     this.setState({
