@@ -22,6 +22,7 @@ import EditRole from "views/role/Edit.jsx";
 import Users from "views/user/List.jsx";
 import AddNewUser from "views/user/AddNew.jsx";
 import EditUser from "views/user/Edit.jsx";
+import UserDetail from "views/user/Detail.jsx";
 
 import UserProfile from "views/userprofile/UserProfile.jsx";
 import Documents from "views/document/List.jsx";
@@ -71,6 +72,7 @@ const dashboardRoutes = [
   { path: "/user", name: "Management Users", icon: "pe-7s-users", component: Users, layout: "/admin", role: "admin", subNav: false, },
   { path: "/add-new-user", name: "Add New User", icon: "pe-7s-user", component: AddNewUser, layout: "/admin", role: "admin", subNav: true, },
   { path: "/edit-user", name: "Edit User", icon: "pe-7s-note2", component: EditUser, layout: "/admin", role: "admin", subNav: true, },
+  { path: "/user-detail", name: "User Profile", icon: "pe-7s-note2", component: UserDetail, layout: "/admin", role: "admin", subNav: true, },
   { path: "/tutor", name: "Management Tutors", icon: "pe-7s-users", component: TutorList, layout: "/admin", role: "admin", subNav: false, },
   { path: "/add-new-tutor", name: "Add New Tutor", icon: "pe-7s-note2", component: AddNewTutor, layout: "/admin", role: "admin", subNav: true, },
   { path: "/edit-tutor", name: "Edit Tutor", icon: "pe-7s-note2", component: EditTutor, layout: "/admin", role: "admin", subNav: true, },
