@@ -13,7 +13,6 @@ import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import { Link } from 'react-router-dom';
-import queryString from 'query-string';
 
 class DashboardStudent extends Component {
   constructor(props) {
@@ -24,14 +23,8 @@ class DashboardStudent extends Component {
   }
 
   componentDidMount(){   
-    const studentObj = queryString.parse(this.props.location.search);
-    var username = ""; 
-    if(studentObj === null || studentObj === undefined || studentObj === ""){
-      var account = window.localStorage.getItem('account');
-      username = JSON.parse(account).username; 
-    }else {
-      username = studentObj.username
-    }
+    var account = window.localStorage.getItem('account');
+    var username = JSON.parse(account).username; 
     fetch(`http://localhost:8080/api/statistic/summary/${username}`, {
       method: "GET",
       headers: {
