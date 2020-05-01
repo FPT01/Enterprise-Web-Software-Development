@@ -15,6 +15,7 @@ import com.fpt.etutoring.util.Constant;
 import com.fpt.etutoring.util.ExcelUtil;
 import com.fpt.etutoring.util.RoleName;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -60,7 +61,14 @@ public class ImportExportController extends ResponseController {
             importExport.setEnabled((short) row.getCell(1).getNumericCellValue());
             importExport.setFullname(row.getCell(2).getStringCellValue());
             importExport.setGender((short) row.getCell(3).getNumericCellValue());
-            importExport.setPassword(row.getCell(4).getStringCellValue());
+
+            String pass = null;
+            if (row.getCell(4).getCellType().equals(CellType.NUMERIC))
+                pass = String.valueOf(row.getCell(4).getNumericCellValue());
+            else if (row.getCell(4).getCellType().equals(CellType.STRING))
+                pass = row.getCell(4).getStringCellValue();
+            importExport.setPassword(pass);
+
             importExport.setUsername(row.getCell(5).getStringCellValue());
             importExport.setRolename(row.getCell(6).getStringCellValue());
             userImportExports.add(importExport);
