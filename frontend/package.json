@@ -17,7 +17,7 @@
     "@progress/kendo-react-inputs": "^3.12.0",
     "@progress/kendo-react-intl": "^3.12.0",
     "@stomp/stompjs": "^5.4.4",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bootstrap": "^4.4.1",
     "chartist": "^0.10.1",
     "file-saver": "^2.0.2",
